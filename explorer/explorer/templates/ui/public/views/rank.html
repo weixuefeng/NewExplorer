@@ -1,0 +1,27 @@
+<div data-ng-include src="'views/includes/connection.html'"></div>
+<div data-ng-controller="RankController" data-ng-init="getRichList()">
+  <table class="table table-hover table-striped table-list">
+  <thead>
+      <th class="table-title text-center" translate>Rank</th>
+      <th class="table-title text-center" translate>Address</th>
+      <th class="table-title text-center" translate>Balance</th>
+      <th class="table-title text-center" translate>Percentage</th>
+  </thead>
+      <today>
+          <tr data-ng-show="loading">
+          <td colspan="5"><span translate>Waiting for Rank...</span> <span class="loader-gif"></span></td>
+          </tr>
+          <tr class="table-cell" data-ng-repeat='(index,item) in sync.info'>
+               <td class="text-center" style="vertical-align: middle !important;">{{index+1}}</td>
+               <td class="text-center" style="vertical-align: middle !important;cursor:pointer" ng-click="getAdress(item.address)">
+                   {{item.address}}
+                   <!--<a href="address/{{item.address}}">{{item.address}}</a>-->
+               </td>
+               <td class="text-center" style="vertical-align: middle !important;">{{item.balance}}</td>
+               <td class="text-center" style="vertical-align: middle !important;">{{item.percentage+"%"}}</td>
+          </tr>
+      </today>
+  </table>
+    <h2 class="text-center text-muted" data-ng-show="!sync.info.length && !loading"
+        translate>No Rank yet.</h2>
+</div>

@@ -1,0 +1,70 @@
+{% load utils %}
+{% verbatim %}
+<!doctype html>
+<html lang="en" data-ng-app="insight" data-ng-csp ng-class="{fsn: fsn}">
+    <head>
+        <base href="/" />
+	    <meta charset="UTF-8" />
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+	    <meta name="fragment" content="!" />
+	    <title data-ng-bind="$root.title + $root.titleDetail + ' | Elastos'">Elastos browser</title>
+	    <meta name="keywords" content="elastos, transactions, blocks, address, block chain, best block, mining difficulty, hash serialized" />
+	    <meta name="description" content="Elastos browser." />
+{% endverbatim %}
+	    <link rel="shortcut icon" href="img/icons/favicon.ico{% version %}" type="image/x-icon" />
+	    <link rel="stylesheet" href="css/main.min.css{% version %}" />
+{% verbatim %}
+    </head>
+    <body ng-cloak class="ng-cloak">
+        <div>
+            <script type="text/ng-template" id="scannerModal.html">
+                <div class="modal-header">
+                    <h3 class="modal-title">Scan Code</h3>
+                </div>
+                <div class="modal-body text-center">
+                    <canvas id="qr-canvas" width="200" height="150"></canvas>
+                    <div data-ng-show="isMobile">
+                        <div id="file-input-wrapper" class="btn btn-primary">
+                            <span class="pull-left text-center">
+                                <i class="glyphicon glyphicon-refresh icon-rotate"></i>
+                                Get QR code
+                            </span>
+                            <input id="qrcode-camera" type="file" capture="camera" accept="image/*">
+                        </div>
+                    </div>
+                    <div data-ng-hide="isMobile">
+                        <video id="qrcode-scanner-video" width="300" height="225" data-ng-hide="isMobile"></video>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" data-ng-click="cancel()" data-dismiss="modal">Close</button>
+                </div>
+            </script>
+        </div>
+	    <div id="wrap">
+		    <div class="navbar navbar-fixed-top top-nav" data-ng-include="'views/includes/header.html'" role="navigation"></div>
+		    <section class="container" data-ng-view></section>
+	    </div>
+	    <div class="footer" role="navigation">
+            <div class="container">
+                <p>
+                    <a class="link" href="http://www.elastos.org" target="_blank">{{'Elastos.org'|translate}}</a>
+                    <a class="link" href="https://github.com/elastos/" target="_blank">{{'Report'|translate}}</a>
+                </p>
+                <p class="copyright">{{'Copyright © 2017 Elastos Foundation. All Rights Reserved.'|translate}}</p>
+            </div>    
+        </div>
+{% endverbatim %}
+	    <script src="js/socket.io.js{% version %}"></script>
+	    <script src="js/vendors.min.js{% version %}"></script>
+	    <script src="js/angularjs-all.min.js{% version %}"></script>
+        <script src="js/highcharts.js{% version %}"></script>
+        <script src="js/countUp.js{% version %}"></script>
+        
+	    <script src="js/main.min.js{% version %}"></script>
+        
+{% verbatim %}
+    </body>
+</html>
+{% endverbatim %}

@@ -1,0 +1,218 @@
+/*
+ * global
+ */
+@font-face {
+    font-family: 'iconfont';
+    src: url('../fonts/iconfont.eot'); /* IE9*/
+    src: url('../fonts/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('../fonts/iconfont.woff') format('woff'), /* chrome、firefox */ url('../fonts/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/ url('../fonts/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+    font-family: "iconfont" !important;
+    font-size: 28px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+}
+.toggle-nav {
+    display: block;
+    -webkit-transition: all 0.25s ease;
+    transition: all 0.25s ease;
+    color: #ffffff;
+}
+
+.toggle-nav:before {
+    content: '\e610';
+}
+
+.navbar-header {
+    height: 64px;
+}
+
+/* dropdown */
+.dropdown-menu {
+    background-color:#002E51;
+    border: 0;
+    border-radius:0;
+    margin-left: 15px;
+}
+.dropdown-menu>li>a {
+    color: #ffffff;
+}
+.dropdown-menu>li>a:hover {
+    color: #aaa;
+    background-color: transparent;
+}
+@media (min-width: 767px) {
+    /* support of hoverdown */
+    .dropdown:hover .dropdown-menu {
+        display: block;
+        margin-top: 0; 
+    }
+}
+
+/*
+ * header
+ */
+.top-nav {
+    background-color: #0070c9;
+}
+
+.top-nav .navbar-brand {
+    width: 120px;
+    margin-right: 34px;
+    background:url(../img/logo.svg?v=1) no-repeat center;
+    background-size: 110px 27px;
+    padding-top: 48px;
+}
+
+.navbar-nav>li>a {
+    color: #ffffff;
+}
+.navbar-nav>li>a:hover, .navbar-nav>li>a:focus, .navbar-nav>li>a:active {
+    background-color:#0070c9;
+    color: #aaa;
+}
+
+@media (max-width: 767px) {
+    .top-nav .navbar-brand {
+        position: absolute;
+        right: 0;
+        left: 0;
+        margin: auto;
+    }
+    .navbar-toggle {
+        margin: 0;
+        border: none;
+        padding: 2px 10px;
+    }
+    .navbar-toggle {
+        position: absolute;
+        left: 0;
+    }
+    .navbar-collapse.in {
+        height: 2000px !important;
+        max-height: 2000px;
+    }
+
+    .fsn .toggle-nav {
+        -webkit-transition: all 0.25s ease;
+        transition: all 0.25s ease;
+        transform: rotate(45deg);
+    }
+
+    .fsn .toggle-nav:before {
+        content: '\e611';
+    }
+
+    .navbar-collapse .nav>li {
+        padding: 0 48px;
+    }
+
+    .navbar-collapse .navbar-nav>li>a {
+        border-bottom: solid 1px #ffffff;
+    }
+
+    .navbar-header {
+        height: 44px;
+    }
+    .top-nav .navbar-brand {
+        padding-top: 15px;
+    }
+}
+
+.small-container {}
+@media (min-width: 768px) {
+    .small-container {
+        max-width: 994px;
+    }
+}
+
+/*
+ * footer
+ */
+.footer {
+    background-color: #333;
+}
+.footer h4 {
+    color: #ccc;
+}
+.footer a {
+    color: #999;
+}
+.footer .copyright {
+    color: #666;
+    font-size: 12px;
+}
+
+/* 
+ *sublevel page global 
+ */
+.page {
+    padding-top: 22px;
+    min-height: 500px;
+}
+.page .page-title {
+    color:#333;
+    font-size: 30px;
+    border-bottom: 1px solid #dedede;
+    padding-bottom: 20px;
+}
+.page .sub-title {
+    color: #333;
+    font-size: 24px;
+    padding-bottom: 80px;
+}
+
+/* 
+ *home page
+ */
+.home {}
+.home .title-section {
+    border-bottom: 1px solid #dedede;
+    padding-bottom: 10px;
+}
+.home .title-section .title {
+    color:#666;
+    font-size: 30px;
+}
+.home .title-section .link {
+    margin-top: 15px;
+}
+
+.section-stats {
+    padding-top: 40px;
+}
+.section-stats h2 {
+    border-top:1px solid #dedede;
+    color: #999;
+}
+.section-stats h3 {
+    color: #999;
+    font-size: 16px;
+}
+.section-stats .market-cap {
+}
+.section-stats .market-cap .label {
+    color: #999;
+    font-size: 16px;
+}
+.section-stats .market-cap .value {
+    color: #0070c9;
+    font-size: 16px;
+}
+
+.section-stats .market-cap .trade-number {
+    font-size: 5em;
+    color: #0070c9;
+    padding-bottom: 40px;
+}
+
+.txvalues-primary-expand{
+    min-width: 140px;
+}
+
+#ngProgress-container{
+    height: 0;
+}

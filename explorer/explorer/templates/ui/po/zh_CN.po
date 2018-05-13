@@ -1,0 +1,515 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.4\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: public/views/transaction/tx.html
+msgid "(Input unconfirmed)"
+msgstr "（输入未确认）"
+
+#: public/views/block.html
+msgid "(Mainchain)"
+msgstr "(主链)"
+
+#: public/views/404.html
+msgid "404 Page not found :("
+msgstr "页面没有找到：（"
+
+#: public/views/address.html public/views/messages_verify.html
+msgid "Address"
+msgstr "地址"
+
+#: public/views/index.html
+msgid "Age"
+msgstr "时间"
+
+#: public/views/messages_verify.html
+msgid "An error occured in the verification process."
+msgstr "验证过程出错."
+
+#: public/views/transaction_sendraw.html
+msgid "An error occured:<br>{{error}}"
+msgstr "错误:<br>{{error}}"
+
+#: public/views/status.html
+msgid "Application Status"
+msgstr "节点状态"
+
+#: public/views/messages_verify.html
+msgid "Bitcoin comes with a way of signing arbitrary messages."
+msgstr ""
+
+#: public/views/block.html
+msgid "Block"
+msgstr "区块"
+
+#: public/views/block.html
+msgid "Block Reward"
+msgstr "矿工费"
+
+#: public/views/includes/search.html
+msgid "Block,Transaction,Address"
+msgstr "区块，交易，地址"
+
+#: public/views/block.html
+msgid "BlockHash"
+msgstr "区块散列值"
+
+#: public/views/block_list.html public/views/dummy-translations.html
+#: public/views/status.html
+msgid "Blocks"
+msgstr "区块"
+
+#: public/views/transaction_sendraw.html
+msgid "Broadcast Raw Transaction"
+msgstr "广播交易"
+
+#: public/views/includes/connection.html
+msgid ""
+"Can't connect to bitcoind to get live updates from the p2p network. (Tried "
+"connecting to bitcoind at {{host}}:{{port}} and failed.)"
+msgstr ""
+
+#: public/views/includes/connection.html
+msgid "Can't connect to insight server. Attempting to reconnect..."
+msgstr ""
+
+#: public/views/includes/connection.html
+msgid "Can't connect to internet. Please, check your connection."
+msgstr ""
+
+#: public/views/status.html
+msgid "Complete"
+msgstr "完成"
+
+#: public/views/transaction.html public/views/transaction/tx.html
+msgid "Confirmations"
+msgstr "确认数"
+
+#: public/views/includes/header.html
+msgid "Conn"
+msgstr "连接"
+
+#: public/views/status.html
+msgid "Connections to other nodes"
+msgstr "连接节点"
+
+#: public/views/status.html
+msgid "Current Sync Status"
+msgstr "当前同步状态"
+
+#: public/views/transaction.html
+msgid "Details"
+msgstr "详情"
+
+#: public/views/block.html
+msgid "Difficulty"
+msgstr "难度"
+
+#: public/views/transaction/tx.html
+msgid "Double spent attempt detected. From tx:"
+msgstr "探测到双重支付："
+
+#: public/views/status.html
+msgid "Elastos node information"
+msgstr "亦来云节点信息"
+
+#: public/views/messages_verify.html
+msgid "Error message:"
+msgstr "错误消息："
+
+#: public/views/includes/connection.html
+msgid "Error!"
+msgstr "错误！"
+
+#: public/views/transaction/tx.html
+msgid "Fee"
+msgstr "手续费"
+
+#: public/views/transaction.html
+msgid "Fee Rate"
+msgstr "费率"
+
+#: public/views/address.html
+msgid "Final Balance"
+msgstr "余额"
+
+#: public/views/status.html
+msgid "Finish Date"
+msgstr "完成时间"
+
+#: public/views/transaction/tx.html
+msgid "first seen at"
+msgstr "首次出现时间"
+
+#: public/views/404.html
+msgid "Go to home"
+msgstr "返回首页"
+
+#: public/views/index.html
+msgid "HASH RATE:"
+msgstr "算力:"
+
+#: public/views/block.html public/views/block_list.html public/views/index.html
+#: public/views/includes/header.html
+msgid "Height"
+msgstr "高度"
+
+#: public/views/transaction.html public/views/transaction/tx.html
+msgid "Included in Block"
+msgstr "所在区块"
+
+#: public/views/transaction/tx.html
+msgid "Incoherence in levelDB detected:"
+msgstr "探测到数据库不一致："
+
+#: public/views/status.html
+msgid "Initial Block Chain Height"
+msgstr "初始区块链高度"
+
+#: public/views/transaction.html
+msgid "Input"
+msgstr "输入"
+
+#: public/views/index.html
+msgid "Latest Blocks"
+msgstr "最新区块"
+
+#: public/views/address.html
+msgid "Loading Address Information"
+msgstr "加载地址信息"
+
+#: public/views/block.html
+msgid "Loading Block Information"
+msgstr "加载区块信息"
+
+#: public/views/block_list.html
+msgid "Loading Selected Date..."
+msgstr "加载选择时间..."
+
+#: public/views/transaction.html
+msgid "Loading Transaction Details"
+msgstr "加载交易详情"
+
+#: public/views/transaction/list.html
+msgid "Loading Transactions..."
+msgstr "加载交易..."
+
+#: public/views/messages_verify.html public/views/transaction_sendraw.html
+#: public/views/includes/infoStatus.html
+msgid "Loading..."
+msgstr "加载中..."
+
+#: public/views/index.html
+msgid "MARKET CAP:"
+msgstr "市值："
+
+#: public/views/messages_verify.html
+msgid "Message"
+msgstr "消息"
+
+#: public/views/transaction/tx.html
+msgid "mined"
+msgstr "挖掘"
+
+#: public/views/block.html public/views/block_list.html public/views/index.html
+msgid "Mined by"
+msgstr "矿工"
+
+#: public/views/transaction.html
+msgid "Mined Time"
+msgstr "挖矿时间"
+
+#: public/views/status.html
+msgid "Mining Difficulty"
+msgstr "挖矿难度"
+
+#: public/views/status.html
+msgid "Network"
+msgstr "网络"
+
+#: public/views/block.html
+msgid "Next Block"
+msgstr "下一区块"
+
+#: public/views/block_list.html
+msgid "No blocks yet."
+msgstr "没有区块."
+
+#: public/views/transaction/tx.html
+msgid "No Inputs (Newly Generated Coins)"
+msgstr "没有输入(挖矿奖励)"
+
+#: public/views/includes/search.html
+msgid "No matching records found!"
+msgstr "没有匹配记录!"
+
+#: public/views/address.html
+msgid "No. Transactions"
+msgstr "交易数量"
+
+#: public/views/block.html
+msgid "Number Of Transactions"
+msgstr "交易数量"
+
+#: public/views/transaction.html
+msgid "Output"
+msgstr "输出"
+
+#: public/views/block.html
+msgid "Previous Block"
+msgstr "上一区块"
+
+#: public/views/status.html
+msgid "Protocol version"
+msgstr "协议版本"
+
+#: public/views/transaction_sendraw.html
+msgid "Raw transaction data"
+msgstr "交易数据"
+
+#: public/views/transaction_sendraw.html
+msgid "Raw transaction data must be a valid hexadecimal string."
+msgstr "交易数据必须是有效的十六进制字符串."
+
+#: public/views/transaction.html
+msgid "Received Time"
+msgstr "交易时间"
+
+#: public/views/redirect.html
+msgid "Redirecting..."
+msgstr "跳转中..."
+
+#: public/views/index.html
+msgid "See all blocks"
+msgstr "查看全部区块"
+
+#: public/views/transaction_sendraw.html
+msgid "Send transaction"
+msgstr "发送交易"
+
+#: public/views/transaction/tx.html
+msgid "Show all"
+msgstr "显示全部"
+
+#: public/views/transaction/tx.html
+msgid "Show input"
+msgstr "显示输入"
+
+#: public/views/transaction/tx.html
+msgid "Show less"
+msgstr "收起"
+
+#: public/views/transaction/tx.html
+msgid "Show more"
+msgstr "展开"
+
+#: public/views/messages_verify.html
+msgid "Signature"
+msgstr "签名"
+
+#: public/views/block_list.html public/views/index.html
+#: public/views/transaction.html
+msgid "Size"
+msgstr "大小"
+
+#: public/views/block.html
+msgid "Size (bytes)"
+msgstr "大小（字节）"
+
+#: public/views/status.html
+msgid "Start Date"
+msgstr "开始时间"
+
+#: public/views/dummy-translations.html
+msgid "Status"
+msgstr "节点状态"
+
+#: public/views/block.html public/views/transaction.html
+msgid "Summary"
+msgstr "基本信息"
+
+#: public/views/address.html
+msgid "Summary <small>confirmed</small>"
+msgstr "基本信息<small>已确认</small>"
+
+#: public/views/status.html
+msgid "Sync Progress"
+msgstr "同步进度"
+
+#: public/views/status.html
+msgid "Sync Status"
+msgstr "同步状态"
+
+#: public/views/status.html
+msgid "Sync Type"
+msgstr "同步类型"
+
+#: public/views/status.html
+msgid "Synced Blocks"
+msgstr "已同步区块"
+
+#: public/views/messages_verify.html
+msgid "The message failed to verify."
+msgstr "消息验证失败."
+
+#: public/views/messages_verify.html
+msgid "The message is verifiably from {{verification.address}}."
+msgstr "消息已验证： {{verification.address}}。"
+
+#: public/views/transaction/list.html
+msgid "There are no transactions involving this address."
+msgstr "该地址无交易信息."
+
+#: public/views/transaction_sendraw.html
+msgid ""
+"This form can be used to broadcast a raw transaction in hex format over\n"
+"        the Bitcoin network."
+msgstr ""
+
+#: public/views/messages_verify.html
+msgid ""
+"This form can be used to verify that a message comes from\n"
+"        a specific Bitcoin address."
+msgstr ""
+
+#: public/views/status.html
+msgid "Time Offset"
+msgstr "时差"
+
+#: public/views/block.html public/views/block_list.html
+msgid "Timestamp"
+msgstr "时间"
+
+#: public/views/block_list.html
+msgid "Today"
+msgstr "今天"
+
+#: public/views/address.html
+msgid "Total Received"
+msgstr "总收入"
+
+#: public/views/address.html
+msgid "Total Sent"
+msgstr "总支出"
+
+#: public/views/transaction.html
+msgid "Transaction"
+msgstr "交易"
+
+#: public/views/transaction_sendraw.html
+msgid "Transaction succesfully broadcast.<br>Transaction id: {{txid}}"
+msgstr "交易广播成功.<br>交易Id: {{txid}}"
+
+#: public/views/address.html public/views/block.html
+#: public/views/block_list.html public/views/index.html
+msgid "Transactions"
+msgstr "交易"
+
+#: public/views/transaction/tx.html
+msgid "Type"
+msgstr "类型"
+
+#: public/views/address.html
+msgid "Unconfirmed"
+msgstr "未确认"
+
+#: public/views/transaction.html public/views/transaction/tx.html
+msgid "Unconfirmed Transaction!"
+msgstr "未确认的交易!"
+
+#: public/views/address.html
+msgid "Unconfirmed Txs Balance"
+msgstr "未确认交易金额"
+
+#: public/views/messages_verify.html
+msgid "Verify"
+msgstr "验证"
+
+#: public/views/messages_verify.html
+msgid "Verify signed message"
+msgstr "验证消息签名"
+
+#: public/views/block.html public/views/status.html
+msgid "Version"
+msgstr "版本"
+
+#: public/views/block_list.html public/views/index.html
+msgid "Waiting for blocks..."
+msgstr "等待区块..."
+
+#: public/views/includes/header.html
+msgid "Wallet"
+msgstr "钱包"
+
+#: public/views/includes/header.html
+msgid "Rank List"
+msgstr "排行榜"
+
+#: public/views/includes/header.html
+msgid "Rank"
+msgstr "排行"
+
+#: public/views/rank.html
+msgid "Balance"
+msgstr "ELA数量"
+
+#: public/views/rank.html
+msgid "Percentage"
+msgstr "百分比"
+
+#: public/views/rank.html
+msgid "No Rank yet."
+msgstr "没有排名."
+
+#: public/views/rank.html
+msgid "Waiting for Rank..."
+msgstr "等待排名..."
+
+
+
+#~ msgid "by date."
+#~ msgstr "按日期。"
+
+#~ msgid "Current Blockchain Tip"
+#~ msgstr "当前区块Tip"
+
+#~ msgid "Info Errors"
+#~ msgstr "信息错误"
+
+#~ msgid "Last Block"
+#~ msgstr "上一区块"
+
+#~ msgid "Last Block Hash"
+#~ msgstr "上一区块哈希"
+
+#~ msgid "Proxy setting"
+#~ msgstr "代理设置"
+
+#~ msgid "Skipped Blocks (previously synced)"
+#~ msgstr "上次同步区块"
+
+#~ msgid "Chinese"
+#~ msgstr "中文"
+
+#~ msgid "English"
+#~ msgstr "英文"
+
+#~ msgid "Language"
+#~ msgstr "语言"
+
+#~ msgid "Report"
+#~ msgstr "报告问题"
+
+#~ msgid "Elastos.org"
+#~ msgstr "亦来云官网"
+
