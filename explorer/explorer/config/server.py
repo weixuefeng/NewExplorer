@@ -28,18 +28,11 @@ MONGODB_HOST = 'localhost'
 BLOCK_CHAIN_DB_NAME = 'blockchain'
 
 # full node list
-# FULL_NODES = {
-#     'ela': {
-#         'node_type': 3,
-#         'rest_url': 'http://47.94.108.103:20334/api/v1',
-#         'ws_url': 'ws://47.94.108.103:20335/',
-#     }
-# }
 FULL_NODES = {
-    'ela': {
+    'new': {
         'node_type': 3,
-        'rest_url': '',
-        'ws_url': '',
+        'rest_url': 'http://47.91.208.241:8801',
+        'ws_url': 'http://47.91.208.241:8801',
     }
 }
 DEFAULT_MONITOR_PORT = 8090

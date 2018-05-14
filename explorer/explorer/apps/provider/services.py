@@ -179,7 +179,7 @@ def delete_data_by_block_height(height):
 def handle_block_fork(blockchain_type):
     try:
         logger.info("start to handle block fork...")
-        url_prefix = settings.FULL_NODES['ela']['rest_url']
+        url_prefix = settings.FULL_NODES['new']['rest_url']
         current_height = get_current_height(blockchain_type)
         target_height = current_height - 20
         if target_height < 0:
@@ -291,9 +291,6 @@ def get_utxo_by_address(address, blockchain_type=codes.BlockChainType.NEWTON.val
     """
     try:
         return __get_utxo_from_localdb(address, blockchain_type)
-        #url_prefix = settings.FULL_NODES['ela']['rest_url']
-        #provider = blockchain_providers[blockchain_type].Provider(url_prefix)
-        #return provider.get_utxo_by_address(address)
     except Exception, inst:
         print inst
         logger.exception("fail to get utxo by address:%s" % str(inst))
@@ -304,7 +301,7 @@ def send_transaction(rawtx, blockchain_type=codes.BlockChainType.NEWTON.value):
     
     """
     try:
-        url_prefix = settings.FULL_NODES['ela']['rest_url']
+        url_prefix = settings.FULL_NODES['new']['rest_url']
         provider = blockchain_providers[blockchain_type].Provider(url_prefix)
         return provider.send_transaction(rawtx)
     except Exception, inst:
@@ -317,7 +314,7 @@ def get_transaction_pool(blockchain_type=codes.BlockChainType.NEWTON.value):
     
     """
     try:
-        url_prefix = settings.FULL_NODES['ela']['rest_url']
+        url_prefix = settings.FULL_NODES['new']['rest_url']
         provider = blockchain_providers[blockchain_type].Provider(url_prefix)
         return provider.get_transaction_pool()
     except Exception, inst:

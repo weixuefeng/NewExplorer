@@ -18,10 +18,9 @@ logger = logging.getLogger(__name__)
 def execute_sync_blockchain():
     try:
         blockchain_type=codes.BlockChainType.NEWTON.value
-        url_prefix = settings.FULL_NODES['ela']['rest_url']
+        url_prefix = settings.FULL_NODES['new']['rest_url']
         provider_services.sync_blockchain(url_prefix, blockchain_type)
         logger.info("execute_sync_blockchain:success")
     except Exception, inst:
-        print inst
         logger.error('fail to sync blockchain:%s' % str(inst))
 

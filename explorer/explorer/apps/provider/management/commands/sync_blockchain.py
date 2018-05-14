@@ -21,5 +21,5 @@ class Command(BaseCommand):
     help = 'sync blockchain'
     def handle(self, *args, **options):
         blockchain_type=codes.BlockChainType.NEWTON.value
-        url_prefix = settings.FULL_NODES['ela']['rest_url']
+        url_prefix = settings.FULL_NODES['new']['rest_url']
         provider_services.sync_blockchain(url_prefix)

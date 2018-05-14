@@ -63,7 +63,7 @@ class FullNodeWebSocketClient(websocket_client.WebSocketClient):
         blockhash = message['Result']['Hash']
         height = message['Result']['BlockData']['Height']
         data = message['Result']
-        rest_url = settings.FULL_NODES['ela']['rest_url']
+        rest_url = settings.FULL_NODES['new']['rest_url']
         #provider_services.sync_block_rawdata(data)
         # enqueue
         messageQueue.put({'action': 'block', 'data': blockhash})
@@ -111,7 +111,7 @@ class FullNodeWebSocketClient(websocket_client.WebSocketClient):
         self.connect(self.url)
 
 def query_full_node_task():
-    ws_url = settings.FULL_NODES['ela']['ws_url']
+    ws_url = settings.FULL_NODES['new']['ws_url']
     fullNodeWebScoketClient = FullNodeWebSocketClient(ws_url)
     try:
         fullNodeWebScoketClient.run()
