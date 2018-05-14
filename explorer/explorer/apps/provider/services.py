@@ -56,7 +56,7 @@ def get_block_hash_by_height(height, blockchain_type=codes.BlockChainType.NEWTON
         print inst
         return ''
 
-def store_block_data(block_info, blockchain_type=codes.BlockChainType.NEWTON.value, is_fast_sync=False):
+def store_block_data(block_info, provider, blockchain_type=codes.BlockChainType.NEWTON.value, is_fast_sync=False):
     """Store the block info
     """
     try:
@@ -71,103 +71,44 @@ def store_block_data(block_info, blockchain_type=codes.BlockChainType.NEWTON.val
         block_instance = provider_models.Block()
         for k, v in block_info.items():
             setattr(block_instance, k, v)
-        # get transactions
-        for tx_item in block_info['tx_detail']:
-            transaction_info = tx_item
-            txid = transaction_info['txid']
-            transaction_instance = provider_models.Transaction()
-            for k, v in transaction_info.items():
-                setattr(transaction_instance, k, v)
-            transaction_instance.blockhash = block_info['blockhash']
-            transaction_instance.blockheight = block_info['height']
-            transaction_instance.save()
-            # record the last block and transaction
-            newblock_hash = block_info['blockhash']
-            newtx_hash = txid
-            # indexing address
-            # for receive
-            vin = transaction_info.get('vin', [])
-            if vin:
-                for item in vin:
-                    addr = item.get('addr')
-                    value = item.get('value')
-                    previous_txid = item.get('txid')
-                    n = item['n']
-                    if addr and value:
-                        obj = provider_models.Address()
-                        obj.addr = addr
-                        obj.txid = txid
-                        obj.blockheight = block_info['height']
-                        obj.value = float(value)
-                        obj.vtype = codes.ValueType.SEND.value
-                        obj.n = n
-                        obj.time = transaction_instance.time
-                        obj.save()
-                        obju = provider_models.Utxo()
-                        obju.addr = addr
-                        obju.txid = previous_txid
-                        obju.blockheight = block_info['height']
-                        obju.value = float(value)
-                        obju.vtype = codes.ValueType.SEND.value
-                        obju.n = n
-                        obju.time = transaction_instance.time
-                        obju.save()
-                        # sum balance
-                        balance = provider_models.Balance.objects.filter(addr=addr).first()
-                        if balance:
-                            value = float(balance.value) - float(value)
-                            balance.value = value
-                            balance.save()
-                        else:
-                            balance = provider_models.Balance()
-                            balance.addr = addr
-                            balance.value = float(value)
-                            balance.save()
-            # for send
-            vout = transaction_info.get('vout', [])
-            if vout:
-                for item in vout:
-                    addr = item['scriptPubKey']['addresses'][0]
-                    value = item['value']
-                    n = item['n']
-                    if addr:
-                        obj = provider_models.Address()
-                        obj.addr = addr
-                        obj.txid = txid
-                        obj.blockheight = block_info['height']
-                        obj.value = value
-                        obj.vtype = codes.ValueType.RECEIVE.value
-                        obj.n = n
-                        obj.locktime = transaction_instance.locktime
-                        obj.time = transaction_instance.time
-                        obj.save()
-                        obju = provider_models.Utxo()
-                        obju.addr = addr
-                        obju.txid = txid
-                        obju.blockheight = block_info['height']
-                        obju.value = value
-                        obju.vtype = codes.ValueType.RECEIVE.value
-                        obju.n = n
-                        obju.locktime = transaction_instance.locktime
-                        obju.time = transaction_instance.time
-                        obju.save()
-                        # sum balance
-                        balance = provider_models.Balance.objects.filter(addr=addr).first()
-                        if balance:
-                            value = float(balance.value) + float(value)
-                            balance.value = value
-                            balance.save()
-                        else:
-                            balance = provider_models.Balance()
-                            balance.addr = addr
-                            balance.value = float(value)
-                            balance.save()
-
+        txlength = block_instance.txlength
+        if txlength > 0:
+            # get transactions
+            for item in block_info['transactions']:
+                tx_item = provider.parse_transaction_response(item)
+                transaction_info = tx_item
+                txid = transaction_info['txid']
+                transaction_instance = provider_models.Transaction()
+                for k, v in transaction_info.items():
+                    setattr(transaction_instance, k, v)
+                transaction_instance.blockhash = block_info['blockhash']
+                transaction_instance.blockheight = block_info['height']
+                transaction_instance.time = block_info['time']
+                transaction_instance.save()
+                # indexing address
+                obj = provider_models.Address()
+                obj.addr = transaction_instance.from_address
+                obj.txid = txid
+                obj.blockheight = block_info['height']
+                obj.value = transaction_instance.value
+                obj.vtype = codes.ValueType.SEND.value
+                obj.n = transaction_instance.transaction_index
+                obj.time = transaction_instance.time
+                obj.save()
+                obj = provider_models.Address()
+                obj.addr = transaction_instance.to_address
+                obj.txid = txid
+                obj.blockheight = block_info['height']
+                obj.value = transaction_instance.value
+                obj.vtype = codes.ValueType.RECEIVE.value
+                obj.n = transaction_instance.transaction_index
+                obj.time = transaction_instance.time
+                obj.save()
         # when transaction is finish, store block
         block_instance.save()
         return True
     except Exception, inst:
-        print "fail to store block data:", inst
+        print inst
         logger.exception("fail to store block data:%s" % str(inst))
         return False
 
@@ -219,17 +160,14 @@ def sync_blockchain(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.valu
         logger.info("sync_blockchain:current_height:%s" % current_height)
         # query the height of blockchain
         height = provider.get_block_height()
-
         if height <= current_height:
             logger.info("sync_blockchain:no new block")
             return
-        newblock_hash = ''
-        newtx_hash = ''
         status = True
         for tmp_height in range(current_height+1, height+1):
             # get block info
             data = provider.get_block_by_height(tmp_height)
-            status = store_block_data(data, is_fast_sync=True)
+            status = store_block_data(data, provider, is_fast_sync=True)
             if not status:
                 break
             logger.info("sync_blockchain:height:%s" % tmp_height)
@@ -238,64 +176,7 @@ def sync_blockchain(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.valu
     except Exception, inst:
         print "fail to sync blockchain", inst
         logger.exception("fail to sync blockchain:%s" % str(inst))
-
-def __get_utxo_from_localdb(address, blockchain_type):
-    result = []
-    height = get_current_height()
-    if isinstance(address,list):
-        r = provider_models.Utxo._get_collection().find({"addr" : {"$in" : address}})
-    else:
-        r = provider_models.Utxo._get_collection().find({"addr" : address})
-    if r :
-        receive_container = []
-        send_container = []
-        for item in r:
-            item['ts'] = item['time']
-            item['count'] = 1
-            item['amount'] = item['value']
-            item['address'] = item['addr']
-            item['vout'] = item['n']
-            if item['vtype'] == codes.ValueType.RECEIVE.value:
-                receive_container.append(item)
-            if item['vtype'] == codes.ValueType.SEND.value:
-                send_container.append(item)
-
-        result_container = []
-        for receive_item in receive_container:
-            found = True
-            for send_item in send_container:
-                if send_item['txid'] == receive_item['txid'] and send_item['value'] == receive_item['value'] and send_item['n'] == receive_item['n']:
-                    found = False
-                    break                
-            if found:
-                result_container.append(receive_item)
-                
-        for item in result_container:
-                new_item = {}
-                new_item['address'] = item['address']
-                new_item['vout'] = item['vout']
-                new_item['amount'] = item['amount']
-                new_item['satoshis'] = int(Decimal(str(item['amount'])) * DECIMAL_SATOSHI)
-                new_item['confirmations'] = height - item['blockheight']
-                new_item['ts'] = item['ts']
-                new_item['locktime'] = item['locktime']
-                new_item['height'] = height
-                new_item['txid'] = item['txid']
-                new_item['scriptPubKey'] = ''
-                result.append(new_item)
-    return result
     
-def get_utxo_by_address(address, blockchain_type=codes.BlockChainType.NEWTON.value):
-    """Get the utxo list by given address
-    
-    """
-    try:
-        return __get_utxo_from_localdb(address, blockchain_type)
-    except Exception, inst:
-        print inst
-        logger.exception("fail to get utxo by address:%s" % str(inst))
-        return []
-
 def send_transaction(rawtx, blockchain_type=codes.BlockChainType.NEWTON.value):
     """Send transaction
     

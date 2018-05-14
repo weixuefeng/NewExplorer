@@ -16,11 +16,8 @@ urlpatterns = patterns('api.apis',
                         url(r'^tx/(?P<txid>[0-9a-z]+)/$',          'api_show_transcation'),
                         # address
                         url(r'^addr/(?P<addr>[0-9a-zA-Z]+)/$',          'api_show_addr_summary'),
-                        url(r'^addr/(?P<addr>[0-9a-zA-Z]+)/utxo/$',          'api_show_utxo_by_address'),
                         
-                        url(r'^addrs/utxo/$',          'api_show_utxo_by_addresses'),
                         url(r'^addrs/txs/$',          'api_show_transactions_by_addresses'),
-                        url(r'^addrs/(?P<addrs>[0-9a-zA-Z,]+)/utxo/$',          'api_show_utxo_by_addresses'),
                         url(r'^addrs/(?P<addrs>[0-9a-zA-Z,]+)/txs/$',          'api_show_transactions_by_addresses'),
                         url(r'^addrs/richest-list/$', 'api_richest_list'),
                         # new tx, block

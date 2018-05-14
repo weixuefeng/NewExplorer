@@ -41,13 +41,20 @@ class Provider(object):
         # convert to uniform format
         if not result:
             return None
+        transactions = result['transactions']
         final_result = {
             'blockhash': result['hash'],
             'previousblockhash': result['parentHash'],
             'height': int(result['number'], 0),
             'time': int(result['timestamp'], 0),
             'size': int(result['size'], 0),
+            'nonce': int(result['nonce'], 0),
+            'tx': [],
+            'transactions': transactions,
         }
+        for item in transactions:
+            final_result['tx'].append(item['hash'])
+        final_result['txlength'] = len(final_result['tx'])
         return final_result
 
     def get_block_by_height(self, height):
@@ -67,7 +74,6 @@ class Provider(object):
 
     def get_transaction_by_height_and_index(self, height, index):
         response = self._post('eth_getTransactionByBlockNumberAndIndex', ['0x%x' % height, '0x%x' % index])
-        print response
         result = response['result']
         return self.parse_transaction_response(result)
 
@@ -75,15 +81,15 @@ class Provider(object):
         final_result = {
             'txid': response['hash'],
         }
-        final_result['from'] = response['from']
-        final_result['to'] = response['to']
-        final_result['value'] = int(response['value'], 0)
+        final_result['from_address'] = response['from']
+        final_result['to_address'] = response['to']
+        final_result['value'] = str(int(response['value'], 0))
         final_result['fees'] = int(response['gas'], 0)
         final_result['fees_price'] = int(response['gasPrice'], 0)
         final_result['data'] = response['input']
-        final_result['transaction_index'] = response['transactionIndex']
+        final_result['transaction_index'] = int(response['transactionIndex'], 0)
         final_result['height'] = int(response['blockNumber'], 0)
-        final_result['blockhash'] = int(response['blockHash'], 0)
+        final_result['blockhash'] = response['blockHash']
         return final_result
 
     def get_transaction_by_hash(self, hash_key):
@@ -94,7 +100,7 @@ class Provider(object):
 
     def get_balance_by_address(self, address):
         response = self._post('eth_getBalance', [address])
-        result = response['result']
+        result = int(response['result'], 0)
         return result
 
     def send_transaction(self, rawtx):
