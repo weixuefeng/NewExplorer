@@ -45,12 +45,85 @@
 	    <div id="wrap">
 		    <div class="navbar navbar-fixed-top top-nav" data-ng-include="'views/includes/header.html'" role="navigation"></div>
 		    <section class="container" data-ng-view></section>
-	    </div>
-	    <div class="footer" role="navigation">
-            <div class="container">
-                <p class="copyright">{{'Copyright © 2018 Newton Foundation. All Rights Reserved.'|translate}}</p>
-            </div>    
         </div>
+        
+        <footer class="footer">
+            <div class="container" id="nav-footer">
+                <div class="row">
+                    <div class="nav-block">
+                        <h4>DEVELOPMENT</h4>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="/partner/" target="_self">Partner</a>
+                            </li>
+                        </ul>
+                    </div>
+        
+                    <div class="nav-block">
+                        <h4>COMMUNITY</h4>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="/blog/" target="_self">Blog</a>
+                            </li>
+                            <li>
+                                <a href="/announcement/" target="_self">Announcement</a>
+                            </li>
+                            <li>
+                                <a href="/faq/" target="_self">FAQ</a>
+                            </li>
+                        </ul>
+                    </div>
+        
+                    <div class="nav-block">
+                        <h4>ABOUT</h4>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="/team/" target="_self">Team</a>
+                            </li>
+                            <li>
+                                <a href="/joinus/" target="_self">Join Us</a>
+                            </li>
+                            <li>
+                                <a href="/contact/" target="_self">Contact Us</a>
+                            </li>
+                            <li>
+                                <a href="/mediakit/" target="_self">Media Kit</a>
+                            </li>
+                        </ul>
+                    </div>
+        
+                    <div class="nav-block">
+                        <h4>Service Terms</h4>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="/copyright/" target="_self">Copyright</a>
+                            </li>
+                            <li>
+                                <a href="/terms-of-use/" target="_self">Terms of Use</a>
+                            </li>
+                            <li>
+                                <a href="/privacy/" target="_self">Privacy Policy</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row pc-line">
+        
+                    <div class="col-md-6">
+                        <span class="pc-left">
+                            <a href="#" onclick="setLanguage('zh_CN');"><img src="{% version "images/languages/icon-ch.svg" %}">简体中文</a>
+                            <a href="#" onclick="setLanguage('en');"><img src="{% version "images/languages/icon-English.svg" %}">English</a>
+                            <a href="#" onclick="setLanguage('es');"><img src="{% version "images/languages/icon-English.svg" %}">Español</a>
+                        </span>
+                    </div>
+                    <div class="col-md-6 pc-align-right">
+                        Copyright &copy; 2018 Newton Foundation. All Rights Reserved.
+                    </div>
+                </div>
+            </div>
+        
+        </footer>
+        
 {% endverbatim %}
 	    <script src="js/socket.io.js{% version %}"></script>
 	    <script src="js/vendors.min.js{% version %}"></script>
