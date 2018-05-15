@@ -118,13 +118,13 @@ def delete_data_by_block_height(height):
     provider_models.Address.objects.filter(blockheight__gt=height).delete()
 
 def handle_block_fork(blockchain_type):
+    """Handle the block fork
+        if it occurs, delete all block data
+    """
     try:
         logger.info("start to handle block fork...")
         url_prefix = settings.FULL_NODES['new']['rest_url']
-        current_height = get_current_height(blockchain_type)
-        target_height = current_height - 20
-        if target_height < 0:
-            target_height = 0
+        target_height = 0
         delete_data_by_block_height(target_height)
         sync_blockchain(url_prefix, blockchain_type=blockchain_type, from_height=target_height)
         logger.info("handle block fork successfully.")
