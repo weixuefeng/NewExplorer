@@ -12,10 +12,6 @@ angular.module('insight.system').controller('HeaderController',
 
     $scope.menu = [
     {
-      'title': 'Rank List',
-      'link': 'addrs/richest-list'
-    },
-    {
       'title': 'Blocks',
       'link': 'blocks'
     }, {

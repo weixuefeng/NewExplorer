@@ -56,19 +56,20 @@
  * header
  */
 .top-nav {
-    background-color: #0070c9;
+    background-color: #f7f7f7;
 }
 
 .top-nav .navbar-brand {
     width: 120px;
     margin-right: 34px;
-    background:url(../img/logo.svg?v=1) no-repeat center;
+    background:url(../img/logo.svg?v=2) no-repeat center;
     background-size: 110px 27px;
     padding-top: 48px;
 }
 
 .navbar-nav>li>a {
-    color: #ffffff;
+    color: #333;
+    font-size: 18px;
 }
 .navbar-nav>li>a:hover, .navbar-nav>li>a:focus, .navbar-nav>li>a:active {
     background-color:#0070c9;
@@ -127,23 +128,6 @@
     .small-container {
         max-width: 994px;
     }
-}
-
-/*
- * footer
- */
-.footer {
-    background-color: #333;
-}
-.footer h4 {
-    color: #ccc;
-}
-.footer a {
-    color: #999;
-}
-.footer .copyright {
-    color: #666;
-    font-size: 12px;
 }
 
 /* 
