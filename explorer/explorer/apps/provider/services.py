@@ -86,24 +86,25 @@ def store_block_data(block_info, provider, blockchain_type=codes.BlockChainType.
                 transaction_instance.time = block_info['time']
                 transaction_instance.save()
                 # indexing address
-                obj = provider_models.Address()
-                obj.addr = transaction_instance.from_address
-                obj.txid = txid
-                obj.blockheight = block_info['height']
-                obj.value = transaction_instance.value
-                obj.vtype = codes.ValueType.SEND.value
-                obj.n = transaction_instance.transaction_index
-                obj.time = transaction_instance.time
-                obj.save()
-                obj = provider_models.Address()
-                obj.addr = transaction_instance.to_address
-                obj.txid = txid
-                obj.blockheight = block_info['height']
-                obj.value = transaction_instance.value
-                obj.vtype = codes.ValueType.RECEIVE.value
-                obj.n = transaction_instance.transaction_index
-                obj.time = transaction_instance.time
-                obj.save()
+                if transaction_instance.to_address:
+                    obj = provider_models.Address()
+                    obj.addr = transaction_instance.from_address
+                    obj.txid = txid
+                    obj.blockheight = block_info['height']
+                    obj.value = transaction_instance.value
+                    obj.vtype = codes.ValueType.SEND.value
+                    obj.n = transaction_instance.transaction_index
+                    obj.time = transaction_instance.time
+                    obj.save()
+                    obj = provider_models.Address()
+                    obj.addr = transaction_instance.to_address
+                    obj.txid = txid
+                    obj.blockheight = block_info['height']
+                    obj.value = transaction_instance.value
+                    obj.vtype = codes.ValueType.RECEIVE.value
+                    obj.n = transaction_instance.transaction_index
+                    obj.time = transaction_instance.time
+                    obj.save()
         # when transaction is finish, store block
         block_instance.save()
         return True
