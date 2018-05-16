@@ -32,14 +32,14 @@ class Transaction(Document):
     blockheight = IntField()
     blockhash = StringField(max_length=128, required=True)
     from_address = StringField(max_length=128, required=True)
-    to_address = StringField(max_length=128, required=True)
+    to_address = StringField(max_length=128) # null if contract
     value = StringField(max_length=128, required=True)
     version = IntField(default=0)
     size = IntField(default=0)
     time = IntField()
     fees = IntField(default=0)
     fees_price = IntField(default=0)
-    data = StringField(max_length=10240, required=False)
+    data = StringField(required=False)
     transaction_index = IntField(default=0)
     locktime = IntField(default=0)
     meta = { 'indexes': ['blockhash', 'blockheight', 'time']}
