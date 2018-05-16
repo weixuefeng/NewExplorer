@@ -113,9 +113,9 @@ def store_block_data(block_info, provider, blockchain_type=codes.BlockChainType.
         return False
 
 def delete_data_by_block_height(height):
-    provider_models.Block.objects.filter(height__gt=height).delete()
-    provider_models.Transaction.objects.filter(blockheight__gt=height).delete()
-    provider_models.Address.objects.filter(blockheight__gt=height).delete()
+    provider_models.Block.objects.filter(height__gte=height).delete()
+    provider_models.Transaction.objects.filter(blockheight__gte=height).delete()
+    provider_models.Address.objects.filter(blockheight__gte=height).delete()
 
 def handle_block_fork(blockchain_type):
     """Handle the block fork
