@@ -90,7 +90,12 @@ function($scope, $rootScope, $routeParams, $location, Global, Transaction, Trans
     }
     return v.value
   }
-  var _processTX = function(tx) {
+
+  /**
+   * Base Utxo Mode for parse transaction 
+   * @param {Transaction} tx 
+   */
+  var _processUtxoTX = function(tx) {
     tx.vinSimple = _aggregateItems(tx.vin);
     tx.voutSimple = _aggregateItems(tx.vout);
     for(var i = 0;i < tx.vin.length;i++){
@@ -101,6 +106,14 @@ function($scope, $rootScope, $routeParams, $location, Global, Transaction, Trans
     }
   };
 
+  /**
+   * Base Account Mode for parse transaction
+   * @param {Transaction} tx 
+   */
+  var _processAccountTx = function(tx){
+    // TODO: parse transaction
+  }
+
   var _paginate = function(data) {
     $scope.loading = false;
 
@@ -108,12 +121,13 @@ function($scope, $rootScope, $routeParams, $location, Global, Transaction, Trans
     pageNum += 1;
 
     data.txs.forEach(function(tx) {
-      _processTX(tx);
+      //_processUtxoTX(tx);
       $scope.txs.push(tx);
     });
   };
 
   var _byBlock = function() {
+    console.log("get transaction by block");
     TransactionsByBlock.get({
       block: $routeParams.blockHash,
       pageNum: pageNum
@@ -123,6 +137,7 @@ function($scope, $rootScope, $routeParams, $location, Global, Transaction, Trans
   };
 
   var _byAddress = function () {
+    console.log("get transaction by address");
     TransactionsByAddress.get({
       address: $routeParams.addrStr,
       pageNum: pageNum
@@ -138,7 +153,9 @@ function($scope, $rootScope, $routeParams, $location, Global, Transaction, Trans
       $rootScope.titleDetail = tx.txid.substring(0,7) + '...';
       $rootScope.flashMessage = null;
       $scope.tx = tx;
-      _processTX(tx);
+      console.log("tx is:");
+      console.log(tx);
+      //_processUtxoTX(tx);
       $scope.txs.unshift(tx);
     }, function(e) {
       if (e.status === 400) {
@@ -178,7 +195,6 @@ function($scope, $rootScope, $routeParams, $location, Global, Transaction, Trans
       }
     }
   };
-
   // Highlighted txout
   if ($routeParams.v_type == '>' || $routeParams.v_type == '<') {
     $scope.from_vin = $routeParams.v_type == '<' ? true : false;
@@ -191,6 +207,7 @@ function($scope, $rootScope, $routeParams, $location, Global, Transaction, Trans
   $scope.txs = [];
 
   $scope.$on('tx', function(event, txid) {
+    console.log("txid is:---" )
     _findTx(txid);
   });
 
@@ -202,7 +219,7 @@ angular.module('insight.transactions').controller('SendRawTransactionController'
   $scope.status = 'ready';  // ready|loading|sent|error
   $scope.txid = '';
   $scope.error = null;
-
+  console.log("-----SendRawTransactionController-------")
   $scope.formValid = function() {
     return !!$scope.transaction;
   };

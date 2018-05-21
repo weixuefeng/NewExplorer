@@ -114,7 +114,7 @@ if __name__ == '__main__':
     # get block height
     print provider.get_block_height()
     # get block by height
-    print provider.get_block_height(1)
+    print provider.get_block_by_height(1)
     # get transaction count 
     print provider.get_transaction_count_by_height(1)
     # get transaction by height and index

@@ -25,14 +25,21 @@ logger = logging.getLogger(__name__)
 
 def __convert_transaction_to_json(obj):
     result = json.loads(obj.to_json())
-    result['txid'] = obj.id
-    result['blocktime'] = obj.time
-    result['fees'] = __convert_num_to_float(obj.fees)
-    vouts = obj['vout']
-    for v in vouts:
-        v['value'] = __convert_num_to_float(v['value'])
-    result['vout'] = vouts
-    result['valueOut'] = __convert_num_to_float(obj['valueOut'])
+    result['id'] = obj.id
+    result['operations'] = []
+    result['contract']= None
+    result['blockNumber'] = obj.blockheight
+    result['timeStamp'] = obj.time
+    result['nonce'] = 0
+    result['from'] = obj.from_address
+    result['to'] = obj.to_address 
+    result['value'] = obj.value
+    result['input'] = obj.data
+    result['gas'] = obj.fees
+    result['gasPrice'] = obj.fees_price
+    result['_id'] = obj.id
+    result['error'] = ""
+    result['gasUsed'] = obj.fees/obj.fees_price
     return result
 
 def __convert_num_to_float(num):
@@ -259,38 +266,31 @@ def api_show_transcations(request, version):
     response
     ------
     {
-        "pagesTotal": 1,
-        "txs": [
+        "docs": [
             {
-                "blockhash": "0000000009ca522f5611ecf15a46f808394b58b9d811951a5d62f9e94f7e7c81",
-                "blockheight": 7642,
-                "blocktime": 1508167763,
-                "confirmations": 477,
-                "isCoinBase": True,
-                "locktime": 0,
-                "size": 120,
-                "time": 1508167763,
-                "txid": "fb6b050d695bba36c00097cc74bd4744253e0ca8075dc7361f45c985c98412da",
-                "valueOut": 50,
-                "version": 1,
-                "vin": [
-                    {
-                        "coinbase": "02da1d00000000006266676d696e657220352e312e302d756e6b6e6f776e0004000000",
-                        "n": 0,
-                        "sequence": 4294967295
-                    },],
-                "vout": [
-                    {   
-                       "n": 0,
-                       "scriptPubKey": {
-                           "addresses": ["muqq4M9KHTf1kVHWiciLirMybfy22gEA1K"],
-                           "asm": "OP_DUP OP_HASH160 9d239fa987bbf55f160fd6cb370be033e4311cbe OP_EQUALVERIFY OP_CHECKSIG",
-                           "hex": "76a9149d239fa987bbf55f160fd6cb370be033e4311cbe88ac",
-                           "type": "pubkeyhash"
-                       },
-                       "value": "50.00000000"},]
-            },      
-        ]
+            "operations": [
+                
+            ],
+            "contract": null,
+            "_id": "0xe829a33c3e025c0aa1d81ad99a56be7598ff655feecad99962f167c230e1f48f",
+            "blockNumber": 7339862,
+            "timeStamp": "1526637504",
+            "nonce": 20127,
+            "from": "0x003bbce1eac59b406dd0e143e856542df3659075",
+            "to": "0x782c7147fbf339660d74f407832e0fecf4d49d31",
+            "value": "5000000000000000000",
+            "gas": "100000",
+            "gasPrice": "14959965017",
+            "gasUsed": "21000",
+            "input": "0x",
+            "error": "",
+            "id": "0xe829a33c3e025c0aa1d81ad99a56be7598ff655feecad99962f167c230e1f48f"
+            }
+        ],
+        "total": 1,
+        "limit": 50,
+        "page": 1,
+        "pages": 1
     }
     """
     try:
@@ -333,8 +333,11 @@ def api_show_transcations(request, version):
             item['confirmations'] = current_height - obj.blockheight
             txs.append(item)
         result = {
-            "pagesTotal": total_page,
-            "txs": txs
+            "total": cnt,
+            "limit": settings.PAGE_SIZE,
+            "page": page_id,
+            "pages": total_page,
+            "docs": txs
         }
         return http.JsonResponse(result)
     except Exception, inst:

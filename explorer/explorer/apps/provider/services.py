@@ -23,16 +23,18 @@ blockchain_providers = {
 
 def get_current_height(blockchain_type=codes.BlockChainType.NEWTON.value):
     try:
-        obj = provider_models.Block._get_collection().aggregate([
+        pipeline = [
             { "$group": {
                 "_id": None,
                 "height": { "$max": "$height" }
             }}
-        ])
-        result = obj['result']
+        ]
+        cursor = provider_models.Block._get_collection().aggregate(pipeline, cursor={})
+        for result in cursor:
+            result = result
         if not result:
             return -1
-        return result[0]['height']
+        return result['height']
     except Exception, inst:
         print inst
         return -1
@@ -161,6 +163,7 @@ def sync_blockchain(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.valu
         logger.info("sync_blockchain:current_height:%s" % current_height)
         # query the height of blockchain
         height = provider.get_block_height()
+        print "total height is %s" %str(height)
         if height <= current_height:
             logger.info("sync_blockchain:no new block")
             return
