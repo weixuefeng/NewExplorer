@@ -32,8 +32,8 @@ def get_current_height(blockchain_type=codes.BlockChainType.NEWTON.value):
         cursor = provider_models.Block._get_collection().aggregate(pipeline, cursor={})
         result = None
         if cursor:
-            for result in cursor:
-                result = result
+            for data in cursor:
+                result = data
         if not result:
             return -1
         return result['height']
