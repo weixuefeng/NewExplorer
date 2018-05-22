@@ -35,6 +35,25 @@ def __convert_transaction_to_json(obj):
     result['valueOut'] = __convert_num_to_float(obj['valueOut'])
     return result
 
+def __convert_transaction_to_client_json(obj):
+    result = json.loads(obj.to_json())
+    result['id'] = obj.id
+    result['operations'] = []
+    result['contract']= None
+    result['blockNumber'] = obj.blockheight
+    result['timeStamp'] = obj.time
+    result['nonce'] = 0 
+    result['from'] = obj.from_address
+    result['to'] = obj.to_address 
+    result['value'] = obj.value
+    result['input'] = obj.data
+    result['gas'] = obj.fees
+    result['gasPrice'] = obj.fees_price
+    result['_id'] = obj.id
+    result['error'] = ""
+    result['gasUsed'] = obj.fees/obj.fees_price
+    return result
+
 def __convert_num_to_float(num):
     res = float(Decimal(str(num)) * DECIMAL_SATOSHI / DECIMAL_SATOSHI)
     return res
@@ -643,4 +662,43 @@ def api_richest_list(request, version):
     
     return http.JsonResponse(result)
 
-
+def api_show_client_transactions(request, version):
+    try:
+        addr = request.GET.get('addr')
+        if not addr:
+            addr = request.GET.get('address')
+        page_id = int(request.GET.get('pageNum', 1))
+        limit = int(request.GET.get('limit', settings.PAGE_SIZE))
+        total_page = 0
+        if addr:
+            txids = provider_models.Address.objects.filter(addr=addr).distinct('txid')
+            cnt = len(txids)
+            if cnt == 0:
+                total_page = 1
+            else:
+                if cnt % settings.PAGE_SIZE != 0:
+                    total_page = (cnt / settings.PAGE_SIZE) + 1
+                else:
+                    total_page = (cnt / settings.PAGE_SIZE)
+            objs = provider_models.Transaction.objects.filter(txid__in=txids).order_by('-time')
+            objs = objs.skip((page_id - 1) * settings.PAGE_SIZE).limit(limit)
+        else:
+            raise Exception("invalid parameter")
+        txs = []
+        current_height = provider_services.get_current_height()
+        for obj in objs:
+            item = __convert_transaction_to_client_json(obj)
+            item['confirmations'] = current_height - obj.blockheight
+            txs.append(item)
+        result = {
+            "total": cnt,
+            "limit": settings.PAGE_SIZE,
+            "page": page_id,
+            "pages": total_page,
+            "docs": txs
+        }
+        return http.JsonResponse(result)
+    except Exception, inst:
+        print inst
+        logger.exception("fail to show client transactions:%s" % str(inst))
+        return http.HttpResponseServerError()
