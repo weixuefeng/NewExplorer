@@ -323,7 +323,7 @@ def api_show_transcations(request, version):
                 else:
                     total_page = (cnt / settings.PAGE_SIZE)
             objs = provider_models.Transaction.objects.filter(txid__in=txids).order_by('-time')
-            objs = objs.skip(page_id * settings.PAGE_SIZE).limit(limit)
+            objs = objs.skip((page_id - 1) * settings.PAGE_SIZE).limit(limit)
         else:
             raise Exception("invalid parameter")
         txs = []

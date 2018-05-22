@@ -75,7 +75,10 @@ class Provider(object):
     def get_transaction_by_height_and_index(self, height, index):
         response = self._post('eth_getTransactionByBlockNumberAndIndex', ['0x%x' % height, '0x%x' % index])
         result = response['result']
-        return self.parse_transaction_response(result)
+        if result:
+            return self.parse_transaction_response(result)
+        else:
+            return None
 
     def parse_transaction_response(self, response):
         final_result = {
@@ -109,7 +112,7 @@ class Provider(object):
         return result
 
 if __name__ == '__main__':
-    url = 'http://47.91.208.241:8801'
+    url = 'http://60.205.182.136:8501'
     provider = Provider(url)
     # get block height
     print provider.get_block_height()
