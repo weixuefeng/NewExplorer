@@ -26,7 +26,10 @@ urlpatterns = patterns('api.apis',
                         url(r'^sync/$',                            'api_get_sync'),
                         url(r'^status/$',                          'api_get_status'),
                         url(r'^currency/$',                        'api_get_currency'),
-                        url(r'^utils/estimatefee/$',               'api_get_estimatefee')
+                        url(r'^utils/estimatefee/$',               'api_get_estimatefee'),
+
+                        # for mobile client
+                        url(r'^transactions/$', 'api_show_client_transactions'),
             )
 
 
