@@ -91,14 +91,14 @@ function($scope, $rootScope, $routeParams, $location, Global, Transaction, Trans
     return v.value
   }
   var _processTX = function(tx) {
-    tx.vinSimple = _aggregateItems(tx.vin);
-    tx.voutSimple = _aggregateItems(tx.vout);
-    for(var i = 0;i < tx.vin.length;i++){
-      tx.vin[i].value = scientificToNumber(tx.vin[i]);
-    }
-    for(var j = 0;j < tx.vout.length;j++){
-      tx.vout[j].value = scientificToNumber(tx.vout[j]);
-    }
+    // tx.vinSimple = _aggregateItems(tx.vin);
+    // tx.voutSimple = _aggregateItems(tx.vout);
+    // for(var i = 0;i < tx.vin.length;i++){
+    //   tx.vin[i].value = scientificToNumber(tx.vin[i]);
+    // }
+    // for(var j = 0;j < tx.vout.length;j++){
+    //   tx.vout[j].value = scientificToNumber(tx.vout[j]);
+    // }
   };
 
   var _paginate = function(data) {

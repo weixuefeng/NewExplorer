@@ -28,11 +28,11 @@ def __convert_transaction_to_json(obj):
     result['txid'] = obj.id
     result['blocktime'] = obj.time
     result['fees'] = __convert_num_to_float(obj.fees)
-    vouts = obj['vout']
-    for v in vouts:
-        v['value'] = __convert_num_to_float(v['value'])
-    result['vout'] = vouts
-    result['valueOut'] = __convert_num_to_float(obj['valueOut'])
+    # vouts = obj['vout']
+    # for v in vouts:
+    #     v['value'] = __convert_num_to_float(v['value'])
+    # result['vout'] = vouts
+    # result['valueOut'] = __convert_num_to_float(obj['valueOut'])
     return result
 
 def __convert_transaction_to_client_json(obj):

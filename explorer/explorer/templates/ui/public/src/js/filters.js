@@ -4,7 +4,10 @@ angular.module('insight')
   .filter('startFrom', function() {
     return function(input, start) {
       start = +start; //parse to int
-      return input.slice(start);
+      if(input != null && input != undefined){
+        return input.slice(start);
+      }
+      return input;
     }
   })
   .filter('split', function() {
