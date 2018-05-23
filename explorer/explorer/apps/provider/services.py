@@ -110,7 +110,7 @@ def store_block_data(block_info, provider, blockchain_type=codes.BlockChainType.
         return True
     except Exception, inst:
         print inst
-        logger.exception("fail to store block data:%s" % str(inst))
+        logger.exception("fail to store block data:%s, block_info:%s" % (str(inst), block_info))
         return False
 
 def delete_data_by_block_height(height):
@@ -125,7 +125,8 @@ def handle_block_fork(blockchain_type):
     try:
         logger.info("start to handle block fork...")
         url_prefix = settings.FULL_NODES['new']['rest_url']
-        target_height = 0
+        current_height = get_current_height(blockchain_type=blockchain_type)
+        target_height = current_height - 20
         delete_data_by_block_height(target_height)
         sync_blockchain(url_prefix, blockchain_type=blockchain_type, from_height=target_height)
         logger.info("handle block fork successfully.")

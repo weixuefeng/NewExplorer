@@ -20,16 +20,16 @@ class Block(Document):
     previousblockhash = StringField(max_length=128, required=True)
     tx = ListField(StringField(max_length=128))
     txlength = IntField()
-    height = IntField()
+    height = LongField()
     version = IntField(default=0)
-    time = IntField()
-    nonce = IntField()
-    size = IntField()
+    time = LongField()
+    nonce = StringField()
+    size = LongField()
     meta = { 'indexes': ['previousblockhash', 'height', 'time']}
 
 class Transaction(Document):
     txid = StringField(max_length=128, required=True, primary_key=True)
-    blockheight = IntField()
+    blockheight = LongField()
     blockhash = StringField(max_length=128, required=True)
     from_address = StringField(max_length=128, required=True)
     to_address = StringField(max_length=128) # null if contract
@@ -37,8 +37,8 @@ class Transaction(Document):
     version = IntField(default=0)
     size = IntField(default=0)
     time = IntField()
-    fees = IntField(default=0)
-    fees_price = IntField(default=0)
+    fees = LongField(default=0)
+    fees_price = LongField(default=0)
     data = StringField(required=False)
     transaction_index = IntField(default=0)
     locktime = IntField(default=0)

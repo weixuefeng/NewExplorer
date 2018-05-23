@@ -45,10 +45,10 @@ class Provider(object):
         final_result = {
             'blockhash': result['hash'],
             'previousblockhash': result['parentHash'],
-            'height': int(result['number'], 0),
-            'time': int(result['timestamp'], 0),
-            'size': int(result['size'], 0),
-            'nonce': int(result['nonce'], 0),
+            'height': long(result['number'], 0),
+            'time': long(result['timestamp'], 0),
+            'size': long(result['size'], 0),
+            'nonce': result['nonce'],
             'tx': [],
             'transactions': transactions,
         }
@@ -83,12 +83,12 @@ class Provider(object):
         }
         final_result['from_address'] = response['from']
         final_result['to_address'] = response['to']
-        final_result['value'] = str(int(response['value'], 0))
-        final_result['fees'] = int(response['gas'], 0)
-        final_result['fees_price'] = int(response['gasPrice'], 0)
+        final_result['value'] = str(long(response['value'], 0))
+        final_result['fees'] = long(response['gas'], 0)
+        final_result['fees_price'] = long(response['gasPrice'], 0)
         final_result['data'] = response['input']
         final_result['transaction_index'] = int(response['transactionIndex'], 0)
-        final_result['height'] = int(response['blockNumber'], 0)
+        final_result['height'] = long(response['blockNumber'], 0)
         final_result['blockhash'] = response['blockHash']
         return final_result
 

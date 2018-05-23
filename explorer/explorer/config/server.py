@@ -31,8 +31,8 @@ BLOCK_CHAIN_DB_NAME = 'blockchain'
 FULL_NODES = {
     'new': {
         'node_type': 3,
-        'rest_url': 'http://47.91.208.241:8801',
-        'ws_url': 'http://47.91.208.241:8801',
+        'rest_url': 'https://rpc1.newchain.newtonproject.org',
+        'ws_url': 'https://rpc1.newchain.newtonproject.org',
     }
 }
 DEFAULT_MONITOR_PORT = 8090
