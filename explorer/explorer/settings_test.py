@@ -29,14 +29,19 @@ LOGGING = {
             'filename': '/tmp/newton.log',
             'formatter': 'verbose'
         },
+        'console':{
+            'level':'DEBUG',
+            'class':'logging.StreamHandler',
+            'formatter': 'verbose'
+        }
     },
     'loggers': {
         '': {
-            'handlers': ['file'],
+            'handlers': ['file', 'console'],
             'level': 'DEBUG',
         },
         'django': {
-            'handlers': ['file'],
+            'handlers': ['file', 'console'],
             'propagate': True,
             'level': 'DEBUG',
         },
