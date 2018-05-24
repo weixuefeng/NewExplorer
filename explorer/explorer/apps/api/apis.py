@@ -40,18 +40,18 @@ def __convert_transaction_to_client_json(obj):
     result['id'] = obj.id
     result['operations'] = []
     result['contract']= ''
-    result['blockNumber'] = obj.blockheight
-    result['timeStamp'] = obj.time
+    result['blockNumber'] = int(obj.blockheight)
+    result['timeStamp'] = str(obj.time)
     result['nonce'] = 0 
     result['from'] = obj.from_address
     result['to'] = obj.to_address 
-    result['value'] = obj.value
+    result['value'] = str(obj.value)
     result['input'] = obj.data
-    result['gas'] = obj.fees
-    result['gasPrice'] = obj.fees_price
+    result['gas'] = str(obj.fees)
+    result['gasPrice'] = str(obj.fees_price)
     result['_id'] = obj.id
     result['error'] = ""
-    result['gasUsed'] = obj.fees/obj.fees_price
+    result['gasUsed'] = str(obj.fees / obj.fees_price)
     return result
 
 def __convert_num_to_float(num):
