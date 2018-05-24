@@ -35,7 +35,7 @@ function _getDefaultLanguage(){
 }
 
 var defaultLanguage = _getDefaultLanguage();
-var defaultCurrency = localStorage.getItem('insight-currency') || 'ELA';
+var defaultCurrency = localStorage.getItem('insight-currency') || 'New';
 
 
 angular.module('insight',[

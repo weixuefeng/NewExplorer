@@ -18,86 +18,86 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: elastos/apps/api/apis.py:45
+#: newton/apps/api/apis.py:45
 msgid "finished"
 msgstr "同步完成"
 
-#: elastos/apps/api/apis.py:47
-msgid "elastos node"
-msgstr "亦来云节点"
+#: newton/apps/api/apis.py:47
+msgid "newton node"
+msgstr "牛顿节点"
 
-#: elastos/apps/api/apis.py:61
+#: newton/apps/api/apis.py:61
 msgid "mainnet"
 msgstr "主网"
 
-#: elastos/apps/base/templatetags/utils.py:69
+#: newton/apps/base/templatetags/utils.py:69
 #, python-format
 msgid "%(duration)d minute"
 msgstr ""
 
-#: elastos/apps/base/templatetags/utils.py:71
+#: newton/apps/base/templatetags/utils.py:71
 #, python-format
 msgid "%(duration)d hour"
 msgstr ""
 
-#: elastos/apps/base/templatetags/utils.py:110
+#: newton/apps/base/templatetags/utils.py:110
 #, python-format
 msgid "%(hour)d hour ago"
 msgstr ""
 
-#: elastos/apps/base/templatetags/utils.py:113
+#: newton/apps/base/templatetags/utils.py:113
 #, python-format
 msgid "%(minute)d minute ago"
 msgstr ""
 
-#: elastos/apps/base/templatetags/utils.py:115
+#: newton/apps/base/templatetags/utils.py:115
 #, python-format
 msgid "%(second)d second ago"
 msgstr ""
 
-#: elastos/apps/base/templatetags/utils.py:144
+#: newton/apps/base/templatetags/utils.py:144
 #, python-format
 msgid "%.f hour"
 msgstr ""
 
-#: elastos/apps/base/templatetags/utils.py:174
+#: newton/apps/base/templatetags/utils.py:174
 msgid "unfilled"
 msgstr ""
 
-#: elastos/apps/base/templatetags/utils.py:180
-#: elastos/apps/base/templatetags/utils.py:187
+#: newton/apps/base/templatetags/utils.py:180
+#: newton/apps/base/templatetags/utils.py:187
 msgid "Yes"
 msgstr ""
 
-#: elastos/apps/base/templatetags/utils.py:181
-#: elastos/apps/base/templatetags/utils.py:188
+#: newton/apps/base/templatetags/utils.py:181
+#: newton/apps/base/templatetags/utils.py:188
 msgid "No"
 msgstr ""
 
-#: elastos/config/settings_label.py:13
+#: newton/config/settings_label.py:13
 msgid "Operation failed"
 msgstr ""
 
-#: elastos/config/settings_label.py:14
+#: newton/config/settings_label.py:14
 msgid "Operation success"
 msgstr ""
 
-#: elastos/config/settings_label.py:15
+#: newton/config/settings_label.py:15
 msgid "Session expired, login please!"
 msgstr ""
 
-#: elastos/config/settings_label.py:16
+#: newton/config/settings_label.py:16
 msgid "Signature error"
 msgstr ""
 
-#: elastos/config/settings_label.py:17
+#: newton/config/settings_label.py:17
 msgid "Parameters error"
 msgstr ""
 
-#: elastos/config/settings_label.py:18
+#: newton/config/settings_label.py:18
 msgid "Your app version is too old, please upgrade"
 msgstr ""
 
-#: elastos/config/settings_label.py:19
+#: newton/config/settings_label.py:19
 msgid "Your account has been locked, please contact customer service"
 msgstr ""

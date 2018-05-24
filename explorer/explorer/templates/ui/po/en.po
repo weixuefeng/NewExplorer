@@ -124,7 +124,7 @@ msgid "Double spent attempt detected. From tx:"
 msgstr ""
 
 #: public/views/status.html
-msgid "Elastos node information"
+msgid "Newstos node information"
 msgstr ""
 
 #: public/views/includes/language.html

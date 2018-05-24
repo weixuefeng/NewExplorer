@@ -60,7 +60,7 @@
                         </div>
 
                         <div class="col-md-6">
-                            <h3>1 ELA = 0.001 BTC</h3>
+                            <h3>1 New = 0.001 BTC</h3>
                             <div id="price-chart"></div>
                         </div>
 
@@ -83,7 +83,7 @@
                             <td>
                                 <a class="ellipsis" href="tx/{{tx.txid}}">{{tx.txid}}</a>
                             </td>
-                            <td class="text-right"><span class="ellipsis">{{$root.currency.getConvertion(tx.valueOut) || tx.valueOut + ' ELA'}}</span></td>
+                            <td class="text-right"><span class="ellipsis">{{$root.currency.getConvertion(tx.valueOut) || tx.valueOut + ' New'}}</span></td>
                         </tr>
                     </tbody>
                 </table>

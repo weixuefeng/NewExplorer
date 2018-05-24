@@ -447,8 +447,8 @@ margin-left: 0;
 /* Set the fixed height of the footer here */
 .footer span a{font-size: 12px;padding-top: 20px; padding-left: 20px;}
 /* Footer ----------------------------------------------------------- */
-.footer { text-align: center; padding: 40px 0 0 0; font-size: 12px; background-color: #f7f7f7; }
-.footer .pc-line{ position:relative; border-top:1px #e4e4e4 solid; height:50px; line-height:50px; margin-top:30px; color: #595959; text-align:left}
+.footer { text-align: center; padding: 0; font-size: 12px; background-color: #f7f7f7; }
+.footer .pc-line{ position:relative; border-top:1px #e4e4e4 solid; height:50px; line-height:50px; color: #595959; text-align:left}
 .footer .line span { position:absolute; right:0;}
 .footer .line span a{ display:inline-block; margin-left:20px; padding-top: 0;}
 .footer span a img{ display:inline-block; margin-right:3px; width:15px; height:15px;}

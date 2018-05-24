@@ -296,7 +296,7 @@
                 "TxType": 130,
                 "PayloadVersion": 4,
                 "Payload": {
-                    "CoinbaseData": "ELA"
+                    "CoinbaseData": "New"
                 },
                 "Attributes": [
                     {
@@ -406,7 +406,7 @@
             }
         ],
         "Confirminations": 23191,
-        "MinerInfo": "ELA"
+        "MinerInfo": "New"
     },
     "Version": "1.0.0"
 }

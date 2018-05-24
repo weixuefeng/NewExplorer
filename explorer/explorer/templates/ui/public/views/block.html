@@ -53,13 +53,13 @@
           <tr>
             <td class="key"><strong translate>Height</strong></td>
             <td class="value text-right text-muted">{{block.height}}
-              <span data-ng-show="block.isMainChain" class="text-success" translate>(Mainchain)</span>
+              <span data-ng-show="block.isMainChain" class="text-success" translate>(MainNet)</span>
               <span data-ng-show="!block.isMainChain" class="text-danger"> <span class="glyphicon glyphicon-warning-sign"></span> (Orphaned)</span>
             </td>
           </tr>
           <tr>
             <td class="key"><strong translate>Block Reward</strong></td>
-            <td class="value text-right text-muted">{{$root.currency.getConvertion(block.reward) || block.reward + ' ELA'}}</td>
+            <td class="value text-right text-muted">{{$root.currency.getConvertion(block.reward) || block.reward + ' New'}}</td>
           </tr> 
           <tr>
             <td class="key"><strong translate>Timestamp</strong></td>
@@ -90,14 +90,6 @@
       <div class="col-md-6">
         <table class="table">
           <tbody>
-          <tr>
-            <td class="key"> <strong translate>Difficulty</strong></td>
-            <td class="value text-right text-muted">{{block.difficulty}}</td>
-          </tr>
-          <tr>
-            <td class="key"> <strong>Bits</strong></td>
-            <td class="value text-right text-muted">{{block.bits}}</td>
-          </tr>
           <tr>
             <td class="key"> <strong translate>Size (bytes)</strong></td>
             <td class="value text-right text-muted">{{block.size}}</td>

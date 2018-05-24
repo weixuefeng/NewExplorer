@@ -49,7 +49,7 @@
             </div>
             <div class="ellipsis">
               <span data-ng-show="vin.notAddr"><code>{{vin.addr}}</code></span>
-              <span class="text-muted" title="Current elastos Address" data-ng-show="vin.addr == $root.currentAddr"><code>{{vin.addr}}</code></span>
+              <span class="text-muted" title="Current newton Address" data-ng-show="vin.addr == $root.currentAddr"><code>{{vin.addr}}</code></span>
               <a href="address/{{vin.addr}}" data-ng-show="!vin.notAddr && vin.addr != $root.currentAddr"><code>{{vin.addr}}</code></a>
             </div>
             <div data-ng-show="vin.unconfirmedInput" class="text-danger"> <span class="glyphicon glyphicon-warning-sign"></span> (Input unconfirmed)</div>
