@@ -671,6 +671,7 @@ def api_show_client_transactions(request, version):
         limit = int(request.GET.get('limit', settings.PAGE_SIZE))
         total_page = 0
         if addr:
+            addr = addr.lower()
             txids = provider_models.Address.objects.filter(addr=addr).distinct('txid')
             cnt = len(txids)
             if cnt == 0:
