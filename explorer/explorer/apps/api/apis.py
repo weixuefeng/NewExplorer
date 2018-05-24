@@ -39,7 +39,7 @@ def __convert_transaction_to_client_json(obj):
     result = json.loads(obj.to_json())
     result['id'] = obj.id
     result['operations'] = []
-    result['contract']= None
+    result['contract']= ''
     result['blockNumber'] = obj.blockheight
     result['timeStamp'] = obj.time
     result['nonce'] = 0 
