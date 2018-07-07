@@ -22,4 +22,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         blockchain_type=codes.BlockChainType.NEWTON.value
         url_prefix = settings.FULL_NODES['new']['rest_url']
-        provider_services.sync_blockchain(url_prefix)
+        provider_services.fast_sync_blockchain(url_prefix)

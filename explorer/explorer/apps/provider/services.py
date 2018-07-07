@@ -7,6 +7,8 @@ __version__ = '1.0'
 __author__ = 'xiawu@lubangame.com'
 import time
 import logging
+import threading
+
 from mongoengine import connect
 from django.conf import settings
 from django.core.cache import cache
@@ -14,6 +16,7 @@ from config import codes
 import provider_newton
 from provider import models as provider_models
 from decimal import *
+import job
 
 DECIMAL_SATOSHI = Decimal("100000000")
 logger = logging.getLogger(__name__)
@@ -60,14 +63,12 @@ def store_block_data(block_info, provider, blockchain_type=codes.BlockChainType.
     """Store the block info
     """
     try:
-        current_blockhash = get_current_blockhash(blockchain_type)
-        previous_blockhash = block_info['previousblockhash']
-        if len(current_blockhash) > 0 and current_blockhash != previous_blockhash: # find a block fork
-            logger.error("find a block fork at: height %s, current_blockhash %s, previous_blockhash %s" % (block_info['height'], current_blockhash, previous_blockhash))
-            return False
-        if len(current_blockhash) == 0 and not is_fast_sync: # the db is empty
-            logger.info("db is empty...")
-            return False
+        if not is_fast_sync:
+            current_blockhash = get_current_blockhash(blockchain_type)
+            previous_blockhash = block_info['previousblockhash']
+            if  len(current_blockhash) > 0 and current_blockhash != previous_blockhash: # find a block fork
+                logger.error("find a block fork at: height %s, current_blockhash %s, previous_blockhash %s" % (block_info['height'], current_blockhash, previous_blockhash))
+                return False
         block_instance = provider_models.Block()
         for k, v in block_info.items():
             setattr(block_instance, k, v)
@@ -169,7 +170,7 @@ def sync_blockchain(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.valu
         for tmp_height in range(current_height+1, height+1):
             # get block info
             data = provider.get_block_by_height(tmp_height)
-            status = store_block_data(data, provider, is_fast_sync=True)
+            status = store_block_data(data, provider)
             if not status:
                 break
             logger.info("sync_blockchain:height:%s" % tmp_height)
@@ -178,7 +179,50 @@ def sync_blockchain(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.valu
     except Exception, inst:
         print "fail to sync blockchain", inst
         logger.exception("fail to sync blockchain:%s" % str(inst))
-    
+
+
+def fast_sync_blockchain(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.value, from_height=None):
+    """Fast sync the blockchain info from full node to database
+    """
+    try:
+        provider = blockchain_providers[blockchain_type].Provider(url_prefix)
+        if not from_height:
+            # query the current height
+            current_height = get_current_height(blockchain_type)
+        else:
+            current_height = from_height
+        logger.info("sync_blockchain:current_height:%s" % current_height)
+        # query the height of blockchain
+        height = provider.get_block_height()
+        if height <= current_height:
+            logger.info("sync_blockchain:no new block")
+            return
+        status = True
+        max_threads = 100
+        all_threads = []
+        step = (height - current_height) / max_threads
+        start_height = current_height + 1
+        for i in range(max_threads):
+            end_height = start_height + step
+            if end_height > height:
+                end_height = height
+            thread_instance = job.FastSyncThread(provider, store_block_data, start_height, end_height)
+            thread_instance.start()
+            all_threads.append(thread_instance)
+            start_height = end_height + 1
+        while True:
+            is_all_close = True
+            for item in all_threads:
+                if item.isAlive():
+                    is_all_close = False
+            if is_all_close:
+                break
+        print "sync successfully."
+    except Exception, inst:
+        print "fail to fast sync blockchain", inst
+        logger.exception("fail to fast sync blockchain:%s" % str(inst))
+
+
 def send_transaction(rawtx, blockchain_type=codes.BlockChainType.NEWTON.value):
     """Send transaction
     
