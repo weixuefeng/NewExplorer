@@ -32,7 +32,7 @@ def run():
                         g_output_queue.put(data)
                         provider_services.save_block_data(data)
                         break
-            time.sleep(0.01)
+            time.sleep(0.1)
     except:
         pass
 

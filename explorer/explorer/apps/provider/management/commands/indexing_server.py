@@ -26,7 +26,7 @@ def run():
                 data = g_queue.get()
                 if data:
                     provider_services.save_transaction_data(g_provider, data)
-            time.sleep(0.01)
+            time.sleep(0.1)
     except Exception, inst:
         logger.exception('fail to run:%s' % str(inst))
 

@@ -33,4 +33,4 @@ class Command(BaseCommand):
         signal.siginterrupt(signal.SIGQUIT, False)
         while True:
             manager.query_new_block()
-            time.sleep(1)
+            time.sleep(3)
