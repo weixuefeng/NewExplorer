@@ -8,6 +8,7 @@ __author__ = 'xiawu@lubangame.com'
 import time
 import logging
 import threading
+import math
 
 from mongoengine import connect
 from django.conf import settings
@@ -197,12 +198,15 @@ def fast_sync_blockchain(url_prefix, blockchain_type=codes.BlockChainType.NEWTON
         if height <= current_height:
             logger.info("sync_blockchain:no new block")
             return
-        status = True
-        max_threads = 100
+        MAX_THREADS = 50
         all_threads = []
-        step = (height - current_height) / max_threads
+        height_diff = height - current_height
+        step = int(math.ceil(height_diff / MAX_THREADS))
+        if step < 1:
+            step = 1
+        number_of_use = int(height_diff / step)
         start_height = current_height + 1
-        for i in range(max_threads):
+        for i in range(number_of_use):
             end_height = start_height + step
             if end_height > height:
                 end_height = height
