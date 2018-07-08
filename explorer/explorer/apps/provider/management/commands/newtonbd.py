@@ -11,6 +11,7 @@ import os
 import sys
 import time
 from multiprocessing import Process, Manager
+import signal
 
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
@@ -28,6 +29,8 @@ class Command(BaseCommand):
         blockchain_type=codes.BlockChainType.NEWTON.value
         url_prefix = settings.FULL_NODES['new']['rest_url']
         manager = blockchain_manager.BlockchainSyncManager(blockchain_type, url_prefix)
+        signal.signal(signal.SIGQUIT, manager.close_server_handler)
+        signal.siginterrupt(signal.SIGQUIT, False)
         while True:
             manager.query_new_block()
             time.sleep(1)

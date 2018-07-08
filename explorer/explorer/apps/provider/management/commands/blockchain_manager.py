@@ -62,6 +62,22 @@ class BlockchainSyncManager(object):
             self.current_height = height
         except Exception, inst:
             logger.exception('fail to query new block:%s' % str(inst))
-    
+
+    def close_server_handler(signum, frame):
+        try:
+            logger.info("close_server_handler")
+            for p in self.indexing_processes:
+                try:
+                    os.kill(p.pid, signal.SIGQUIT)
+                except Exception, inst:
+                    logger.exception("fail to kill proccess: pid %s" % p.pid)
+            for p in self.query_processes:
+                try:
+                    os.kill(p.pid, signal.SIGQUIT)
+                except Exception, inst:
+                    logger.exception("fail to kill proccess: pid %s" % p.pid)
+            sys.exit(0)
+        except Exception, inst:
+            logger.exception('fail to close server: %s' % str(inst))
 
     
