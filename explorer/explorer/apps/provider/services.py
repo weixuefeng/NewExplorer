@@ -115,6 +115,63 @@ def store_block_data(block_info, provider, blockchain_type=codes.BlockChainType.
         logger.exception("fail to store block data:%s, block_info:%s" % (str(inst), block_info))
         return False
 
+def save_block_data(block_info):
+    """Save the block info
+    """
+    try:
+        block_instance = provider_models.Block()
+        for k, v in block_info.items():
+            setattr(block_instance, k, v)
+        block_instance.save()
+        return True
+    except Exception, inst:
+        print inst
+        logger.exception("fail to save block data:%s, block_info:%s" % (str(inst), block_info))
+        return False
+
+    
+def save_transaction_data(provider, block_info):
+    """Save the transaction info
+    """
+    try:
+        for item in block_info['transactions']:
+            tx_item = provider.parse_transaction_response(item)
+            transaction_info = tx_item
+            txid = transaction_info['txid']
+            transaction_instance = provider_models.Transaction()
+            for k, v in transaction_info.items():
+                setattr(transaction_instance, k, v)
+            transaction_instance.blockhash = block_info['blockhash']
+            transaction_instance.blockheight = block_info['height']
+            transaction_instance.time = block_info['time']
+            transaction_instance.save()
+            # indexing address
+            if transaction_instance.to_address:
+                obj = provider_models.Address()
+                obj.addr = transaction_instance.from_address
+                obj.txid = txid
+                obj.blockheight = block_info['height']
+                obj.value = transaction_instance.value
+                obj.vtype = codes.ValueType.SEND.value
+                obj.n = transaction_instance.transaction_index
+                obj.time = transaction_instance.time
+                obj.save()
+                obj = provider_models.Address()
+                obj.addr = transaction_instance.to_address
+                obj.txid = txid
+                obj.blockheight = block_info['height']
+                obj.value = transaction_instance.value
+                obj.vtype = codes.ValueType.RECEIVE.value
+                obj.n = transaction_instance.transaction_index
+                obj.time = transaction_instance.time
+                obj.save()
+        return True
+    except Exception, inst:
+        print inst
+        logger.exception("fail to save transaction data:%s" % (str(inst)))
+        return False
+
+        
 def delete_data_by_block_height(height):
     provider_models.Block.objects.filter(height__gte=height).delete()
     provider_models.Transaction.objects.filter(blockheight__gte=height).delete()
