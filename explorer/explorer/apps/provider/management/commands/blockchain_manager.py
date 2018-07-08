@@ -58,6 +58,8 @@ class BlockchainSyncManager(object):
                 idx = cnt % qlen
                 self.query_input_queues[idx].put(tmp_height)
                 cnt += 1
+            # update the current height for preventing duplicate
+            self.current_height = height
         except Exception, inst:
             logger.exception('fail to query new block:%s' % str(inst))
     
