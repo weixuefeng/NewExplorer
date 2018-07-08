@@ -20,6 +20,20 @@ class Command(BaseCommand):
     args = ''
     help = 'sync blockchain'
     def handle(self, *args, **options):
-        blockchain_type=codes.BlockChainType.NEWTON.value
-        url_prefix = settings.FULL_NODES['new']['rest_url']
-        provider_services.fast_sync_blockchain(url_prefix)
+        if len(args) < 1:
+            self.print_usage()
+            return
+        action = args[0]
+        if action == 'fast_sync':
+            blockchain_type=codes.BlockChainType.NEWTON.value
+            url_prefix = settings.FULL_NODES['new']['rest_url']
+            provider_services.fast_sync_blockchain(url_prefix)
+        elif action == 'fill_missing':
+            blockchain_type=codes.BlockChainType.NEWTON.value
+            url_prefix = settings.FULL_NODES['new']['rest_url']
+            provider_services.fill_missing_block(url_prefix)
+        else:
+            print "error action, choices:[fast_sync|fill_missing]"
+
+    def print_usage(self):
+        print "python manage.py sync_blockchain [fast_sync|fill_missing]"

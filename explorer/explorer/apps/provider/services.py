@@ -223,6 +223,28 @@ def fast_sync_blockchain(url_prefix, blockchain_type=codes.BlockChainType.NEWTON
         logger.exception("fail to fast sync blockchain:%s" % str(inst))
 
 
+def fill_missing_block(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.value):
+    """Retrieve the missing blocks according to current block database
+    """
+    try:
+        provider = blockchain_providers[blockchain_type].Provider(url_prefix)
+        # query the current height
+        current_height = get_current_height(blockchain_type)
+        for tmp_height in range(current_height):
+            data = get_block_hash_by_height(tmp_height)
+            if not data:
+                try:
+                    data = provider.get_block_by_height(tmp_height)
+                except:
+                    pass
+                if data:
+                    store_block_data(data, provider, is_fast_sync=True)
+                    print "retrieve missing block:", tmp_height
+    except Exception, inst:
+        print "fail to fill missing block", inst
+        logger.exception("fail to fill missing block:%s" % str(inst))
+
+    
 def send_transaction(rawtx, blockchain_type=codes.BlockChainType.NEWTON.value):
     """Send transaction
     
