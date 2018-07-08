@@ -49,7 +49,6 @@ class BlockchainSyncManager(object):
     def query_new_block(self):
         try:
             height = self.provider.get_block_height()
-            height = 100
             if height <= self.current_height:
                 return
             # query
