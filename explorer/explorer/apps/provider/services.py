@@ -59,7 +59,7 @@ def get_block_hash_by_height(height, blockchain_type=codes.BlockChainType.NEWTON
         print inst
         return ''
 
-def store_block_data(block_info, provider, blockchain_type=codes.BlockChainType.NEWTON.value, is_fast_sync=False):
+def store_block_data(block_info, provider, blockchain_type=codes.BlockChainType.NEWTON.value, is_fast_sync=True):
     """Store the block info
     """
     try:
