@@ -438,7 +438,8 @@ def api_show_addr_summary(request, version, addr):
             total_received = provider_models.Address.objects.filter(addr=addr, vtype=codes.ValueType.RECEIVE.value).sum('value')
             total_sent = provider_models.Address.objects.filter(addr=addr, vtype=codes.ValueType.SEND.value).sum('value')
             balance = total_received - total_sent
-            txlength = len(provider_models.Address.objects.filter(addr=addr).distinct('txid'))
+            # caculate the txlength
+            txlength = provider_models.Address.objects.filter(addr=addr).count()
             balance = __convert_num_to_float(balance)
             total_received = __convert_num_to_float(total_received)
             total_sent = __convert_num_to_float(total_sent)
