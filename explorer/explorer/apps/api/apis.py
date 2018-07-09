@@ -332,8 +332,8 @@ def api_show_transcations(request, version):
                     total_page = (cnt / settings.PAGE_SIZE)
             objs = objs.skip(page_id * settings.PAGE_SIZE).limit(limit)
         elif addr:
-            txids = provider_models.Address.objects.filter(addr=addr).distinct('txid')
-            cnt = len(txids)
+            rs = provider_models.Address.objects.filter(addr=addr)
+            cnt = rs.count()
             if cnt == 0:
                 total_page = 1
             else:
@@ -341,8 +341,8 @@ def api_show_transcations(request, version):
                     total_page = (cnt / settings.PAGE_SIZE) + 1
                 else:
                     total_page = (cnt / settings.PAGE_SIZE)
+            txids = [item.txid for item in rs.skip(page_id * settings.PAGE_SIZE).limit(limit)]
             objs = provider_models.Transaction.objects.filter(txid__in=txids).order_by('-time')
-            objs = objs.skip(page_id * settings.PAGE_SIZE).limit(limit)
         else:
             raise Exception("invalid parameter")
         txs = []
@@ -504,17 +504,19 @@ def api_show_transactions_by_addresses(request, version, addrs=None):
         current_height = provider_services.get_current_height()
         for addr in addrs:
             if no_spent:
-                txids = provider_models.Address.objects.filter(addr=addr, vtype=codes.ValueType.RECEIVE.value).distinct('txid')
+                rs = provider_models.Address.objects.filter(addr=addr, vtype=codes.ValueType.RECEIVE.value)
             else:
-                txids = provider_models.Address.objects.filter(addr=addr).distinct('txid')
-            objs = provider_models.Transaction.objects.filter(txid__in=txids)
+                rs = provider_models.Address.objects.filter(addr=addr)
+            if start_pos != None and end_pos != None:
+                txids = [item.txid for item in rs.skip(start_pos).limit(end_pos - start_pos)]
+            else:
+                txids = [item.txid for item in rs]
+            objs = provider_models.Transaction.objects.filter(txid__in=txids).order_by('-blockheight')
             for obj in objs:
                 tmp = __convert_transaction_to_json(obj)
                 tmp['confirmations'] = current_height - obj.blockheight
                 items.append(tmp)
-        items = sorted(items, key=lambda x:x['blockheight'], reverse=True)
         if start_pos != None and end_pos != None:
-            items = items[start_pos:end_pos]
             result['from'] = start_pos
             result['to'] = end_pos
         else:
@@ -673,8 +675,8 @@ def api_show_client_transactions(request, version):
         total_page = 0
         if addr:
             addr = addr.lower()
-            txids = provider_models.Address.objects.filter(addr=addr).distinct('txid')
-            cnt = len(txids)
+            rs = provider_models.Address.objects.filter(addr=addr)
+            cnt = rs.count()
             if cnt == 0:
                 total_page = 1
             else:
@@ -682,8 +684,8 @@ def api_show_client_transactions(request, version):
                     total_page = (cnt / settings.PAGE_SIZE) + 1
                 else:
                     total_page = (cnt / settings.PAGE_SIZE)
+            txids = [item.txid for item in rs.skip((page_id - 1) * settings.PAGE_SIZE).limit(limit)]
             objs = provider_models.Transaction.objects.filter(txid__in=txids).order_by('-time')
-            objs = objs.skip((page_id - 1) * settings.PAGE_SIZE).limit(limit)
         else:
             raise Exception("invalid parameter")
         txs = []
