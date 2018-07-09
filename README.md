@@ -41,7 +41,7 @@
 （7）、安装MySQL、MongoDB、Redis数据库，详见项目newton-documentation/ python-development-guide.md
 
 
-项目setup:
+项目setup:  
 （1）、开启MySQL、Redis、MongoDB服务  
 （2）、进入项目目录下的explorer目录下  
 （3）、使用命令：newtonbd同步数据  
