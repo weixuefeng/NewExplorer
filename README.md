@@ -31,7 +31,7 @@
 ```
 
 
-### 项目准备： ###  
+### 项目准备： ###
 （1）、cd到项目目录
 
 （2）、git clone git@gitlab.newtonproject.org:xiawu/newton-explorer.git  
