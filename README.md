@@ -34,7 +34,7 @@
 ### 项目准备： ###
 （1）、cd到项目目录
 
-（2）、git clone git@gitlab.newtonproject.org:xiawu/newton-explorer.git  
+（2）、`git clone git@gitlab.newtonproject.org:xiawu/newton-explorer.git` 
 
 （3）、创建虚拟环境：mkvirtualenv explorer  
 
@@ -42,7 +42,7 @@
 
 （5）、进入项目目录下的explorer目录下  
 
-（6）、安装项目依赖的包：pip install -r requirements.txt  
+（6）、安装项目依赖的包：`pip install -r requirements.txt`  
 
 （7）、安装MySQL、MongoDB、Redis数据库，详见项目newton-documentation/ python-development-guide.md  
 需要注意的是MongoDB版本安装3.4版，使用安装命令：brew install mongodb@3.4
@@ -100,7 +100,7 @@ tasks文件夹：同步执行的任务
 
 wsgi.py文件: 内置runserver命令的WSGI应用配置
 
-__init__.py文件: 用来告诉python，当前目录是python模块
+`__init__.py`文件: 用来告诉python，当前目录是python模块
 
 urls.py文件: URL根配置
 
