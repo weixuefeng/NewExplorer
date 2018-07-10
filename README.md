@@ -47,7 +47,7 @@
 （7）、安装MySQL、MongoDB、Redis数据库，详见项目newton-documentation/ python-development-guide.md  
 需要注意的是MongoDB版本安装3.4版，使用安装命令：brew install mongodb@3.4
 
-配置~/.bash_profile文件,加入代码:
+需配置~/.bash_profile文件,加入代码:
 ```
 export MONGO_PATH=/usr/local/opt/mongodb@3.4
 export PATH=$PATH:$MONGO_PATH/bin
@@ -61,4 +61,7 @@ export PATH=$PATH:$MONGO_PATH/bin
 （3）、使用命令：newtonbd同步数据  
 
 （4）、使用命令：./environment/test/testing.sh 启动项目  
+
+
+
 
