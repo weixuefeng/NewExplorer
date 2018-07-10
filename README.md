@@ -44,8 +44,14 @@
 
 （6）、安装项目依赖的包：pip install -r requirements.txt  
 
-（7）、安装MySQL、MongoDB、Redis数据库，详见项目newton-documentation/ python-development-guide.md
+（7）、安装MySQL、MongoDB、Redis数据库，详见项目newton-documentation/ python-development-guide.md  
+需要注意的是MongoDB版本安装3.4版，使用安装命令：brew install mongodb@3.4
 
+配置~/.bash_profile文件,加入代码:
+```
+export MONGO_PATH=/usr/local/opt/mongodb@3.4
+export PATH=$PATH:$MONGO_PATH/bin
+```
 
 ### 项目setup: ###
 （1）、开启MySQL、Redis、MongoDB服务  
