@@ -31,19 +31,28 @@
 ```
 
 
-项目准备：  
-（1）、cd到项目目录  
+### 项目准备： ###  
+（1）、cd到项目目录
+
 （2）、git clone git@gitlab.newtonproject.org:xiawu/newton-explorer.git  
+
 （3）、创建虚拟环境：mkvirtualenv explorer  
+
 （4）、进入虚拟环境：workon explorer  
+
 （5）、进入项目目录下的explorer目录下  
+
 （6）、安装项目依赖的包：pip install -r requirements.txt  
+
 （7）、安装MySQL、MongoDB、Redis数据库，详见项目newton-documentation/ python-development-guide.md
 
 
-项目setup:  
+### 项目setup: ###
 （1）、开启MySQL、Redis、MongoDB服务  
+
 （2）、进入项目目录下的explorer目录下  
+
 （3）、使用命令：newtonbd同步数据  
+
 （4）、使用命令：./environment/test/testing.sh 启动项目  
 
