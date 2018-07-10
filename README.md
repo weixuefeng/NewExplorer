@@ -71,17 +71,18 @@ requirements.txt文件：内容为项目所依赖的环境
 
 package.txt文件：平台系统所用的包
 
-apps文件夹：存放各个应用
-apps/models：数据库表结构
-apps/services：接口文件（用于查询结果）
-apps/view：视图文件
-apps/forms：表单验证文件
-app分为三个等级：- 应用级（比如注册、登录）
-				- 基础工具（base、storage存储）
-				- 基础组件
+apps文件夹：存放各个应用  
+apps/models：数据库表结构  
+apps/services：接口文件（用于查询结果）  
+apps/view：视图文件  
+apps/forms：表单验证文件  
+app分为三个等级：
+- 应用级（比如注册、登录）
+- 基础工具（base、storage存储）
+- 基础组件
 
 
-config文件夹：存放部分配置文件
+config文件夹：存放部分配置文件  
 注意：explorer/explorer文件夹下的settings.py及相似文件名的文件也为配置文件，其关  
 系为settings.py包含setting_local.py包含config中的common_settings.py和  
 setting_label.py包含server.py  
