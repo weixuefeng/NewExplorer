@@ -11,98 +11,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: public/views/transaction/tx.html
+#: public/views/transaction/tx.html:90
 msgid "(Input unconfirmed)"
 msgstr "(入力は未検証です)"
 
-#: public/views/404.html
+#: public/views/block.html:56
+#, fuzzy
+msgid "(MainNet)"
+msgstr "(メインチェーン)"
+
+#: public/views/404.html:4
 msgid "404 Page not found :("
 msgstr "404 ページがみつかりません (´・ω・`)"
 
-#: public/views/index.html
-msgid ""
-"<strong>insight</strong>  is an <a href=\"http://live.insight.is/\" target="
-"\"_blank\">open-source Bitcoin blockchain explorer</a> with complete REST "
-"and websocket APIs that can be used for writing web wallets and other apps  "
-"that need more advanced blockchain queries than provided by bitcoind RPC.  "
-"Check out the <a href=\"https://github.com/bitpay/insight-ui\" target=\"_blank"
-"\">source code</a>."
-msgstr ""
-"<strong>insight</strong>は、bitcoind RPCの提供するものよりも詳細なブロック"
-"チェインへの問い合わせを必要とするウェブウォレットやその他のアプリを書くのに"
-"使える、完全なRESTおよびwebsocket APIを備えた<a href=\"http://live.insight."
-"is/\" target=\"_blank\">オープンソースのビットコインブロックエクスプローラ</"
-"a>です。<a href=\"https://github.com/bitpay/insight-ui\" target=\"_blank\">ソース"
-"コード</a>を確認"
-
-#: public/views/index.html
-msgid ""
-"<strong>insight</strong> is still in development, so be sure to report any "
-"bugs and provide feedback for improvement at our <a href=\"https://github."
-"com/bitpay/insight/issues\" target=\"_blank\">github issue tracker</a>."
-msgstr ""
-"<strong>insight</strong>は現在開発中です。<a href=\"https://github.com/"
-"bitpay/insight/issues\" target=\"_blank\">githubのissueトラッカ</a>にてバグの"
-"報告や改善案の提案をお願いします。"
-
-#: public/views/index.html
-msgid "About"
-msgstr "はじめに"
-
-#: public/views/address.html public/views/messages_verify.html
+#: public/views/address.html:20 public/views/address.html:26
+#: public/views/address.html:6 public/views/messages_verify.html:11
+#: public/views/rank.html:6
 msgid "Address"
 msgstr "アドレス"
 
-#: public/views/index.html
-msgid "Age"
-msgstr "生成後経過時間"
-
-#: public/views/messages_verify.html
+#: public/views/messages_verify.html:62
 msgid "An error occured in the verification process."
 msgstr "検証過程でエラーが発生しました。"
 
-#: public/views/transaction_sendraw.html
+#: public/views/transaction_sendraw.html:42
 msgid "An error occured:<br>{{error}}"
 msgstr "エラーが発生しました:<br>{{error}}"
 
-#: public/views/status.html
+#: public/views/status.html:4
 msgid "Application Status"
 msgstr "アプリケーションの状態"
 
-#: public/views/status.html
-msgid "Best Block"
-msgstr "最良ブロック"
+#: public/views/rank.html:7
+#, fuzzy
+msgid "Balance"
+msgstr "最終残高"
 
-#: public/views/messages_verify.html
+#: public/views/messages_verify.html:72
 msgid "Bitcoin comes with a way of signing arbitrary messages."
 msgstr "Bitcoinには任意のメッセージを署名する昨日が備わっています。"
 
-#: public/views/status.html
-msgid "Bitcoin node information"
-msgstr "Bitcoinノード情報"
-
-#: public/views/block.html
+#: public/views/block.html:12 public/views/block.html:34
 msgid "Block"
 msgstr "ブロック"
 
-#: public/views/block.html
-msgid "Block Reward"
-msgstr "ブロック報酬"
+#: public/views/includes/search.html:3
+#, fuzzy
+msgid "Block,Transaction,Address"
+msgstr "トランザクション"
 
-#: public/views/block_list.html public/views/dummy-translations.html
-#: public/views/status.html
+#: public/views/block.html:40
+msgid "BlockHash"
+msgstr "ブロックのハッシュ値"
+
+#: public/views/block_list.html:38 public/views/dummy-translations.html:1
+#: public/views/status.html:92
 msgid "Blocks"
 msgstr "ブロック"
 
-#: public/views/transaction_sendraw.html
+#: public/views/transaction_sendraw.html:4
 msgid "Broadcast Raw Transaction"
 msgstr "生のトランザクションを配信"
 
-#: public/views/status.html
-msgid "Bytes Serialized"
-msgstr "シリアライズ後の容量 (バイト)"
-
-#: public/views/includes/connection.html
+#: public/views/includes/connection.html:9
 msgid ""
 "Can't connect to bitcoind to get live updates from the p2p network. (Tried "
 "connecting to bitcoind at {{host}}:{{port}} and failed.)"
@@ -110,320 +81,286 @@ msgstr ""
 "P2Pネットワークからライブ情報を取得するためにbitcoindへ接続することができませ"
 "んでした。({{host}}:{{port}} への接続を試みましたが、失敗しました。)"
 
-#: public/views/includes/connection.html
+#: public/views/includes/connection.html:13
 msgid "Can't connect to insight server. Attempting to reconnect..."
 msgstr "insight サーバに接続できません。再接続しています..."
 
-#: public/views/includes/connection.html
+#: public/views/includes/connection.html:17
 msgid "Can't connect to internet. Please, check your connection."
 msgstr "インターネットに接続できません。コネクションを確認してください。"
 
-#: public/views/status.html
+#: public/views/status.html:18
 msgid "Complete"
 msgstr "完了"
 
-#: public/views/transaction.html public/views/transaction/tx.html
+#: public/views/transaction.html:14 public/views/transaction/tx.html:217
 msgid "Confirmations"
 msgstr "検証数"
 
-#: public/views/includes/header.html
-msgid "Conn"
-msgstr "接続数"
-
-#: public/views/status.html
+#: public/views/status.html:100
 msgid "Connections to other nodes"
 msgstr "他ノードへの接続"
 
-#: public/views/status.html
-msgid "Current Blockchain Tip (insight)"
-msgstr "現在のブロックチェインのTip (insight)"
-
-#: public/views/status.html
+#: public/views/status.html:25
 msgid "Current Sync Status"
 msgstr "現在の同期状況"
 
-#: public/views/transaction.html
+#: public/views/transaction.html:94
 msgid "Details"
 msgstr "詳細"
 
-#: public/views/block.html
-msgid "Difficulty"
-msgstr "難易度"
-
-#: public/views/transaction/tx.html
+#: public/views/transaction/tx.html:62 public/views/transaction/tx.html:98
 msgid "Double spent attempt detected. From tx:"
 msgstr "二重支払い攻撃をこのトランザクションから検知しました："
 
-#: public/views/messages_verify.html
+#: public/views/messages_verify.html:64
 msgid "Error message:"
 msgstr "エラーメッセージ:"
 
-#: public/views/includes/connection.html
+#: public/views/includes/connection.html:7
 msgid "Error!"
 msgstr "エラー！"
 
-#: public/views/transaction/tx.html
+#: public/views/block.html:61 public/views/transaction/tx.html:213
 msgid "Fee"
 msgstr "手数料"
 
-#: public/views/address.html
+#: public/views/transaction.html:57
+msgid "Fee Rate"
+msgstr ""
+
+#: public/views/address.html:10 public/views/address.html:44
 msgid "Final Balance"
 msgstr "最終残高"
 
-#: public/views/status.html
+#: public/views/status.html:39
 msgid "Finish Date"
 msgstr "終了日時"
 
-#: public/views/404.html
+#: public/views/404.html:5
 msgid "Go to home"
 msgstr "ホームへ"
 
-#: public/views/status.html
-msgid "Hash Serialized"
-msgstr "シリアライズデータのハッシュ値"
-
-#: public/views/block.html public/views/block_list.html
-#: public/views/index.html public/views/status.html
-#: public/views/includes/header.html
+#: public/views/block.html:54 public/views/block_list.html:45
+#: public/views/includes/header.html:34 public/views/index.html:19
 msgid "Height"
 msgstr "ブロック高"
 
-#: public/views/transaction.html public/views/transaction/tx.html
+#: public/views/transaction.html:71 public/views/transaction/tx.html:206
 msgid "Included in Block"
 msgstr "取り込まれたブロック"
 
-#: public/views/transaction/tx.html
+#: public/views/transaction/tx.html:58 public/views/transaction/tx.html:94
 msgid "Incoherence in levelDB detected:"
 msgstr "levelDBの破損を検知しました:"
 
-#: public/views/status.html
-msgid "Info Errors"
-msgstr "エラー情報"
-
-#: public/views/status.html
+#: public/views/status.html:43
 msgid "Initial Block Chain Height"
 msgstr "起動時のブロック高"
 
-#: public/views/transaction.html
+#: public/views/transaction.html:33
 msgid "Input"
 msgstr "入力"
 
-#: public/views/status.html
-msgid "Last Block"
-msgstr "直前のブロック"
-
-#: public/views/status.html
-msgid "Last Block Hash (Bitcoind)"
-msgstr "直前のブロックのハッシュ値 (Bitcoind)"
-
-#: public/views/index.html
+#: public/views/index.html:11
 msgid "Latest Blocks"
 msgstr "最新のブロック"
 
-#: public/views/index.html
-msgid "Latest Transactions"
-msgstr "最新のトランザクション"
-
-#: public/views/address.html
+#: public/views/address.html:22
 msgid "Loading Address Information"
 msgstr "アドレス情報を読み込んでいます"
 
-#: public/views/block.html
+#: public/views/block.html:36
 msgid "Loading Block Information"
 msgstr "ブロック情報を読み込んでいます"
 
-#: public/views/block_list.html
+#: public/views/block_list.html:22
 msgid "Loading Selected Date..."
 msgstr "選択されたデータを読み込んでいます..."
 
-#: public/views/transaction.html
+#: public/views/transaction.html:40
 msgid "Loading Transaction Details"
 msgstr "トランザクションの詳細を読み込んでいます"
 
-#: public/views/transaction/list.html
+#: public/views/transaction/list.html:9
 msgid "Loading Transactions..."
 msgstr "トランザクションを読み込んでいます..."
 
-#: public/views/messages_verify.html public/views/transaction_sendraw.html
-#: public/views/includes/infoStatus.html
+#: public/views/includes/infoStatus.html:1 public/views/messages_verify.html:49
+#: public/views/transaction_sendraw.html:36
 msgid "Loading..."
 msgstr "ロード中..."
 
-#: public/views/messages_verify.html
+#: public/views/messages_verify.html:29
 msgid "Message"
 msgstr "メッセージ"
 
-#: public/views/transaction.html
+#: public/views/transaction.html:66
 msgid "Mined Time"
 msgstr "採掘時刻"
 
-#: public/views/block.html public/views/block_list.html
-#: public/views/index.html
-msgid "Mined by"
-msgstr "採掘者"
-
-#: public/views/status.html
+#: public/views/status.html:104
 msgid "Mining Difficulty"
 msgstr "採掘難易度"
 
-#: public/views/block.html
+#: public/views/status.html:108
+msgid "Network"
+msgstr ""
+
+#: public/views/status.html:79
+#, fuzzy
+msgid "Newstos node information"
+msgstr "Bitcoinノード情報"
+
+#: public/views/block.html:106
 msgid "Next Block"
 msgstr "次のブロック"
 
-#: public/views/transaction/tx.html
+#: public/views/transaction/tx.html:37
 msgid "No Inputs (Newly Generated Coins)"
 msgstr "入力なし (新しく生成されたコイン)"
 
-#: public/views/block_list.html
+#: public/views/rank.html:25
+#, fuzzy
+msgid "No Rank yet."
+msgstr "ブロックはありません。"
+
+#: public/views/block_list.html:71
 msgid "No blocks yet."
 msgstr "ブロックはありません。"
 
-#: public/views/includes/search.html
+#: public/views/includes/search.html:5
 msgid "No matching records found!"
 msgstr "一致するレコードはありません！"
 
-#: public/views/address.html
+#: public/views/address.html:48 public/views/address.html:67
 msgid "No. Transactions"
 msgstr "トランザクション数"
 
-#: public/views/block.html
+#: public/views/block.html:50
 msgid "Number Of Transactions"
 msgstr "トランザクション数"
 
-#: public/views/transaction.html
+#: public/views/transaction.html:34
 msgid "Output"
 msgstr "出力"
 
-#: public/views/index.html
-msgid "Powered by"
-msgstr "Powered by"
+#: public/views/rank.html:8
+msgid "Percentage"
+msgstr ""
 
-#: public/views/block.html
+#: public/views/block.html:84
 msgid "Previous Block"
 msgstr "前のブロック"
 
-#: public/views/status.html
+#: public/views/status.html:88
 msgid "Protocol version"
 msgstr "プロトコルバージョン"
 
-#: public/views/status.html
-msgid "Proxy setting"
-msgstr "プロキシ設定"
+#: public/views/rank.html:5
+msgid "Rank"
+msgstr ""
 
-#: public/views/transaction_sendraw.html
+#: public/views/transaction_sendraw.html:12
 msgid "Raw transaction data"
 msgstr "トランザクションの生データ"
 
-#: public/views/transaction_sendraw.html
+#: public/views/transaction_sendraw.html:19
 msgid "Raw transaction data must be a valid hexadecimal string."
 msgstr "生のトランザクションデータは有効な16進数でなければいけません。"
 
-#: public/views/transaction.html
+#: public/views/transaction.html:61
 msgid "Received Time"
 msgstr "受信時刻"
 
-#: public/views/redirect.html
+#: public/views/redirect.html:1
 msgid "Redirecting..."
 msgstr "リダイレクトしています..."
 
-#: public/views/includes/search.html
-msgid "Search for block, transaction or address"
-msgstr "ブロック、トランザクション、アドレスを検索"
-
-#: public/views/index.html
+#: public/views/index.html:13
 msgid "See all blocks"
 msgstr "すべてのブロックをみる"
 
-#: public/views/transaction_sendraw.html
+#: public/views/transaction_sendraw.html:26
 msgid "Send transaction"
 msgstr "トランザクションを送信"
 
-#: public/views/status.html
-msgid "Show Transaction Output data"
-msgstr "トランザクションの出力データをみる"
-
-#: public/views/transaction/tx.html
+#: public/views/transaction/tx.html:116
 msgid "Show all"
 msgstr "すべて表示"
 
-#: public/views/transaction/tx.html
+#: public/views/transaction/tx.html:114
 msgid "Show input"
 msgstr "入力を表示"
 
-#: public/views/transaction/tx.html
+#: public/views/transaction/tx.html:120 public/views/transaction/tx.html:158
+#: public/views/transaction/tx.html:69
 msgid "Show less"
 msgstr "隠す"
 
-#: public/views/transaction/tx.html
+#: public/views/transaction/tx.html:122 public/views/transaction/tx.html:160
+#: public/views/transaction/tx.html:71
 msgid "Show more"
 msgstr "表示する"
 
-#: public/views/messages_verify.html
+#: public/views/messages_verify.html:20
 msgid "Signature"
 msgstr "署名"
 
-#: public/views/block_list.html public/views/index.html
-#: public/views/transaction.html
+#: public/views/block_list.html:49 public/views/index.html:23
+#: public/views/transaction.html:53
 msgid "Size"
 msgstr "サイズ"
 
-#: public/views/block.html
+#: public/views/block.html:94
 msgid "Size (bytes)"
 msgstr "サイズ (バイト)"
 
-#: public/views/status.html
-msgid "Skipped Blocks (previously synced)"
-msgstr "スキップされたブロック (同期済み)"
-
-#: public/views/status.html
+#: public/views/status.html:35
 msgid "Start Date"
 msgstr "開始日時"
 
-#: public/views/dummy-translations.html
+#: public/views/dummy-translations.html:2
 msgid "Status"
 msgstr "ステータス"
 
-#: public/views/block.html public/views/transaction.html
+#: public/views/block.html:44 public/views/transaction.html:49
 msgid "Summary"
 msgstr "概要"
 
-#: public/views/address.html
+#: public/views/address.html:30
 msgid "Summary <small>confirmed</small>"
 msgstr "サマリ <small>検証済み</small>"
 
-#: public/views/status.html
+#: public/views/status.html:13
 msgid "Sync Progress"
 msgstr "同期の進捗状況"
 
-#: public/views/status.html
+#: public/views/status.html:9
 msgid "Sync Status"
 msgstr "同期ステータス"
 
-#: public/views/status.html
+#: public/views/status.html:55
 msgid "Sync Type"
 msgstr "同期タイプ"
 
-#: public/views/status.html
+#: public/views/status.html:47
 msgid "Synced Blocks"
 msgstr "同期されたブロック数"
 
-#: public/views/status.html
-msgid "Testnet"
-msgstr "テストネット"
-
-#: public/views/messages_verify.html
+#: public/views/messages_verify.html:56
 msgid "The message failed to verify."
 msgstr "メッセージの検証に失敗しました。"
 
-#: public/views/messages_verify.html
+#: public/views/messages_verify.html:52
 msgid "The message is verifiably from {{verification.address}}."
 msgstr "メッセージは{{verification.address}}により検証されました。"
 
-#: public/views/transaction/list.html
+#: public/views/transaction/list.html:1
 msgid "There are no transactions involving this address."
 msgstr "このアドレスに対するトランザクションはありません。"
 
-#: public/views/transaction_sendraw.html
+#: public/views/transaction_sendraw.html:49
 msgid ""
 "This form can be used to broadcast a raw transaction in hex format over\n"
 "        the Bitcoin network."
@@ -431,7 +368,7 @@ msgstr ""
 "このフォームでは、16進数フォーマットの生のトランザクションをBitcoinネットワー"
 "ク上に配信することができます。"
 
-#: public/views/messages_verify.html
+#: public/views/messages_verify.html:75
 msgid ""
 "This form can be used to verify that a message comes from\n"
 "        a specific Bitcoin address."
@@ -439,110 +376,196 @@ msgstr ""
 "このフォームでは、メッセージが特定のBitcoinアドレスから来たかどうかを検証する"
 "ことができます。"
 
-#: public/views/status.html
+#: public/views/status.html:96
 msgid "Time Offset"
 msgstr "時間オフセット"
 
-#: public/views/block.html public/views/block_list.html
+#: public/views/block.html:65 public/views/block_list.html:46
+#: public/views/index.html:20
 msgid "Timestamp"
 msgstr "タイムスタンプ"
 
-#: public/views/block_list.html
+#: public/views/block_list.html:26
 msgid "Today"
 msgstr "今日"
 
-#: public/views/status.html
-msgid "Total Amount"
-msgstr "Bitcoin総量"
-
-#: public/views/address.html
+#: public/views/address.html:36
 msgid "Total Received"
 msgstr "総入金額"
 
-#: public/views/address.html
+#: public/views/address.html:40
 msgid "Total Sent"
 msgstr "総送金額"
 
-#: public/views/transaction.html
+#: public/views/transaction.html:31 public/views/transaction.html:45
+#: public/views/transaction.html:6
 msgid "Transaction"
 msgstr "トランザクション"
 
-#: public/views/status.html
-msgid "Transaction Output Set Information"
-msgstr "トランザクションの出力セット情報"
-
-#: public/views/status.html
-msgid "Transaction Outputs"
-msgstr "トランザクションの出力"
-
-#: public/views/transaction_sendraw.html
+#: public/views/transaction_sendraw.html:39
 msgid "Transaction succesfully broadcast.<br>Transaction id: {{txid}}"
 msgstr "トランザクションの配信に成功しました。<br>トランザクションID: {{txid}}"
 
-#: public/views/address.html public/views/block.html
-#: public/views/block_list.html public/views/index.html
-#: public/views/status.html
+#: public/views/address.html:76 public/views/block.html:115
+#: public/views/block_list.html:47 public/views/index.html:21
 msgid "Transactions"
 msgstr "トランザクション"
 
-#: public/views/transaction/tx.html
+#: public/views/transaction/tx.html:182
 msgid "Type"
 msgstr "タイプ"
 
-#: public/views/address.html
+#: public/views/address.html:59
 msgid "Unconfirmed"
 msgstr "未検証"
 
-#: public/views/transaction.html public/views/transaction/tx.html
+#: public/views/transaction.html:16 public/views/transaction/tx.html:218
 msgid "Unconfirmed Transaction!"
 msgstr "未検証のトランザクションです！"
 
-#: public/views/address.html
+#: public/views/address.html:63
 msgid "Unconfirmed Txs Balance"
 msgstr "未検証トランザクションの残高"
 
-#: public/views/index.html
-msgid "Value Out"
-msgstr "出力値"
+#: public/views/block.html:69 public/views/block_list.html:48
+#: public/views/index.html:22
+msgid "Validator"
+msgstr ""
 
-#: public/views/messages_verify.html
+#: public/views/messages_verify.html:39
 msgid "Verify"
 msgstr "検証"
 
-#: public/views/messages_verify.html
+#: public/views/messages_verify.html:4
 msgid "Verify signed message"
 msgstr "署名済みメッセージを検証"
 
-#: public/views/block.html public/views/status.html
+#: public/views/block.html:98 public/views/status.html:84
 msgid "Version"
 msgstr "バージョン"
 
-#: public/views/block_list.html public/views/index.html
+#: public/views/rank.html:12
+#, fuzzy
+msgid "Waiting for Rank..."
+msgstr "ブロックを待っています..."
+
+#: public/views/block_list.html:54 public/views/index.html:27
 msgid "Waiting for blocks..."
 msgstr "ブロックを待っています..."
 
-#: public/views/index.html
-msgid "Waiting for transactions..."
-msgstr "トランザクションを待っています..."
-
-#: public/views/block_list.html
-msgid "by date."
-msgstr "日毎。"
-
-#: public/views/transaction/tx.html
+#: public/views/transaction/tx.html:23
 msgid "first seen at"
 msgstr "最初に発見された日時"
 
-#: public/views/transaction/tx.html
+#: public/views/transaction/tx.html:27
 msgid "mined"
 msgstr "採掘された"
 
-#: public/views/block_list.html
-msgid "mined on:"
-msgstr "採掘日時:"
+#~ msgid "Block Reward"
+#~ msgstr "ブロック報酬"
 
-#~ msgid "(Mainchain)"
-#~ msgstr "(メインチェーン)"
+#~ msgid "Mined by"
+#~ msgstr "採掘者"
+
+#~ msgid ""
+#~ "<strong>insight</strong>  is an <a href=\"http://live.insight.is/\" "
+#~ "target=\"_blank\">open-source Bitcoin blockchain explorer</a> with "
+#~ "complete REST and websocket APIs that can be used for writing web wallets "
+#~ "and other apps  that need more advanced blockchain queries than provided "
+#~ "by bitcoind RPC.  Check out the <a href=\"https://github.com/bitpay/"
+#~ "insight-ui\" target=\"_blank\">source code</a>."
+#~ msgstr ""
+#~ "<strong>insight</strong>は、bitcoind RPCの提供するものよりも詳細なブロック"
+#~ "チェインへの問い合わせを必要とするウェブウォレットやその他のアプリを書くの"
+#~ "に使える、完全なRESTおよびwebsocket APIを備えた<a href=\"http://live."
+#~ "insight.is/\" target=\"_blank\">オープンソースのビットコインブロックエクス"
+#~ "プローラ</a>です。<a href=\"https://github.com/bitpay/insight-ui\" target="
+#~ "\"_blank\">ソースコード</a>を確認"
+
+#~ msgid ""
+#~ "<strong>insight</strong> is still in development, so be sure to report "
+#~ "any bugs and provide feedback for improvement at our <a href=\"https://"
+#~ "github.com/bitpay/insight/issues\" target=\"_blank\">github issue "
+#~ "tracker</a>."
+#~ msgstr ""
+#~ "<strong>insight</strong>は現在開発中です。<a href=\"https://github.com/"
+#~ "bitpay/insight/issues\" target=\"_blank\">githubのissueトラッカ</a>にてバ"
+#~ "グの報告や改善案の提案をお願いします。"
+
+#~ msgid "About"
+#~ msgstr "はじめに"
+
+#~ msgid "Age"
+#~ msgstr "生成後経過時間"
+
+#~ msgid "Best Block"
+#~ msgstr "最良ブロック"
+
+#~ msgid "Bytes Serialized"
+#~ msgstr "シリアライズ後の容量 (バイト)"
+
+#~ msgid "Conn"
+#~ msgstr "接続数"
+
+#~ msgid "Current Blockchain Tip (insight)"
+#~ msgstr "現在のブロックチェインのTip (insight)"
+
+#~ msgid "Difficulty"
+#~ msgstr "難易度"
+
+#~ msgid "Hash Serialized"
+#~ msgstr "シリアライズデータのハッシュ値"
+
+#~ msgid "Info Errors"
+#~ msgstr "エラー情報"
+
+#~ msgid "Last Block"
+#~ msgstr "直前のブロック"
+
+#~ msgid "Last Block Hash (Bitcoind)"
+#~ msgstr "直前のブロックのハッシュ値 (Bitcoind)"
+
+#~ msgid "Latest Transactions"
+#~ msgstr "最新のトランザクション"
+
+#~ msgid "Powered by"
+#~ msgstr "Powered by"
+
+#~ msgid "Proxy setting"
+#~ msgstr "プロキシ設定"
+
+#~ msgid "Search for block, transaction or address"
+#~ msgstr "ブロック、トランザクション、アドレスを検索"
+
+#~ msgid "Show Transaction Output data"
+#~ msgstr "トランザクションの出力データをみる"
+
+#~ msgid "Skipped Blocks (previously synced)"
+#~ msgstr "スキップされたブロック (同期済み)"
+
+#~ msgid "Testnet"
+#~ msgstr "テストネット"
+
+#~ msgid "Total Amount"
+#~ msgstr "Bitcoin総量"
+
+#~ msgid "Transaction Output Set Information"
+#~ msgstr "トランザクションの出力セット情報"
+
+#~ msgid "Transaction Outputs"
+#~ msgstr "トランザクションの出力"
+
+#~ msgid "Value Out"
+#~ msgstr "出力値"
+
+#~ msgid "Waiting for transactions..."
+#~ msgstr "トランザクションを待っています..."
+
+#~ msgid "by date."
+#~ msgstr "日毎。"
+
+#~ msgid "mined on:"
+#~ msgstr "採掘日時:"
 
 #~ msgid "(Orphaned)"
 #~ msgstr "(孤立したブロック)"
@@ -552,9 +575,6 @@ msgstr "採掘日時:"
 
 #~ msgid "Block #{{block.height}}"
 #~ msgstr "ブロック #{{block.height}}"
-
-#~ msgid "BlockHash"
-#~ msgstr "ブロックのハッシュ値"
 
 #~ msgid "Blocks <br> mined on:"
 #~ msgstr "ブロック <br> 採掘日"

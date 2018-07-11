@@ -13,6 +13,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-macreload');
   grunt.loadNpmTasks('grunt-angular-gettext');
   grunt.loadNpmTasks('grunt-replace');
+  grunt.loadNpmTasks('grunt-pofriend');
 
   // Project Configuration
   grunt.initConfig({
@@ -129,7 +130,14 @@ module.exports = function(grunt) {
           'public/src/js/translations.js': ['po/*.po']
         }
       },
-    }
+    },
+    updatePO: {
+	      all: {
+		  files: {
+		      'po/template.pot': ['po/*.po']
+			  }
+	      }
+    },
   });
 
   //Making grunt default to force in order not to break the project.
@@ -139,10 +147,8 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['replace', 'watch']);
 
   //Update .pot file
-  grunt.registerTask('translate', ['nggettext_extract']);
+  grunt.registerTask('translate', ['nggettext_extract', 'updatePO']);
 
   //Compile task (concat + minify)
   grunt.registerTask('compile', ['replace', 'nggettext_compile', 'concat', 'uglify', 'cssmin']);
-
-
 };

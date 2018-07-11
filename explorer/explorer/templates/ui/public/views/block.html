@@ -58,7 +58,7 @@
             </td>
           </tr>
           <tr>
-            <td class="key"><strong translate>Block Reward</strong></td>
+            <td class="key"><strong translate>Fee</strong></td>
             <td class="value text-right text-muted">{{$root.currency.getConvertion(block.reward) || block.reward + ' New'}}</td>
           </tr> 
           <tr>
@@ -66,7 +66,7 @@
             <td class="value text-right text-muted">{{block.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
           </tr>
           <tr data-ng-show="block.poolInfo">
-            <td class="key"><strong translate>Mined by</strong></td>
+            <td class="key"><strong translate>Validator</strong></td>
             <td class="value text-right text-muted">
               <a href="{{block.poolInfo.url}}" target="_blank" title="{{block.poolInfo.poolName}}">{{block.poolInfo.poolName}}</a>
             </td>
