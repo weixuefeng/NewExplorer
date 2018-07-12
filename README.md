@@ -61,6 +61,7 @@ export PATH=$PATH:$MONGO_PATH/bin
 - 然后编辑explorer/explorer/templates/ui/Gruntfile.js文件
 添加`grunt.loadNpmTasks('grunt-pofriend');`  
 在grunt.initConfig中添加：  
+
 ```
 updatePO: {
     all: {
