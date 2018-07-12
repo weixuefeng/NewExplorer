@@ -53,6 +53,27 @@ export MONGO_PATH=/usr/local/opt/mongodb@3.4
 export PATH=$PATH:$MONGO_PATH/bin
 ```
 
+（8）、安装grunt-cli:
+`brew install grunt-cli`
+
+（9）、由于template.pot文件无法自动转换为po文件，所以需要安装一个grunt-pofriend  
+- 首先使用命令安装grunt-pofriend：`npm install grunt-pofriend --save-dev`
+- 然后编辑explorer/explorer/templates/ui/Gruntfile.js文件
+添加`grunt.loadNpmTasks('grunt-pofriend');`  
+在grunt.initConfig中添加：  
+```
+updatePO: {
+    all: {
+      files: {
+        'po/template.pot': ['po/*.po']
+      }
+    }
+  }
+```
+更新grunt.registerTask，在其中添加 updatePO  
+`grunt.registerTask('translate', ['nggettext_extract', 'updatePO']);`
+
+
 ### 项目setup: ###
 （1）、开启MySQL、Redis、MongoDB服务  
 
@@ -103,4 +124,7 @@ wsgi.py文件: 内置runserver命令的WSGI应用配置
 `__init__.py`文件: 用来告诉python，当前目录是python模块
 
 urls.py文件: URL根配置
+
+
+
 
