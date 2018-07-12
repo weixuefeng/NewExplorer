@@ -81,7 +81,11 @@ updatePO: {
 
 （3）、使用命令：newtonbd同步数据  
 
-（4）、使用命令：./environment/test/testing.sh 启动项目  
+（4）、make 编译项目  
+
+（5）、如果改动文字样式，需要使用brunt translate编译
+
+（6）、使用命令：./environment/test/testing.sh 启动项目
 
 
 ### 项目文件介绍： ###
