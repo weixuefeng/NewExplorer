@@ -51,7 +51,6 @@ INSTALLED_APPS = (
     'base',
     'welcome',
     'provider',
-    'monitor',
 )
 
 MIDDLEWARE_CLASSES = (

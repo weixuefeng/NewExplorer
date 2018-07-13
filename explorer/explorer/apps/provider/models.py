@@ -44,6 +44,20 @@ class Transaction(Document):
     locktime = IntField(default=0)
     meta = { 'indexes': ['blockhash', 'blockheight', 'time']}
 
+
+class CappedTransaction(Document):
+    """Capped transaction collection for high performance memory access.
+    Compared to transaction object, its column filed is short because it is only used for notification
+    """
+    txid = StringField(max_length=128, required=True, primary_key=True)
+    blockheight = LongField()
+    blockhash = StringField(max_length=128, required=True)
+    from_address = StringField(max_length=128, required=True)
+    to_address = StringField(max_length=128)
+    value = StringField(max_length=128, required=True)
+    meta = {'max_documents': 100, 'max_size': 2000000}
+
+    
 class Address(Document):
     addr = StringField(max_length=128, required=True)
     txid = StringField(max_length=128, required=True)

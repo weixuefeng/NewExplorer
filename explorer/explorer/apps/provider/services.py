@@ -129,6 +129,24 @@ def save_block_data(block_info):
         logger.exception("fail to save block data:%s, block_info:%s" % (str(inst), block_info))
         return False
 
+
+def insert_transaction_to_cache(transaction):
+    """Insert the transaction to cache (capped collection)
+
+    :param object transaction:  The transaction object
+    :return: the execution status, True is success, False is fail
+    :rtype: bool
+    """
+    try:
+        capped_instance = provider_models.CappedTransaction()
+        for k in transaction:
+            setattr(capped_instance, k, getattr(transaction, k))
+        capped_instance.save()
+        return True
+    except Exception, inst:
+        logger.exception("fail to insert transaction to cache:%s" % str(inst))
+        return False
+
     
 def save_transaction_data(provider, block_info):
     """Save the transaction info
@@ -145,6 +163,8 @@ def save_transaction_data(provider, block_info):
             transaction_instance.blockheight = block_info['height']
             transaction_instance.time = block_info['time']
             transaction_instance.save()
+            # cache transaction
+            insert_transaction_to_cache(transaction_instance)
             # indexing address
             if transaction_instance.to_address:
                 obj = provider_models.Address()
@@ -194,7 +214,8 @@ def handle_block_fork(blockchain_type):
         print "fail to handle block fork:", str(inst)
         logger.exception("fail to handle block fork: %s" % str(inst))
         return False
-    
+
+
 def sync_block_rawdata(data, blockchain_type=codes.BlockChainType.NEWTON.value):
     """Sync the block raw info
     """
@@ -207,6 +228,7 @@ def sync_block_rawdata(data, blockchain_type=codes.BlockChainType.NEWTON.value):
     except Exception, inst:
         print inst
         logger.exception("fail to sync block raw data:%s" % str(inst))
+
 
 def sync_blockchain(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.value, from_height=None):
     """Sync the blockchain info from full node to database
