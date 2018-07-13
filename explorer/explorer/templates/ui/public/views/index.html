@@ -6,36 +6,60 @@
     <div class="container page">
         <div id="home" class="home">
 
-            <div id="search-form-mobile" class="visible-xs" data-ng-include src="'views/includes/search.html'"></div>
-            <div class="title-section clearfix">
-                <span class="title pull-left" translate>Latest Blocks</span>
-                <span class="pull-right">
-                    <a href="blocks" class="link" translate>See all blocks</a>
-                </span>
+            <div id="search-form-mobile" data-ng-include src="'views/includes/search.html'"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="title-section clearfix">
+                        <span class="title pull-left" translate>Latest Blocks</span>
+                        <span class="pull-right">
+                            <a href="blocks" class="link" translate>See all blocks</a>
+                        </span>
+                    </div>
+                    <table class="table table-hover table-striped m40t" style="table-layout: fixed">
+                        <thead>
+                            <tr>
+                                <th translate>Height</th>
+                                <th translate>Timestamp</th>
+                                <th class="text-right"><span class="ellipsis" translate>Transactions</span></th>
+                                <th class="text-right hidden-xs"><span class="ellipsis" translate>Validator</span></th>
+                                <th class="text-right" translate>Size</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-show="!blocks.length"><td colspan="5" translate>Waiting for blocks...</td></tr>
+                            <tr class="fader" data-ng-repeat='b in blocks'>
+                                <td>
+                                    <a href="block/{{b.hash}}">{{b.height}}</a>
+                                </td>
+                                <td class="table-time">{{b.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                <td class="text-right">{{b.txlength}}</td>
+                                <td class="text-right hidden-xs"><a href="{{b.poolInfo.url}}" title="{{b.poolInfo.poolName}}" target="_blank" data-ng-show="b.poolInfo">{{b.poolInfo.poolName}}</a></td>
+                                <td class="text-right">{{b.size}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <h1 class="m40t" translate>Latest Transactions</h1>
+                    <table class="table table-hover table-striped m40t" style="table-layout: fixed;">
+                        <thead>
+                            <tr>
+                                <th>Hash</th>
+                                <th class="text-right" translate>Value Out</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-show="!txs.length"><td colspan="3" translate>Waiting for transactions...</td></tr>
+                            <tr class="fader" data-ng-repeat='tx in txs'>
+                                <td>
+                                    <a class="ellipsis" href="tx/{{tx.txid}}">{{tx.txid}}</a>
+                                </td>
+                                <td class="text-right"><span class="ellipsis">{{$root.currency.getConvertion(tx.valueOut) || tx.valueOut + ' New'}}</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <table class="table table-hover table-striped m40t" style="table-layout: fixed">
-                <thead>
-                    <tr>
-                        <th translate>Height</th>
-                        <th translate>Timestamp</th>
-                        <th class="text-right"><span class="ellipsis" translate>Transactions</span></th>
-                        <th class="text-right hidden-xs"><span class="ellipsis" translate>Validator</span></th>
-                        <th class="text-right" translate>Size</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr data-ng-show="!blocks.length"><td colspan="5" translate>Waiting for blocks...</td></tr>
-                    <tr class="fader" data-ng-repeat='b in blocks'>
-                        <td>
-                            <a href="block/{{b.hash}}">{{b.height}}</a>
-                        </td>
-                        <td class="table-time">{{b.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-                        <td class="text-right">{{b.txlength}}</td>
-                        <td class="text-right hidden-xs"><a href="{{b.poolInfo.url}}" title="{{b.poolInfo.poolName}}" target="_blank" data-ng-show="b.poolInfo">{{b.poolInfo.poolName}}</a></td>
-                        <td class="text-right">{{b.size}}</td>
-                    </tr>
-                </tbody>
-            </table>
             <!--
 
             <section class="section-stats">
@@ -68,25 +92,7 @@
                 </div>
             </section>
 
-                <h1 class="m40t" translate>Latest Transactions</h1>
 
-                <table class="table table-hover table-striped m40t" style="table-layout: fixed;">
-                    <thead>
-                        <tr>
-                            <th>Hash</th>
-                            <th class="text-right" translate>Value Out</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr data-ng-show="!txs.length"><td colspan="3" translate>Waiting for transactions...</td></tr>
-                        <tr class="fader" data-ng-repeat='tx in txs'>
-                            <td>
-                                <a class="ellipsis" href="tx/{{tx.txid}}">{{tx.txid}}</a>
-                            </td>
-                            <td class="text-right"><span class="ellipsis">{{$root.currency.getConvertion(tx.valueOut) || tx.valueOut + ' New'}}</span></td>
-                        </tr>
-                    </tbody>
-                </table>
                 -->
         </div>
     </div>
