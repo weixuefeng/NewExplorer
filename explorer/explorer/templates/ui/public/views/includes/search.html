@@ -1,8 +1,13 @@
-<div class="well">
-	<form id="search-form" data-ng-controller="SearchController" role="search" data-ng-submit="search()">
-	  <div class="form-group" data-ng-class="{'has-error': badQuery}">
-	    <input type="text" class="form-control" data-ng-model="q" data-ng-class="{'loading': loading}" placeholder="{{'Block,Transaction,Address'|translate}}" data-ng-submit="search()" focus="true">
-	    </div>
-	  <div class="no_matching text-danger" data-ng-show="badQuery" translate>No matching records found!</div>
-	</form>
+<div class="jumbotron">
+	<div class="search-container">
+		<h2 class="text-center" translate>Newton Blockchain Explorer</h2>
+		<form id="search-form" data-ng-controller="SearchController" role="search" data-ng-submit="search()">
+		  <div class="form-group" data-ng-class="{'has-error': badQuery}">
+		    <input type="text" class="form-control" data-ng-model="q" data-ng-class="{'loading': loading}" placeholder="{{'Block,Transaction,Address'|translate}}" data-ng-submit="search()" focus="true">
+		    </div>
+		  <div class="form-group">
+		  	<div class="text-center text-danger" data-ng-show="badQuery" translate>No matching records found!</div>
+		  </div>
+		</form>
+	</div>
 </div>

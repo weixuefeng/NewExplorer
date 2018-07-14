@@ -130,7 +130,6 @@ margin-left: 0;
   margin-bottom: 40px;
   background-color: #F0F7E2;
 }
-.navbar { min-height: 64px; }
 .navbar-default .navbar-toggle { 
   border-color: #fff;
   margin-top: 15px;
@@ -153,12 +152,10 @@ margin-left: 0;
 }
 
 .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus {
-  background-color: #6C9032;
   color: #fff;
 }
 
 .navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>.active>a:hover {
-  background-color: #fff;
 }
 
 .navbar-form .form-group {
@@ -852,9 +849,6 @@ a.v_highlight_more {
   }
   .navbar-default .navbar-toggle {
     margin-top: 7px;
-  }
-  .navbar {
-    min-height: 50px;
   }
   #search { color: #000; }
   .txvalues {

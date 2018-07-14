@@ -26,10 +26,6 @@
     content: '\e610';
 }
 
-.navbar-header {
-    height: 64px;
-}
-
 /* dropdown */
 .dropdown-menu {
     background-color:#002E51;
@@ -55,11 +51,7 @@
 /*
  * header
  */
-.top-nav {
-    background-color: #f7f7f7;
-}
-
-.top-nav .navbar-brand {
+.navbar .navbar-brand {
     width: 120px;
     margin-right: 34px;
     background:url(../img/logo.svg?v=2) no-repeat center;
@@ -72,7 +64,6 @@
     font-size: 18px;
 }
 .navbar-nav>li>a:hover, .navbar-nav>li>a:focus, .navbar-nav>li>a:active {
-    background-color:#0070c9;
     color: #aaa;
 }
 
@@ -199,4 +190,11 @@
 
 #ngProgress-container{
     height: 0;
+}
+
+/* search section */
+.search-container {
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
 }
