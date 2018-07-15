@@ -17,12 +17,19 @@ angular.module('insight.system').controller('IndexController',
               // countup
               if (!tradeNumberAnimation) {
                   tradeNumberAnimation = new CountUp("transaction-number", numberOfTransactions, numberOfTransactions, 0, 10, {separator:' ', useGrouping:false});
-                  tradeNumberAnimation.start();
+                  tradeNumberAnimation.start()；
               } else {
                   tradeNumberAnimation.update(numberOfTransactions);
               }
           });
       };
+      var _getTransactions = function() {
+          NewTransactions.get({
+              limit: TRANSACTION_DISPLAYED
+          }, function(res) {
+              $scope.tx_id = res.
+          })
+      }
 
     /*
     var socket = getSocket($scope);

@@ -37,3 +37,7 @@ angular.module('insight.transactions')
     function($resource, Api) {
       return $resource(Api.apiPrefix + '/txs');
   });
+  .factory('NewTransactions',
+    function($resource, Api) {
+      return $resource(Api.apiPrefix + '/txs');
+  });
