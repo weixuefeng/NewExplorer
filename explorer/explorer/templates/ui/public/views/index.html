@@ -9,13 +9,14 @@
             <div id="search-form-mobile" data-ng-include src="'views/includes/search.html'"></div>
             <div class="row">
                 <div class="col-md-6">
-                    <div class="title-section clearfix">
-                        <span class="title pull-left" translate>Latest Blocks</span>
+                    <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="" translate>Latest Blocks</span>
                         <span class="pull-right">
                             <a href="blocks" class="link" translate>See all blocks</a>
                         </span>
                     </div>
-                    <table class="table table-hover table-striped m40t" style="table-layout: fixed">
+                    <table class="table" >
                         <thead>
                             <tr>
                                 <th translate>Height</th>
@@ -38,10 +39,14 @@
                             </tr>
                         </tbody>
                     </table>
+                        </div>
                 </div>
                 <div class="col-md-6">
-                    <h1 class="m40t" translate>Latest Transactions</h1>
-                    <table class="table table-hover table-striped m40t" style="table-layout: fixed;">
+                    <div class="panel panel-default">
+                    <div class="panel-heading">
+                    <span class="" translate>Latest Transactions</span>
+                    </div>
+                    <table class="table" style="">
                         <thead>
                             <tr>
                                 <th>Hash</th>
@@ -51,7 +56,7 @@
                         <tbody>
                             <tr data-ng-show="!txs.length"><td colspan="3" translate>Waiting for transactions...</td></tr>
                             <tr class="fader" data-ng-repeat='tx in txs'>
-                                <td>
+                                <td style="max-width:180px">
                                     <a class="ellipsis" href="tx/{{tx.txid}}">{{tx.txid}}</a>
                                 </td>
                                 <td class="text-right"><span class="ellipsis">{{$root.currency.getConvertion(tx.valueOut) || tx.valueOut + ' New'}}</span></td>
@@ -59,6 +64,7 @@
                         </tbody>
                     </table>
                 </div>
+                  </div>
             </div>
             <!--
 
