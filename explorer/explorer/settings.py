@@ -87,13 +87,6 @@ LOCALE_PATHS = (
     os.path.join(BASE_DIR, "locale"),
 )
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
-
-STATIC_URL = 'http://explorer.newtonproject.org/static/'
-STATIC_ROOT = 'explorer/static'
-
 # Template root directory
 TEMPLATE_DIRS = [os.path.join(PROJECT_ROOT, "templates")]
 
