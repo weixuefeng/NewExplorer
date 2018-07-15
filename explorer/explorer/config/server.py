@@ -3,6 +3,94 @@ __author__ = 'xiawu@xiawu.org'
 __version__ = '$Rev$'
 __doc__ = """  """
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.6/howto/static-files/
+STATIC_URL = 'http://explorer.test.newtonproject.org/static/'
+STATIC_ROOT = 'explorer/static'
+
+# website meta
+SITE_ID = '1'
+BASE_NAME = 'explorer'
+
+# domain settings
+DEBUG = True
+TEMPLATE_DEBUG = False
+THUMBNAIL_DEBUG = False
+DOMAIN = 'explorer.test.newtonproject.org'
+BASE_URL = 'http://explorer.test.newtonproject.org'
+MEDIA_URL = 'http://explorer.test.newtonproject.org/filestorage/'
+MEDIA_ROOT = './'
+
+#session settings
+SESSION_COOKIE_AGE = 3600 * 24 * 365 * 10
+SESSION_COOKIE_DOMAIN = '.test.newtonproject.org'
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+CART_CACHE_TIME = 3600 * 24 * 30
+
+# LOGGING
+import platform
+system_string = platform.system()
+if system_string == 'Linux':
+    syslog_path = '/dev/log'
+elif system_string == 'Darwin':
+    syslog_path = '/var/run/syslog'
+else:
+    raise Exception('Upsupport platform!')
+
+from logging.handlers import SysLogHandler
+LOGGING_LEVEL = 'DEBUG'
+LOGGING_LEVEL_SENTRY = 'ERROR'
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': "[%(asctime)s][%(msecs)03d] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt': "%d/%b/%Y %H:%M:%S"
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'syslog': {
+            'level': LOGGING_LEVEL,
+            'class': 'logging.handlers.SysLogHandler',
+            'facility': SysLogHandler.LOG_LOCAL2,
+            'formatter': 'verbose',
+            'address': syslog_path,
+        },
+        'sentry': {
+            'level': LOGGING_LEVEL_SENTRY,
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+            'tags': {'custom-tag': 'x'},
+        },
+        'console':{
+            'level':'DEBUG',
+            'class':'logging.StreamHandler',
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        '': {
+            'handlers': ['console', ],
+            'level': LOGGING_LEVEL,
+        },
+        'django': {
+            'handlers': ['console', ],
+            'propagate': True,
+            'level': LOGGING_LEVEL,
+        },
+        'celery.task': {
+            'handlers': ['console', ],
+            'propagate': True,
+            'level': LOGGING_LEVEL,
+        }
+    }
+}
+
 # Cache
 DEFAULT_CACHE_DB = 1
 WORKER_CACHE_DB = 8
@@ -24,6 +112,7 @@ CACHES = {
     },
 }
 
+# Following is project settings
 MONGODB_HOST = 'localhost'
 BLOCK_CHAIN_DB_NAME = 'blockchain'
 
@@ -31,33 +120,9 @@ BLOCK_CHAIN_DB_NAME = 'blockchain'
 FULL_NODES = {
     'new': {
         'node_type': 3,
-        'rest_url': 'https://rpc1.newchain.newtonproject.org',
-        'ws_url': 'https://rpc1.newchain.newtonproject.org',
+        'rest_url': 'http://explorer.newtonproject.dev.diynova.com:8501',
+        'ws_url': 'http://explorer.newtonproject.dev.diynova.com:8501',
     }
 }
 DEFAULT_MONITOR_PORT = 8090
 
-# celery settings
-import djcelery
-djcelery.setup_loader()
-BROKER_URL = '%s/%s' % (REDIS_WORKER_URL, WORKER_CACHE_DB)
-CELERY_RESULT_BACKEND = '%s/%s' % (REDIS_WORKER_URL, WORKER_CACHE_DB)
-CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
-EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
-CELERYD_HIJACK_ROOT_LOGGER = False
-CELERY_EMAIL_TASK_CONFIG = {
-    'queue' : 'email',
-    'rate_limit' : '50/m',
-}
-
-CELERY_IMPORTS = ('tasks.task_report', )
-
-from celery.schedules import crontab
-from datetime import timedelta
-
-CELERYBEAT_SCHEDULE = {
-    'report-1-minites': {
-        'task': 'tasks.task_report.execute_sync_blockchain',
-        'schedule': timedelta(seconds=10),        
-    },
-}
