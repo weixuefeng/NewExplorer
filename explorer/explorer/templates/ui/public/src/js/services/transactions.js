@@ -36,8 +36,22 @@ angular.module('insight.transactions')
   .factory('Transactions',
     function($resource, Api) {
       return $resource(Api.apiPrefix + '/txs');
-  });
+  })
   .factory('NewTransactions',
     function($resource, Api) {
-      return $resource(Api.apiPrefix + '/txs');
+      return $resource(Api.apiPrefix + '/newtx', {
+      get: {
+        method: 'GET',
+        interceptor: {
+          response: function (res) {
+            return res.data;
+          },
+          responseError: function (res) {
+            if (res.status === 404) {
+              return res;
+            }
+          }
+        }
+      }
+      });
   });

@@ -32,7 +32,7 @@ def __convert_transaction_to_json(obj):
     # for v in vouts:
     #     v['value'] = __convert_num_to_float(v['value'])
     # result['vout'] = vouts
-    result['valueOut'] = __convert_num_to_float(obj['valueOut'])
+    result['valueOut'] = __convert_num_to_float(obj['value'])
     return result
 
 def __convert_transaction_to_client_json(obj):
@@ -559,15 +559,21 @@ def api_send_transcation(request, version):
         logger.exception("fail to send transaction:%s" % str(inst))
         return http.HttpResponseServerError()
 
-def api_show_newtx():
+def api_show_newtx(request, version):
     """Show the new transaction for uri: /newtx/
 
     response
     -------
     """
     try:
-        result = provider_models.Transaction.objects.order_by("-created_at")[:10]
-        return http.JsonResponse(result)
+        objs = provider_models.Transaction.objects.order_by("-created_at")[0: 10]
+        current_height = provider_services.get_current_height()
+        txs = []
+        for obj in objs:
+            item = __convert_transaction_to_json(obj)
+            item['confirmations'] = current_height - obj.blockheight
+            txs.append(item)
+        return http.JsonResponse({'txs': txs})
     except Exception, inst:
         print inst
         logger.exception("fail to show new transaction:%s" % str(inst))

@@ -4,7 +4,7 @@ var TRANSACTION_DISPLAYED = 10;
 var BLOCKS_DISPLAYED = 5;
 
 angular.module('insight.system').controller('IndexController',
-  function($scope, Global, getSocket, Blocks) {
+  function($scope, Global, getSocket, Blocks, NewTransactions) {
       $scope.global = Global;
       var tradeNumberAnimation = null;
       var _getBlocks = function() {
@@ -17,7 +17,7 @@ angular.module('insight.system').controller('IndexController',
               // countup
               if (!tradeNumberAnimation) {
                   tradeNumberAnimation = new CountUp("transaction-number", numberOfTransactions, numberOfTransactions, 0, 10, {separator:' ', useGrouping:false});
-                  tradeNumberAnimation.start()；
+                  tradeNumberAnimation.start();
               } else {
                   tradeNumberAnimation.update(numberOfTransactions);
               }
@@ -27,9 +27,9 @@ angular.module('insight.system').controller('IndexController',
           NewTransactions.get({
               limit: TRANSACTION_DISPLAYED
           }, function(res) {
-              $scope.tx_id = res.
+              $scope.txs = res.txs
           })
-      }
+      };
 
     /*
     var socket = getSocket($scope);
@@ -61,8 +61,10 @@ angular.module('insight.system').controller('IndexController',
 
     $scope.index = function() {
         _getBlocks();
+        _getTransactions();
         setInterval(function(){
             _getBlocks();
+            _getTransactions();
         }, 10 * 1000);
       //_startSocket();
     };
