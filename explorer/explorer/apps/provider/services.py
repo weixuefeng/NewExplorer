@@ -152,10 +152,8 @@ def insert_transaction_to_cache(transaction):
     :rtype: bool
     """
     try:
-        print "transaction:", transaction.txid
         capped_instance = provider_models.CappedTransaction()
         for k in transaction:
-            print k
             setattr(capped_instance, k, getattr(transaction, k))
         capped_instance.save()
         return True
