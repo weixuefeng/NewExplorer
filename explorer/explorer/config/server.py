@@ -27,7 +27,7 @@ SESSION_COOKIE_DOMAIN = '.test.newtonproject.org'
 SESSION_SAVE_EVERY_REQUEST = True
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
-CART_CACHE_TIME = 3600 * 24 * 30
+SESSION_COOKIE_NAME = 'nesid'
 
 # LOGGING
 import platform

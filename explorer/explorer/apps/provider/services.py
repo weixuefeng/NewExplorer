@@ -130,6 +130,20 @@ def save_block_data(block_info):
         return False
 
 
+def init_transaction_cache():
+    """Initialize the transaction cache
+
+    :return: the execution status, True is success, False is fail
+    :rtype: bool
+    """
+    try:
+        provider_models.CappedTransaction.drop_collection()
+        return True
+    except Exception, inst:
+        logger.exception("fail to initialize transaction cache:%s" % str(inst))
+        return False
+
+
 def insert_transaction_to_cache(transaction):
     """Insert the transaction to cache (capped collection)
 
@@ -138,8 +152,10 @@ def insert_transaction_to_cache(transaction):
     :rtype: bool
     """
     try:
+        print "transaction:", transaction.txid
         capped_instance = provider_models.CappedTransaction()
         for k in transaction:
+            print k
             setattr(capped_instance, k, getattr(transaction, k))
         capped_instance.save()
         return True

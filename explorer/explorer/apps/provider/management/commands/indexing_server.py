@@ -41,6 +41,7 @@ def init_entry(blockchain_type, url_prefix, input_queue):
     global g_queue
     global g_provider
     g_queue = input_queue
+    provider_services.init_transaction_cache()
     g_provider = provider_services.blockchain_providers[blockchain_type].Provider(url_prefix)
     run()
     
