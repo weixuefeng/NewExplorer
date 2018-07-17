@@ -691,7 +691,7 @@ def api_show_client_transactions(request, version):
                 else:
                     total_page = (cnt / limit)
             txids = [item.txid for item in rs.skip((page_id - 1) * limit).limit(limit)]
-            objs = provider_models.Transaction.objects.filter(txid__in=txids).order_by('-time')
+            objs = provider_models.Transaction.objects.filter(txid__in=txids).order_by('time')
         else:
             raise Exception("invalid parameter")
         txs = []
