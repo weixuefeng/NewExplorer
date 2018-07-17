@@ -681,7 +681,7 @@ def api_show_client_transactions(request, version):
         total_page = 0
         if addr:
             addr = addr.lower()
-            rs = provider_models.Address.objects.filter(addr=addr)
+            rs = provider_models.Address.objects.filter(addr=addr).order_by('-time')
             cnt = rs.count()
             if cnt == 0:
                 total_page = 1
