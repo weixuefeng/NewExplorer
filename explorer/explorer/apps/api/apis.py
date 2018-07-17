@@ -686,11 +686,11 @@ def api_show_client_transactions(request, version):
             if cnt == 0:
                 total_page = 1
             else:
-                if cnt % settings.PAGE_SIZE != 0:
-                    total_page = (cnt / settings.PAGE_SIZE) + 1
+                if cnt % limit != 0:
+                    total_page = (cnt / limit) + 1
                 else:
-                    total_page = (cnt / settings.PAGE_SIZE)
-            txids = [item.txid for item in rs.skip((page_id - 1) * settings.PAGE_SIZE).limit(limit)]
+                    total_page = (cnt / limit)
+            txids = [item.txid for item in rs.skip((page_id - 1) * limit).limit(limit)]
             objs = provider_models.Transaction.objects.filter(txid__in=txids).order_by('-time')
         else:
             raise Exception("invalid parameter")
@@ -702,7 +702,7 @@ def api_show_client_transactions(request, version):
             txs.append(item)
         result = {
             "total": cnt,
-            "limit": settings.PAGE_SIZE,
+            "limit": limit,
             "page": page_id,
             "pages": total_page,
             "docs": txs
