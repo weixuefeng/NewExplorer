@@ -712,3 +712,21 @@ def api_show_client_transactions(request, version):
         print inst
         logger.exception("fail to show client transactions:%s" % str(inst))
         return http.HttpResponseServerError()
+
+
+def api_show_client_transaction(request, version):
+    try:
+        txid = request.GET.get('txid')
+        if not txid:
+            raise Exception("invalid parameter")
+        tx = provider_models.Transaction.objects.get(txid__in=txid)
+        current_height = provider_services.get_current_height()
+        item = __convert_transaction_to_client_json(tx)
+        item['confirmations'] = current_height - tx.blockheight
+        result = {
+            "tx": item
+        }
+        return http.JsonResponse(result)
+    except Exception, inst:
+        logger.exception("fail to show client transaction:%s" % str(inst))
+        return http.HttpResponseServerError()
