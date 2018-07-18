@@ -30,6 +30,7 @@ urlpatterns = patterns('api.apis',
 
                         # for mobile client
                         url(r'^transactions/$', 'api_show_client_transactions'),
+                        url(r'^transaction/$', 'api_show_client_transaction'),
             )
 
 
