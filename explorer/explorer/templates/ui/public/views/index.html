@@ -3,18 +3,23 @@
 </div>
 <div data-ng-include src="'views/includes/connection.html'"></div>
 <section data-ng-controller="IndexController" data-ng-init="index()">
-    <div class="container page">
+    <div class="page">
         <div id="home" class="home">
-
-            <div id="search-form-mobile" data-ng-include src="'views/includes/search.html'"></div>
+        <section class="section-search">
+        <div id="search-form-mobile" class="container" data-ng-include src="'views/includes/search.html'"></div>
+        </section>
+            <!--<div class="container">-->
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
                     <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <span class="" translate>Latest Blocks</span>
-                        <span class="pull-right">
-                            <a href="blocks" class="link" translate>See all blocks</a>
-                        </span>
+                    <div class="panel-heading" style="background-color: unset">
+                        <span class="" translate  style="font-size: 20px">Latest Blocks</span>
+                        <a href="blocks" class="link see-all-blocks">
+                            <span class="pull-right see-all-blocks-btn" translate>
+                            See all blocks
+                            </span>
+                        </a>
                     </div>
                     <table class="table" >
                         <thead>
@@ -41,10 +46,10 @@
                     </table>
                         </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <div class="panel panel-default">
-                    <div class="panel-heading">
-                    <span class="" translate>Latest Transactions</span>
+                    <div class="panel-heading" style="background-color: unset">
+                    <span class="" translate  style="font-size: 20px">Latest Transactions</span>
                     </div>
                     <table class="table" style="">
                         <thead>
@@ -59,12 +64,14 @@
                                 <td style="max-width:180px">
                                     <a class="ellipsis" href="tx/{{tx.txid}}">{{tx.txid}}</a>
                                 </td>
-                                <td class="text-right"><span class="ellipsis">{{$root.currency.getConvertion(tx.valueOut) || tx.valueOut + ' New'}}</span></td>
+                                <td class="text-right"><span class="ellipsis">{{$root.currency.getConvertion(tx.valueOut) || tx.valueOut /1000000000000000000 + ' New'}}</span></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                  </div>
+                </div>
+                <div class="col-md-1"></div>
+            <!--</div>-->
             </div>
             <!--
 

@@ -83,9 +83,8 @@ code{
   min-height: 100%;
   height: auto;
   /* Negative indent footer by its height */
-  margin: 0 auto -51px;
+  margin: 0 auto;
   /* Pad bottom by footer height */
-  padding: 0 0 75px;
 }
 
 .m10h { margin: 0 10px; }
@@ -442,16 +441,19 @@ margin-left: 0;
 .progress-bar-info { background-color: #0070c9; }
 
 /* Set the fixed height of the footer here */
-.footer span a{font-size: 12px;padding-top: 20px; padding-left: 20px;}
+.footer span a{font-size: 14px;padding-top: 20px; padding-left: 20px;}
 /* Footer ----------------------------------------------------------- */
-.footer { text-align: center; padding: 0; font-size: 12px; background-color: #f7f7f7; }
-.footer .pc-line{ position:relative; border-top:1px #e4e4e4 solid; height:50px; line-height:50px; color: #595959; text-align:left}
+.footer { text-align: center; padding: 0; font-size: 12px; background-color: #303948; }
+.footer .pc-line{ position:relative; height:50px; line-height:50px; color: #595959; text-align:left}
 .footer .line span { position:absolute; right:0;}
 .footer .line span a{ display:inline-block; margin-left:20px; padding-top: 0;}
 .footer span a img{ display:inline-block; margin-right:3px; width:15px; height:15px;}
 .footer .pc-right{ position: absolute;right: 0;}
 .footer .pc-left{ position: absolute;left: 0;}
-.footer .pc-align-right{text-align: right;}
+.footer .pc-align-right {
+    text-align: right;
+    color: white;
+}
 .footer span { color: #929292; }
 .footer h4 {
     color: #333;
@@ -461,7 +463,7 @@ margin-left: 0;
 }
 .footer a {
     font-size: 14px;
-    color: #595959;
+    color: white;
     line-height: 2.4;
 }
 
@@ -489,11 +491,16 @@ margin-left: 0;
   padding: 15px 0 0 0;
 }
 
+.footer-language {
+    font-size: 14px;
+    color: white;
+}
+
 /* Custom page CSS
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 
-#wrap > .container { padding: 70px 15px 0; }
+#wrap > .container {}
 
 .footer > .container { padding: auto 15px; }
 
@@ -762,7 +769,7 @@ a.v_highlight_more {
 }
 
 #search-form-mobile {
-  margin-top: 15px;
+    height: 270px;
 }
 
 @media (max-width: 991px) {

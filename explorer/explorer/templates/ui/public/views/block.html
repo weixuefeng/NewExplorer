@@ -57,10 +57,10 @@
               <span data-ng-show="!block.isMainChain" class="text-danger"> <span class="glyphicon glyphicon-warning-sign"></span> (Orphaned)</span>
             </td>
           </tr>
-          <tr>
-            <td class="key"><strong translate>Fee</strong></td>
-            <td class="value text-right text-muted">{{$root.currency.getConvertion(block.reward) || block.reward + ' New'}}</td>
-          </tr> 
+          <!--<tr>-->
+            <!--<td class="key"><strong translate>Block Reward</strong></td>-->
+            <!--<td class="value text-right text-muted">{{$root.currency.getConvertion(block.reward) || block.reward + ' New'}}</td>-->
+          <!--</tr> -->
           <tr>
             <td class="key"><strong translate>Timestamp</strong></td>
             <td class="value text-right text-muted">{{block.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>

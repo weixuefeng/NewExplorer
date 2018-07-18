@@ -16,7 +16,7 @@
         <span data-ng-show="!tx.confirmations" 
           class="txvalues txvalues-danger txvalues-danger-extand" translate>Unconfirmed Transaction!</span>
         <div class="txvalues txvalues-primary txvalues-primary-extand">
-          <span>{{$root.currency.getConvertion(tx.valueOut) || tx.valueOut + ' New' }}</span>
+          <span>{{$root.currency.getConvertion(tx.valueOut) || tx.valueOut / 1000000000000000000 + ' New' }}</span>
         </div>
       </div>
     </div>

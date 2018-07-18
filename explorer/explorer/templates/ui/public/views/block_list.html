@@ -29,6 +29,7 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
+            <div class="panel panel-default">
             <table class="table table-hover table-striped table-list">
                 <thead>
                     <tr>
@@ -52,6 +53,7 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
             <div data-ng-if="pagination.more">
                 <a class="btn btn-primary" href="blocks-date/{{pagination.current}}/{{timezone}}" data-ng-show="{{before}}">Lastest block from date</a>
                 <a class="btn btn-primary" href="blocks-date/{{pagination.current}}/{{timezone}}/{{pagination.moreTs}}">Older blocks from this date</a>
