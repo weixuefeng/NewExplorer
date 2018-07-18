@@ -15,9 +15,11 @@
                     <div class="panel panel-default">
                     <div class="panel-heading" style="background-color: unset">
                         <span class="" translate  style="font-size: 20px">Latest Blocks</span>
-                        <span class="pull-right">
-                            <a href="blocks" class="link" translate>See all blocks</a>
-                        </span>
+                        <a href="blocks" class="link see-all-blocks">
+                            <span class="pull-right see-all-blocks-btn" translate>
+                            See all blocks
+                            </span>
+                        </a>
                     </div>
                     <table class="table" >
                         <thead>
@@ -62,7 +64,7 @@
                                 <td style="max-width:180px">
                                     <a class="ellipsis" href="tx/{{tx.txid}}">{{tx.txid}}</a>
                                 </td>
-                                <td class="text-right"><span class="ellipsis">{{$root.currency.getConvertion(tx.valueOut) || tx.valueOut + ' New'}}</span></td>
+                                <td class="text-right"><span class="ellipsis">{{$root.currency.getConvertion(tx.valueOut) || tx.valueOut /1000000000000000000 + ' New'}}</span></td>
                             </tr>
                         </tbody>
                     </table>

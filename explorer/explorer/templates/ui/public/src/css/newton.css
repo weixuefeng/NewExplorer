@@ -54,8 +54,9 @@
  */
 .navbar {
     margin-bottom: unset;
+    border-redius: unset;
 }
-.navbar .navbar-brand {
+.navbar-brand {
     width: 100px;
     margin-right: 50px;
     margin-left: 170px;
@@ -115,6 +116,7 @@
     .navbar-header {
         height: 44px;
     }
+
     .top-nav .navbar-brand {
         padding-top: 15px;
     }
@@ -203,6 +205,18 @@
 }
 
 .section-container {
+}
+
+.see-all-blocks {
+    color: black;
+}
+
+.see-all-blocks-btn {
+    background:url(../img/see-all-blocks.png?v=2) no-repeat center;
+    width: 106px;
+    height: 33px;
+    text-align: center;
+    padding-top: 7px;
 }
 
 /* search section */
