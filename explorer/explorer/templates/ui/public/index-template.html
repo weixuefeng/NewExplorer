@@ -44,7 +44,7 @@
         </div>
 	    <div id="wrap">
 		    <header class="navbar navbar-inverse" data-ng-include="'views/includes/header.html'" role="navigation"></header>
-		    <section class="container" data-ng-view></section>
+		    <section data-ng-view></section>
         </div>
 
         <footer class="footer">
@@ -53,8 +53,8 @@
             
                         <div class="col-md-6">
                             <span class="pc-left">
-                                <a href="" data-ng-click="setLanguage('zh_CN');"><img src="../../img/icon-ch.svg">简体中文</a >
-                                <a href="" data-ng-click="setLanguage('en');"><img src="../../img/icon-English.svg">English</a >
+                                <a href="" class="footer-language" data-ng-click="setLanguage('zh_CN');"><img src="../../img/icon-ch.svg">简体中文</a >
+                                <a href="" class="footer-language" data-ng-click="setLanguage('en');"><img src="../../img/icon-English.svg">English</a >
                             </span>
                         </div>
                         <div class="col-md-6 pc-align-right">
