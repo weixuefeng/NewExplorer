@@ -1,14 +1,15 @@
 <div data-ng-include src="'views/includes/connection.html'"></div>
-<section data-ng-controller="BlocksController" data-ng-init="list()">
+<section data-ng-controller="BlocksController" data-ng-init="list()" class="blocks-body">
+    <div class="page-upper container">
     <div class="page-header">
         <h1 class="text-center">
-            <span translate>Blocks</span>
+            <span class="blocks-title" translate>Blocks</span>
             <!-- <small><span translate>by date.</span> {{detail}} {{before}}</small> -->
         </h1>
     </div>
-    <div class="row">
+    <div class="row  block-calendar">
         <div class="col-md-12">
-            <p class="lead text-center m20v">
+            <p class="lead text-center calendar-date">
                 {{pagination.currentDate}}
                 <a href="#" class="btn btn-primary btn-xs" datepicker-popup show-button-bar="false" data-ng-click="openCalendar($event)" data-ng-model="dt" is-open="opened" data-ng-required="true"><span class="glyphicon glyphicon-calendar"></span></a>
             </p>
@@ -20,16 +21,18 @@
                 <p class="text-center m20v"  data-ng-show="pagination.isToday && !loading" translate>Today</p>
                 <p class="text-center m20v"  data-ng-show="!pagination.isToday && !loading">
                     <p class="text-center m20v"  data-ng-show="loading">&nbsp;</p>
-                    <div class="m50v text-center">
+                    <div class="calendar-btn text-center">
                         <a class="btn btn-primary" href="blocks-date/{{pagination.prev}}/{{timezone}}"><small>&larr; {{pagination.prevDate}}</small></a>
                         <a class="btn btn-primary" href="blocks-date/{{pagination.next}}/{{timezone}}" data-ng-show="!pagination.isToday"><small>{{pagination.nextDate}} &rarr;</small></a>
                     </div>
             </div>
         </div>
     </div>
+    </div>
+    <div class="page-lower container">
     <div class="row">
         <div class="col-xs-12">
-            <div class="panel panel-default">
+            <div class="panel panel-default blocks-table">
             <table class="table table-hover table-striped table-list">
                 <thead>
                     <tr>
@@ -54,7 +57,7 @@
                 </tbody>
             </table>
             </div>
-            <div data-ng-if="pagination.more">
+            <div data-ng-if="pagination.more" class="change-date-btn">
                 <a class="btn btn-primary" href="blocks-date/{{pagination.current}}/{{timezone}}" data-ng-show="{{before}}">Lastest block from date</a>
                 <a class="btn btn-primary" href="blocks-date/{{pagination.current}}/{{timezone}}/{{pagination.moreTs}}">Older blocks from this date</a>
             </div>
@@ -62,5 +65,6 @@
     </div>
     <h2 class="text-center text-muted" data-ng-show="!blocks.length && !loading"
         translate>No blocks yet.</h2>
+    </div>
 </section>
 

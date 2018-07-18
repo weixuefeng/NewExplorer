@@ -219,6 +219,10 @@
     padding-top: 7px;
 }
 
+.latest-list {
+    margin: unset;
+}
+
 /* search section */
 .search-container {
     margin-left: auto;
@@ -247,8 +251,8 @@
 
 .search-title {
     color: #FFFFFF;
-    margin-top: 64px;
-    margin-bottom: 30px;
+    margin-top: 55px;
+    margin-bottom: 18px;
     font-size: 42px;
 }
 
@@ -262,4 +266,45 @@
     background-color: #303948;
     border: 1px solid #586066;
     color: #FFFFFF;
+}
+
+/* blocks list page */
+.page-upper {
+    padding: unset;
+    margin-top: 2%;
+    margin-bottom: 3%;
+    width: 90%;
+    border: 1px solid #ddd;
+}
+
+.page-lower {
+    padding: unset;
+    background-color: #FFFFFF;
+    width: 90%
+}
+
+.block-calendar {
+    margin: unset;
+    background-color: #FFFFFF;
+}
+
+.blocks-table {
+    margin-bottom: unset;
+}
+
+.change-date-btn {
+    background-color: #f5f5f5;
+}
+
+.blocks-title {
+    font-size: 60px;
+}
+
+.calendar-date {
+    margin: 25px 0;
+    font-size: 30px;
+}
+
+.calendar-btn {
+    margin: 30px 0;
 }

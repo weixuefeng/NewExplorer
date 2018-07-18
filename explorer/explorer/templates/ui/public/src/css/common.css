@@ -80,11 +80,12 @@ code{
 
 /* Wrapper for page content to push down footer */
 #wrap {
-  min-height: 100%;
   height: auto;
   /* Negative indent footer by its height */
   margin: 0 auto;
   /* Pad bottom by footer height */
+  min-height: 100%;
+  background-color: #F5F5F5;
 }
 
 .m10h { margin: 0 10px; }
@@ -632,7 +633,12 @@ margin-left: 0;
   margin: 30px 0;
 }
 
-.page-header { margin: 0; }
+.page-header {
+    margin: 0;
+    background-color: #FFFFFF;
+    padding-bottom: 20px;
+    padding-top: 30px;
+}
 
 .panel { margin-bottom: 1em;}
 .panel-body {
