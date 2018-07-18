@@ -916,7 +916,9 @@ a.v_highlight_more {
     margin-top:40px;
     margin-bottom: 20px;
 }
-.summary-table{}
+.summary-table{
+    margin: auto;
+}
 .summary-table .key{
     font-size: 16px;
     font-weight: bold;
@@ -930,7 +932,6 @@ a.v_highlight_more {
     color: #999999;
 }
 .transcation-title{
-    margin-top: 80px;
     font-size: 24px;
     color:#333333;
 }

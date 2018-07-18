@@ -269,7 +269,7 @@
 }
 
 /* blocks list page */
-.page-upper {
+.blocks-page-upper {
     padding: unset;
     margin-top: 2%;
     margin-bottom: 3%;
@@ -277,7 +277,7 @@
     border: 1px solid #ddd;
 }
 
-.page-lower {
+.blocks-page-lower {
     padding: unset;
     background-color: #FFFFFF;
     width: 90%
@@ -307,4 +307,28 @@
 
 .calendar-btn {
     margin: 30px 0;
+}
+
+.calendar-style {
+    background-color: #f5f5f5;
+    color: gray;
+    border: 2px solid #f5f5f5;
+}
+
+/* block page */
+.block-page-upper {
+    background-color: #FFFFFF;
+    margin-top: 4%;
+    margin-bottom: 4%;
+    width: 90%;
+}
+
+.block-page-lower {
+    background-color: #FFFFFF;
+    width: 90%;
+}
+
+.block-page-inside {
+    width: 90%;
+    margin: auto;
 }
