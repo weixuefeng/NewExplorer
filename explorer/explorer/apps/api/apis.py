@@ -718,8 +718,12 @@ def api_show_client_transaction(request, version):
     try:
         txid = request.GET.get('txid')
         if not txid:
-            raise Exception("invalid parameter")
-        tx = provider_models.Transaction.objects.get(txid__in=txid)
+            logger.error("no txid")
+            return http.HttpResponseServerError()
+        tx = provider_models.Transaction.objects.filter(txid=txid).first()
+        if not tx:
+            logger.error("no tx")
+            return http.HttpResponseServerError()
         current_height = provider_services.get_current_height()
         item = __convert_transaction_to_client_json(tx)
         item['confirmations'] = current_height - tx.blockheight
