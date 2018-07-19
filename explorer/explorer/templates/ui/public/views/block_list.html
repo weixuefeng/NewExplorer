@@ -11,7 +11,7 @@
         <div class="col-md-12">
             <p class="lead text-center calendar-date">
                 {{pagination.currentDate}}
-                <a href="#" class="btn btn-primary btn-xs calendar-style" datepicker-popup show-button-bar="false" data-ng-click="openCalendar($event)" data-ng-model="dt" is-open="opened" data-ng-required="true"><span class="glyphicon glyphicon-calendar"></span></a>
+                <a href="#" class="btn btn-primary btn-xs calendar-style phone-hidden" datepicker-popup show-button-bar="false" data-ng-click="openCalendar($event)" data-ng-model="dt" is-open="opened" data-ng-required="true"><span class="glyphicon glyphicon-calendar"></span></a>
             </p>
             <div class="m20v text-center text-muted" data-ng-if="!pagination.current">
                 <span translate>Loading Selected Date...</span>
@@ -29,7 +29,7 @@
         </div>
     </div>
     </div>
-    <div class="blocks-page-upper container">
+    <div class="blocks-page-lower container">
     <div class="row">
         <div class="col-xs-12">
             <div class="panel panel-default blocks-table">
@@ -58,8 +58,10 @@
             </table>
             </div>
             <div data-ng-if="pagination.more" class="change-date-btn">
-                <a class="btn btn-primary" href="blocks-date/{{pagination.current}}/{{timezone}}" data-ng-show="{{before}}">Lastest block from date</a>
-                <a class="btn btn-primary" href="blocks-date/{{pagination.current}}/{{timezone}}/{{pagination.moreTs}}">Older blocks from this date</a>
+                <div class="switching-blocks-btn">
+                    <a class="btn btn-primary latest-blocks-btn" href="blocks-date/{{pagination.current}}/{{timezone}}" data-ng-show="{{before}}" translate>Previous blocks from date</a>
+                    <a class="btn btn-primary order-blocks-btn" href="blocks-date/{{pagination.current}}/{{timezone}}/{{pagination.moreTs}}" translate>Next blocks from date</a>
+                </div>
             </div>
         </div>
     </div>

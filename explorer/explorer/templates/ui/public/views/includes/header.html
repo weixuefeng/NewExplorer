@@ -1,16 +1,16 @@
 <div class="container">
     <div data-ng-controller="HeaderController">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" ng-click="navbarCollapsed = !navbarCollapsed; $root.fsn=!$root.fsn;$root.isCollapsed = !$root.isCollapsed">
+            <button type="button" class="navbar-toggle header-menu-logo" data-toggle="collapse" data-target=".navbar-collapse" ng-click="navbarCollapsed = !navbarCollapsed; $root.fsn=!$root.fsn;$root.isCollapsed = !$root.isCollapsed">
                 <span class="sr-only">Toggle navigation</span>
                 <i class="iconfont toggle-nav"></i>
             </button>
-            <a class="navbar-brand" href="/" style="margin-left: 170px"></a>
+            <a class="navbar-brand" href="/"></a>
         </div>
         <nav class="collapse navbar-collapse" collapse="$root.isCollapsed">
             <ul class="nav navbar-nav">
-                <li data-ng-repeat="item in menu" ui-route="{{item.link}}" data-ng-class="{active: $uiRoute}" style="margin-right: 30px">
-                    <a href="{{item.link}}">{{item.title|translate}}</a>
+                <li data-ng-repeat="item in menu" ui-route="{{item.link}}" data-ng-class="{active: $uiRoute}">
+                    <a class="color-font" href="{{item.link}}">{{item.title|translate}}</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

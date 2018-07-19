@@ -12,19 +12,15 @@ msgstr ""
 "X-Generator: Poedit 2.0.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: public/views/transaction/tx.html:90
-msgid "(Input unconfirmed)"
-msgstr ""
-
 #: public/views/block.html:56
-msgid "(MainNet)"
+msgid "({{block.current_net}})"
 msgstr ""
 
 #: public/views/404.html:4
 msgid "404 Page not found :("
 msgstr ""
 
-#: public/views/address.html:20 public/views/address.html:26
+#: public/views/address.html:23 public/views/address.html:27
 #: public/views/address.html:6 public/views/messages_verify.html:11
 #: public/views/rank.html:6
 msgid "Address"
@@ -38,7 +34,7 @@ msgstr ""
 msgid "An error occured:<br>{{error}}"
 msgstr ""
 
-#: public/views/status.html:4
+#: public/views/status.html:6
 msgid "Application Status"
 msgstr ""
 
@@ -50,20 +46,20 @@ msgstr ""
 msgid "Bitcoin comes with a way of signing arbitrary messages."
 msgstr ""
 
-#: public/views/block.html:12 public/views/block.html:34
+#: public/views/block.html:12 public/views/block.html:39
 msgid "Block"
 msgstr ""
 
-#: public/views/includes/search.html:3
+#: public/views/includes/search.html:5
 msgid "Block,Transaction,Address"
 msgstr ""
 
-#: public/views/block.html:40
+#: public/views/block.html:41
 msgid "BlockHash"
 msgstr ""
 
-#: public/views/block_list.html:38 public/views/dummy-translations.html:1
-#: public/views/status.html:92
+#: public/views/block_list.html:6 public/views/dummy-translations.html:1
+#: public/views/status.html:93
 msgid "Blocks"
 msgstr ""
 
@@ -89,11 +85,11 @@ msgstr ""
 msgid "Complete"
 msgstr ""
 
-#: public/views/transaction.html:14 public/views/transaction/tx.html:217
+#: public/views/transaction.html:14 public/views/transaction/tx.html:218
 msgid "Confirmations"
 msgstr ""
 
-#: public/views/status.html:100
+#: public/views/status.html:101
 msgid "Connections to other nodes"
 msgstr ""
 
@@ -101,12 +97,8 @@ msgstr ""
 msgid "Current Sync Status"
 msgstr ""
 
-#: public/views/transaction.html:94
+#: public/views/transaction.html:97
 msgid "Details"
-msgstr ""
-
-#: public/views/transaction/tx.html:62 public/views/transaction/tx.html:98
-msgid "Double spent attempt detected. From tx:"
 msgstr ""
 
 #: public/views/messages_verify.html:64
@@ -117,11 +109,11 @@ msgstr ""
 msgid "Error!"
 msgstr ""
 
-#: public/views/block.html:61 public/views/transaction/tx.html:213
+#: public/views/transaction/tx.html:214
 msgid "Fee"
 msgstr ""
 
-#: public/views/transaction.html:57
+#: public/views/transaction.html:59
 msgid "Fee Rate"
 msgstr ""
 
@@ -137,32 +129,33 @@ msgstr ""
 msgid "Go to home"
 msgstr ""
 
-#: public/views/block.html:54 public/views/block_list.html:45
-#: public/views/includes/header.html:34 public/views/index.html:19
+#: public/views/block.html:54 public/views/block_list.html:39
+#: public/views/includes/header.html:33 public/views/index.html:26
 msgid "Height"
 msgstr ""
 
-#: public/views/transaction.html:71 public/views/transaction/tx.html:206
+#: public/views/transaction.html:73 public/views/transaction/tx.html:207
 msgid "Included in Block"
-msgstr ""
-
-#: public/views/transaction/tx.html:58 public/views/transaction/tx.html:94
-msgid "Incoherence in levelDB detected:"
 msgstr ""
 
 #: public/views/status.html:43
 msgid "Initial Block Chain Height"
 msgstr ""
 
-#: public/views/transaction.html:33
+#: public/views/transaction.html:41
 msgid "Input"
 msgstr ""
 
-#: public/views/index.html:11
+#: public/views/index.html:16
 msgid "Latest Blocks"
 msgstr ""
 
-#: public/views/address.html:22
+#: public/views/index.html:51
+#, fuzzy
+msgid "Latest Transactions"
+msgstr "Unconfirmed"
+
+#: public/views/address.html:25
 msgid "Loading Address Information"
 msgstr ""
 
@@ -170,11 +163,11 @@ msgstr ""
 msgid "Loading Block Information"
 msgstr ""
 
-#: public/views/block_list.html:22
+#: public/views/block_list.html:17
 msgid "Loading Selected Date..."
 msgstr ""
 
-#: public/views/transaction.html:40
+#: public/views/transaction.html:35
 msgid "Loading Transaction Details"
 msgstr ""
 
@@ -191,15 +184,15 @@ msgstr ""
 msgid "Message"
 msgstr ""
 
-#: public/views/transaction.html:66
+#: public/views/transaction.html:68
 msgid "Mined Time"
 msgstr ""
 
-#: public/views/status.html:104
+#: public/views/status.html:105
 msgid "Mining Difficulty"
 msgstr ""
 
-#: public/views/status.html:108
+#: public/views/status.html:109
 msgid "Network"
 msgstr ""
 
@@ -207,27 +200,31 @@ msgstr ""
 msgid "Newstos node information"
 msgstr ""
 
-#: public/views/block.html:106
+#: public/views/includes/search.html:1
+msgid "Newton Blockchain Explorer"
+msgstr ""
+
+#: public/views/block.html:100
 msgid "Next Block"
 msgstr ""
 
-#: public/views/transaction/tx.html:37
-msgid "No Inputs (Newly Generated Coins)"
+#: public/views/block_list.html:63
+msgid "Next blocks from date"
 msgstr ""
 
 #: public/views/rank.html:25
 msgid "No Rank yet."
 msgstr ""
 
-#: public/views/block_list.html:71
+#: public/views/block_list.html:68
 msgid "No blocks yet."
 msgstr ""
 
-#: public/views/includes/search.html:5
+#: public/views/includes/search.html:9
 msgid "No matching records found!"
 msgstr ""
 
-#: public/views/address.html:48 public/views/address.html:67
+#: public/views/address.html:48 public/views/address.html:66
 msgid "No. Transactions"
 msgstr ""
 
@@ -235,7 +232,7 @@ msgstr ""
 msgid "Number Of Transactions"
 msgstr ""
 
-#: public/views/transaction.html:34
+#: public/views/transaction.html:42
 msgid "Output"
 msgstr ""
 
@@ -247,7 +244,11 @@ msgstr ""
 msgid "Previous Block"
 msgstr ""
 
-#: public/views/status.html:88
+#: public/views/block_list.html:62
+msgid "Previous blocks from date"
+msgstr ""
+
+#: public/views/status.html:89
 msgid "Protocol version"
 msgstr ""
 
@@ -263,7 +264,7 @@ msgstr ""
 msgid "Raw transaction data must be a valid hexadecimal string."
 msgstr ""
 
-#: public/views/transaction.html:61
+#: public/views/transaction.html:63
 msgid "Received Time"
 msgstr ""
 
@@ -271,7 +272,7 @@ msgstr ""
 msgid "Redirecting..."
 msgstr ""
 
-#: public/views/index.html:13
+#: public/views/index.html:18
 msgid "See all blocks"
 msgstr ""
 
@@ -279,34 +280,16 @@ msgstr ""
 msgid "Send transaction"
 msgstr ""
 
-#: public/views/transaction/tx.html:116
-msgid "Show all"
-msgstr ""
-
-#: public/views/transaction/tx.html:114
-msgid "Show input"
-msgstr ""
-
-#: public/views/transaction/tx.html:120 public/views/transaction/tx.html:158
-#: public/views/transaction/tx.html:69
-msgid "Show less"
-msgstr ""
-
-#: public/views/transaction/tx.html:122 public/views/transaction/tx.html:160
-#: public/views/transaction/tx.html:71
-msgid "Show more"
-msgstr ""
-
 #: public/views/messages_verify.html:20
 msgid "Signature"
 msgstr ""
 
-#: public/views/block_list.html:49 public/views/index.html:23
-#: public/views/transaction.html:53
+#: public/views/block_list.html:43 public/views/index.html:30
+#: public/views/transaction.html:55
 msgid "Size"
 msgstr ""
 
-#: public/views/block.html:94
+#: public/views/block.html:88
 msgid "Size (bytes)"
 msgstr ""
 
@@ -318,11 +301,11 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: public/views/block.html:44 public/views/transaction.html:49
+#: public/views/block.html:45 public/views/transaction.html:51
 msgid "Summary"
 msgstr ""
 
-#: public/views/address.html:30
+#: public/views/address.html:31
 msgid "Summary <small>confirmed</small>"
 msgstr ""
 
@@ -330,7 +313,7 @@ msgstr ""
 msgid "Sync Progress"
 msgstr ""
 
-#: public/views/status.html:9
+#: public/views/status.html:8
 msgid "Sync Status"
 msgstr ""
 
@@ -366,16 +349,16 @@ msgid ""
 "        a specific Bitcoin address."
 msgstr ""
 
-#: public/views/status.html:96
+#: public/views/status.html:97
 msgid "Time Offset"
 msgstr ""
 
-#: public/views/block.html:65 public/views/block_list.html:46
-#: public/views/index.html:20
+#: public/views/block.html:65 public/views/block_list.html:40
+#: public/views/index.html:27
 msgid "Timestamp"
 msgstr ""
 
-#: public/views/block_list.html:26
+#: public/views/block_list.html:21
 msgid "Today"
 msgstr ""
 
@@ -387,39 +370,44 @@ msgstr ""
 msgid "Total Sent"
 msgstr ""
 
-#: public/views/transaction.html:31 public/views/transaction.html:45
+#: public/views/transaction.html:39 public/views/transaction.html:47
 #: public/views/transaction.html:6
 msgid "Transaction"
 msgstr ""
+
+#: public/views/index.html:56
+#, fuzzy
+msgid "Transaction ID"
+msgstr "Unconfirmed"
 
 #: public/views/transaction_sendraw.html:39
 msgid "Transaction succesfully broadcast.<br>Transaction id: {{txid}}"
 msgstr ""
 
-#: public/views/address.html:76 public/views/block.html:115
-#: public/views/block_list.html:47 public/views/index.html:21
+#: public/views/address.html:76 public/views/block.html:109
+#: public/views/block_list.html:41 public/views/index.html:28
 msgid "Transactions"
 msgstr ""
 
-#: public/views/transaction/tx.html:182
-msgid "Type"
-msgstr ""
-
-#: public/views/address.html:59
+#: public/views/address.html:58
 msgid "Unconfirmed"
 msgstr ""
 
-#: public/views/transaction.html:16 public/views/transaction/tx.html:218
+#: public/views/transaction.html:16 public/views/transaction/tx.html:219
 msgid "Unconfirmed Transaction!"
 msgstr "Unconfirmed"
 
-#: public/views/address.html:63
+#: public/views/address.html:62
 msgid "Unconfirmed Txs Balance"
 msgstr ""
 
-#: public/views/block.html:69 public/views/block_list.html:48
-#: public/views/index.html:22
+#: public/views/block.html:69 public/views/block_list.html:42
+#: public/views/index.html:29
 msgid "Validator"
+msgstr ""
+
+#: public/views/index.html:57
+msgid "Value"
 msgstr ""
 
 #: public/views/messages_verify.html:39
@@ -430,7 +418,7 @@ msgstr ""
 msgid "Verify signed message"
 msgstr ""
 
-#: public/views/block.html:98 public/views/status.html:84
+#: public/views/block.html:92 public/views/status.html:85
 msgid "Version"
 msgstr ""
 
@@ -438,8 +426,12 @@ msgstr ""
 msgid "Waiting for Rank..."
 msgstr ""
 
-#: public/views/block_list.html:54 public/views/index.html:27
+#: public/views/block_list.html:48 public/views/index.html:34
 msgid "Waiting for blocks..."
+msgstr ""
+
+#: public/views/index.html:61
+msgid "Waiting for transactions..."
 msgstr ""
 
 #: public/views/transaction/tx.html:23
@@ -447,5 +439,5 @@ msgid "first seen at"
 msgstr ""
 
 #: public/views/transaction/tx.html:27
-msgid "mined"
+msgid "transaction time:"
 msgstr ""

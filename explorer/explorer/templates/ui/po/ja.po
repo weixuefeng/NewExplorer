@@ -11,20 +11,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: public/views/transaction/tx.html:90
-msgid "(Input unconfirmed)"
-msgstr "(入力は未検証です)"
-
 #: public/views/block.html:56
-#, fuzzy
-msgid "(MainNet)"
-msgstr "(メインチェーン)"
+msgid "({{block.current_net}})"
+msgstr ""
 
 #: public/views/404.html:4
 msgid "404 Page not found :("
 msgstr "404 ページがみつかりません (´・ω・`)"
 
-#: public/views/address.html:20 public/views/address.html:26
+#: public/views/address.html:23 public/views/address.html:27
 #: public/views/address.html:6 public/views/messages_verify.html:11
 #: public/views/rank.html:6
 msgid "Address"
@@ -38,7 +33,7 @@ msgstr "検証過程でエラーが発生しました。"
 msgid "An error occured:<br>{{error}}"
 msgstr "エラーが発生しました:<br>{{error}}"
 
-#: public/views/status.html:4
+#: public/views/status.html:6
 msgid "Application Status"
 msgstr "アプリケーションの状態"
 
@@ -51,21 +46,21 @@ msgstr "最終残高"
 msgid "Bitcoin comes with a way of signing arbitrary messages."
 msgstr "Bitcoinには任意のメッセージを署名する昨日が備わっています。"
 
-#: public/views/block.html:12 public/views/block.html:34
+#: public/views/block.html:12 public/views/block.html:39
 msgid "Block"
 msgstr "ブロック"
 
-#: public/views/includes/search.html:3
+#: public/views/includes/search.html:5
 #, fuzzy
 msgid "Block,Transaction,Address"
 msgstr "トランザクション"
 
-#: public/views/block.html:40
+#: public/views/block.html:41
 msgid "BlockHash"
 msgstr "ブロックのハッシュ値"
 
-#: public/views/block_list.html:38 public/views/dummy-translations.html:1
-#: public/views/status.html:92
+#: public/views/block_list.html:6 public/views/dummy-translations.html:1
+#: public/views/status.html:93
 msgid "Blocks"
 msgstr "ブロック"
 
@@ -93,11 +88,11 @@ msgstr "インターネットに接続できません。コネクションを確
 msgid "Complete"
 msgstr "完了"
 
-#: public/views/transaction.html:14 public/views/transaction/tx.html:217
+#: public/views/transaction.html:14 public/views/transaction/tx.html:218
 msgid "Confirmations"
 msgstr "検証数"
 
-#: public/views/status.html:100
+#: public/views/status.html:101
 msgid "Connections to other nodes"
 msgstr "他ノードへの接続"
 
@@ -105,13 +100,9 @@ msgstr "他ノードへの接続"
 msgid "Current Sync Status"
 msgstr "現在の同期状況"
 
-#: public/views/transaction.html:94
+#: public/views/transaction.html:97
 msgid "Details"
 msgstr "詳細"
-
-#: public/views/transaction/tx.html:62 public/views/transaction/tx.html:98
-msgid "Double spent attempt detected. From tx:"
-msgstr "二重支払い攻撃をこのトランザクションから検知しました："
 
 #: public/views/messages_verify.html:64
 msgid "Error message:"
@@ -121,11 +112,11 @@ msgstr "エラーメッセージ:"
 msgid "Error!"
 msgstr "エラー！"
 
-#: public/views/block.html:61 public/views/transaction/tx.html:213
+#: public/views/transaction/tx.html:214
 msgid "Fee"
 msgstr "手数料"
 
-#: public/views/transaction.html:57
+#: public/views/transaction.html:59
 msgid "Fee Rate"
 msgstr ""
 
@@ -141,32 +132,32 @@ msgstr "終了日時"
 msgid "Go to home"
 msgstr "ホームへ"
 
-#: public/views/block.html:54 public/views/block_list.html:45
-#: public/views/includes/header.html:34 public/views/index.html:19
+#: public/views/block.html:54 public/views/block_list.html:39
+#: public/views/includes/header.html:33 public/views/index.html:26
 msgid "Height"
 msgstr "ブロック高"
 
-#: public/views/transaction.html:71 public/views/transaction/tx.html:206
+#: public/views/transaction.html:73 public/views/transaction/tx.html:207
 msgid "Included in Block"
 msgstr "取り込まれたブロック"
-
-#: public/views/transaction/tx.html:58 public/views/transaction/tx.html:94
-msgid "Incoherence in levelDB detected:"
-msgstr "levelDBの破損を検知しました:"
 
 #: public/views/status.html:43
 msgid "Initial Block Chain Height"
 msgstr "起動時のブロック高"
 
-#: public/views/transaction.html:33
+#: public/views/transaction.html:41
 msgid "Input"
 msgstr "入力"
 
-#: public/views/index.html:11
+#: public/views/index.html:16
 msgid "Latest Blocks"
 msgstr "最新のブロック"
 
-#: public/views/address.html:22
+#: public/views/index.html:51
+msgid "Latest Transactions"
+msgstr "最新のトランザクション"
+
+#: public/views/address.html:25
 msgid "Loading Address Information"
 msgstr "アドレス情報を読み込んでいます"
 
@@ -174,11 +165,11 @@ msgstr "アドレス情報を読み込んでいます"
 msgid "Loading Block Information"
 msgstr "ブロック情報を読み込んでいます"
 
-#: public/views/block_list.html:22
+#: public/views/block_list.html:17
 msgid "Loading Selected Date..."
 msgstr "選択されたデータを読み込んでいます..."
 
-#: public/views/transaction.html:40
+#: public/views/transaction.html:35
 msgid "Loading Transaction Details"
 msgstr "トランザクションの詳細を読み込んでいます"
 
@@ -195,15 +186,15 @@ msgstr "ロード中..."
 msgid "Message"
 msgstr "メッセージ"
 
-#: public/views/transaction.html:66
+#: public/views/transaction.html:68
 msgid "Mined Time"
 msgstr "採掘時刻"
 
-#: public/views/status.html:104
+#: public/views/status.html:105
 msgid "Mining Difficulty"
 msgstr "採掘難易度"
 
-#: public/views/status.html:108
+#: public/views/status.html:109
 msgid "Network"
 msgstr ""
 
@@ -212,28 +203,33 @@ msgstr ""
 msgid "Newstos node information"
 msgstr "Bitcoinノード情報"
 
-#: public/views/block.html:106
+#: public/views/includes/search.html:1
+msgid "Newton Blockchain Explorer"
+msgstr ""
+
+#: public/views/block.html:100
 msgid "Next Block"
 msgstr "次のブロック"
 
-#: public/views/transaction/tx.html:37
-msgid "No Inputs (Newly Generated Coins)"
-msgstr "入力なし (新しく生成されたコイン)"
+#: public/views/block_list.html:63
+#, fuzzy
+msgid "Next blocks from date"
+msgstr "最新のブロック"
 
 #: public/views/rank.html:25
 #, fuzzy
 msgid "No Rank yet."
 msgstr "ブロックはありません。"
 
-#: public/views/block_list.html:71
+#: public/views/block_list.html:68
 msgid "No blocks yet."
 msgstr "ブロックはありません。"
 
-#: public/views/includes/search.html:5
+#: public/views/includes/search.html:9
 msgid "No matching records found!"
 msgstr "一致するレコードはありません！"
 
-#: public/views/address.html:48 public/views/address.html:67
+#: public/views/address.html:48 public/views/address.html:66
 msgid "No. Transactions"
 msgstr "トランザクション数"
 
@@ -241,7 +237,7 @@ msgstr "トランザクション数"
 msgid "Number Of Transactions"
 msgstr "トランザクション数"
 
-#: public/views/transaction.html:34
+#: public/views/transaction.html:42
 msgid "Output"
 msgstr "出力"
 
@@ -253,7 +249,12 @@ msgstr ""
 msgid "Previous Block"
 msgstr "前のブロック"
 
-#: public/views/status.html:88
+#: public/views/block_list.html:62
+#, fuzzy
+msgid "Previous blocks from date"
+msgstr "最新のブロック"
+
+#: public/views/status.html:89
 msgid "Protocol version"
 msgstr "プロトコルバージョン"
 
@@ -269,7 +270,7 @@ msgstr "トランザクションの生データ"
 msgid "Raw transaction data must be a valid hexadecimal string."
 msgstr "生のトランザクションデータは有効な16進数でなければいけません。"
 
-#: public/views/transaction.html:61
+#: public/views/transaction.html:63
 msgid "Received Time"
 msgstr "受信時刻"
 
@@ -277,7 +278,7 @@ msgstr "受信時刻"
 msgid "Redirecting..."
 msgstr "リダイレクトしています..."
 
-#: public/views/index.html:13
+#: public/views/index.html:18
 msgid "See all blocks"
 msgstr "すべてのブロックをみる"
 
@@ -285,34 +286,16 @@ msgstr "すべてのブロックをみる"
 msgid "Send transaction"
 msgstr "トランザクションを送信"
 
-#: public/views/transaction/tx.html:116
-msgid "Show all"
-msgstr "すべて表示"
-
-#: public/views/transaction/tx.html:114
-msgid "Show input"
-msgstr "入力を表示"
-
-#: public/views/transaction/tx.html:120 public/views/transaction/tx.html:158
-#: public/views/transaction/tx.html:69
-msgid "Show less"
-msgstr "隠す"
-
-#: public/views/transaction/tx.html:122 public/views/transaction/tx.html:160
-#: public/views/transaction/tx.html:71
-msgid "Show more"
-msgstr "表示する"
-
 #: public/views/messages_verify.html:20
 msgid "Signature"
 msgstr "署名"
 
-#: public/views/block_list.html:49 public/views/index.html:23
-#: public/views/transaction.html:53
+#: public/views/block_list.html:43 public/views/index.html:30
+#: public/views/transaction.html:55
 msgid "Size"
 msgstr "サイズ"
 
-#: public/views/block.html:94
+#: public/views/block.html:88
 msgid "Size (bytes)"
 msgstr "サイズ (バイト)"
 
@@ -324,11 +307,11 @@ msgstr "開始日時"
 msgid "Status"
 msgstr "ステータス"
 
-#: public/views/block.html:44 public/views/transaction.html:49
+#: public/views/block.html:45 public/views/transaction.html:51
 msgid "Summary"
 msgstr "概要"
 
-#: public/views/address.html:30
+#: public/views/address.html:31
 msgid "Summary <small>confirmed</small>"
 msgstr "サマリ <small>検証済み</small>"
 
@@ -336,7 +319,7 @@ msgstr "サマリ <small>検証済み</small>"
 msgid "Sync Progress"
 msgstr "同期の進捗状況"
 
-#: public/views/status.html:9
+#: public/views/status.html:8
 msgid "Sync Status"
 msgstr "同期ステータス"
 
@@ -376,16 +359,16 @@ msgstr ""
 "このフォームでは、メッセージが特定のBitcoinアドレスから来たかどうかを検証する"
 "ことができます。"
 
-#: public/views/status.html:96
+#: public/views/status.html:97
 msgid "Time Offset"
 msgstr "時間オフセット"
 
-#: public/views/block.html:65 public/views/block_list.html:46
-#: public/views/index.html:20
+#: public/views/block.html:65 public/views/block_list.html:40
+#: public/views/index.html:27
 msgid "Timestamp"
 msgstr "タイムスタンプ"
 
-#: public/views/block_list.html:26
+#: public/views/block_list.html:21
 msgid "Today"
 msgstr "今日"
 
@@ -397,40 +380,46 @@ msgstr "総入金額"
 msgid "Total Sent"
 msgstr "総送金額"
 
-#: public/views/transaction.html:31 public/views/transaction.html:45
+#: public/views/transaction.html:39 public/views/transaction.html:47
 #: public/views/transaction.html:6
 msgid "Transaction"
+msgstr "トランザクション"
+
+#: public/views/index.html:56
+#, fuzzy
+msgid "Transaction ID"
 msgstr "トランザクション"
 
 #: public/views/transaction_sendraw.html:39
 msgid "Transaction succesfully broadcast.<br>Transaction id: {{txid}}"
 msgstr "トランザクションの配信に成功しました。<br>トランザクションID: {{txid}}"
 
-#: public/views/address.html:76 public/views/block.html:115
-#: public/views/block_list.html:47 public/views/index.html:21
+#: public/views/address.html:76 public/views/block.html:109
+#: public/views/block_list.html:41 public/views/index.html:28
 msgid "Transactions"
 msgstr "トランザクション"
 
-#: public/views/transaction/tx.html:182
-msgid "Type"
-msgstr "タイプ"
-
-#: public/views/address.html:59
+#: public/views/address.html:58
 msgid "Unconfirmed"
 msgstr "未検証"
 
-#: public/views/transaction.html:16 public/views/transaction/tx.html:218
+#: public/views/transaction.html:16 public/views/transaction/tx.html:219
 msgid "Unconfirmed Transaction!"
 msgstr "未検証のトランザクションです！"
 
-#: public/views/address.html:63
+#: public/views/address.html:62
 msgid "Unconfirmed Txs Balance"
 msgstr "未検証トランザクションの残高"
 
-#: public/views/block.html:69 public/views/block_list.html:48
-#: public/views/index.html:22
+#: public/views/block.html:69 public/views/block_list.html:42
+#: public/views/index.html:29
 msgid "Validator"
 msgstr ""
+
+#: public/views/index.html:57
+#, fuzzy
+msgid "Value"
+msgstr "出力値"
 
 #: public/views/messages_verify.html:39
 msgid "Verify"
@@ -440,7 +429,7 @@ msgstr "検証"
 msgid "Verify signed message"
 msgstr "署名済みメッセージを検証"
 
-#: public/views/block.html:98 public/views/status.html:84
+#: public/views/block.html:92 public/views/status.html:85
 msgid "Version"
 msgstr "バージョン"
 
@@ -449,17 +438,56 @@ msgstr "バージョン"
 msgid "Waiting for Rank..."
 msgstr "ブロックを待っています..."
 
-#: public/views/block_list.html:54 public/views/index.html:27
+#: public/views/block_list.html:48 public/views/index.html:34
 msgid "Waiting for blocks..."
 msgstr "ブロックを待っています..."
+
+#: public/views/index.html:61
+msgid "Waiting for transactions..."
+msgstr "トランザクションを待っています..."
 
 #: public/views/transaction/tx.html:23
 msgid "first seen at"
 msgstr "最初に発見された日時"
 
 #: public/views/transaction/tx.html:27
-msgid "mined"
-msgstr "採掘された"
+#, fuzzy
+msgid "transaction time:"
+msgstr "トランザクション"
+
+#~ msgid "(Input unconfirmed)"
+#~ msgstr "(入力は未検証です)"
+
+#, fuzzy
+#~ msgid "(MainNet)"
+#~ msgstr "(メインチェーン)"
+
+#~ msgid "Double spent attempt detected. From tx:"
+#~ msgstr "二重支払い攻撃をこのトランザクションから検知しました："
+
+#~ msgid "Incoherence in levelDB detected:"
+#~ msgstr "levelDBの破損を検知しました:"
+
+#~ msgid "No Inputs (Newly Generated Coins)"
+#~ msgstr "入力なし (新しく生成されたコイン)"
+
+#~ msgid "Show all"
+#~ msgstr "すべて表示"
+
+#~ msgid "Show input"
+#~ msgstr "入力を表示"
+
+#~ msgid "Show less"
+#~ msgstr "隠す"
+
+#~ msgid "Show more"
+#~ msgstr "表示する"
+
+#~ msgid "Type"
+#~ msgstr "タイプ"
+
+#~ msgid "mined"
+#~ msgstr "採掘された"
 
 #~ msgid "Block Reward"
 #~ msgstr "ブロック報酬"
@@ -525,9 +553,6 @@ msgstr "採掘された"
 #~ msgid "Last Block Hash (Bitcoind)"
 #~ msgstr "直前のブロックのハッシュ値 (Bitcoind)"
 
-#~ msgid "Latest Transactions"
-#~ msgstr "最新のトランザクション"
-
 #~ msgid "Powered by"
 #~ msgstr "Powered by"
 
@@ -554,12 +579,6 @@ msgstr "採掘された"
 
 #~ msgid "Transaction Outputs"
 #~ msgstr "トランザクションの出力"
-
-#~ msgid "Value Out"
-#~ msgstr "出力値"
-
-#~ msgid "Waiting for transactions..."
-#~ msgstr "トランザクションを待っています..."
 
 #~ msgid "by date."
 #~ msgstr "日毎。"

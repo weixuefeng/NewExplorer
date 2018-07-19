@@ -85,7 +85,7 @@ code{
   margin: 0 auto;
   /* Pad bottom by footer height */
   min-height: 100%;
-  background-color: #F5F5F5;
+  background-color: #FFFFFF;
 }
 
 .m10h { margin: 0 10px; }
@@ -330,12 +330,11 @@ margin-left: 0;
 .block-tx {
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
-  background-color: #F6F6F6;
   border-radius: 2px;
   margin: 20px 0 10px;
   overflow: hidden;
   padding: 15px;
-  border: 1px solid #eee;
+  border-bottom: 1px solid #ddd;
 }
 
 .btn {
@@ -362,7 +361,7 @@ margin-left: 0;
 }
 
 .btn-default {
-  background-color: #E7E7E7;
+    border-color: white;
 }
 .btn-look-block{
     width: 160px;
@@ -408,8 +407,8 @@ margin-left: 0;
 }
 
 .txvalues-default {
-  background-color: #F1F1F1;
 }
+
 .txvalues-default-expand{
     width: 112px;
     height:34px;
@@ -442,19 +441,47 @@ margin-left: 0;
 .progress-bar-info { background-color: #0070c9; }
 
 /* Set the fixed height of the footer here */
-.footer span a{font-size: 14px;padding-top: 20px; padding-left: 20px;}
+.footer span a{font-size: 14px;padding-top: 20px; padding-left: 20px; text-decoration: none;}
 /* Footer ----------------------------------------------------------- */
-.footer { text-align: center; padding: 0; font-size: 12px; background-color: #303948; }
+.footer { text-align: center; padding: 0; font-size: 12px; background-color: #f5f5f5; }
 .footer .pc-line{ position:relative; height:50px; line-height:50px; color: #595959; text-align:left}
 .footer .line span { position:absolute; right:0;}
 .footer .line span a{ display:inline-block; margin-left:20px; padding-top: 0;}
 .footer span a img{ display:inline-block; margin-right:3px; width:15px; height:15px;}
 .footer .pc-right{ position: absolute;right: 0;}
-.footer .pc-left{ position: absolute;left: 0;}
-.footer .pc-align-right {
-    text-align: right;
-    color: white;
+.footer .pc-left{
+    position: absolute;
+    display: inline-block;
 }
+.footer .pc-align-right {
+    float: right;
+    display: inline-block;
+}
+
+@media (max-width: 768px) {
+    .footer .pc-left {
+        position: absolute;
+        display: block;
+        top: 0px;
+        left: 10px;
+    }
+    .footer .pc-align-right {
+        position: absolute;
+        display: block;
+        top: 20px;
+        left: 30px;
+    }
+    .footer .pc-line{
+        position: absolute;
+        color: #595959;
+        width: 100%;
+        height: 9%;
+        background-color: #f5f5f5;
+    }
+
+}
+
+
 .footer span { color: #929292; }
 .footer h4 {
     color: #333;
@@ -489,7 +516,7 @@ margin-left: 0;
 .line-mid { padding: 15px;}
 .line-top {
   border-top: 1px solid #EAEAEA;
-  padding: 15px 0 0 0;
+  padding: 25px 0 0 0;
 }
 
 .footer-language {
@@ -638,7 +665,10 @@ margin-left: 0;
     background-color: #FFFFFF;
 }
 
-.panel { margin-bottom: 1em;}
+.panel {
+    margin-bottom: 1em;
+    border-redius: 8px;
+}
 .panel-body {
   padding: 0.7em;
   word-wrap: break-word;
@@ -737,7 +767,7 @@ a.v_highlight_more {
   width: 100%;
   background: #fff;
   position: fixed;
-  top: 64px;
+  top: 0;
   left: 0;
   text-align: center;
   z-index: 1000;
@@ -855,8 +885,6 @@ a.v_highlight_more {
     padding-bottom: 15px;
   }
   .container {
-    padding-left: 0;
-    padding-right: 0;
   }
   .navbar-default .navbar-toggle {
     margin-top: 7px;
@@ -933,11 +961,13 @@ a.v_highlight_more {
     font-size: 24px;
     color:#333333;
 }
-.transcation-cell{}
+.transcation-cell{
+    padding: 0 0 10px;
+}
 .transcation-cell .block-hash{
     font-size:14px;
     font-weight: bold;
-    color:#0070c9;
+    color:#428bca;
     font-size: 14px;
     font-weight: bold;
 }
@@ -959,4 +989,11 @@ a.v_highlight_more {
 }
 .table-list .table-cell{
     height: 60px;
+}
+
+@media (max-width: 768px) {
+    .table-list .table-title{
+        padding:20px 0;
+    }
+
 }

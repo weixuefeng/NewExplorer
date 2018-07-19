@@ -6,11 +6,12 @@
         <h1 translate>Application Status</h1>
         </div>
         <h2 translate>Sync Status</h2>
+        <div class="row summary-table">
         <table class="table" data-ng-controller="StatusController" data-ng-init="getSync()">
           <tbody>
             <tr>
-              <td translate>Sync Progress</td>
-              <td>
+              <td class="key" translate>Sync Progress</td>
+              <td class="value">
                 <div class="progress">
                   <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{ sync.syncPercentage}}%">
                     <span data-ng-show="sync.syncPercentage>0">{{sync.syncPercentage}}%
@@ -21,8 +22,8 @@
               </td>
             </tr>
             <tr>
-              <td translate>Current Sync Status</td>
-              <td class="text-right">
+              <td class="key" translate>Current Sync Status</td>
+              <td class="value text-right">
               <span  data-ng-show="!sync.error">{{sync.status}}</span>
               <span class="text-danger" data-ng-show="sync.error">
                 <span  class="glyphicon glyphicon-warning-sign"></span>
@@ -31,43 +32,43 @@
             </td>
             </tr>
             <tr>
-              <td translate>Start Date</td>
-              <td class="text-right"><time title="{{sync.startTs | date:'medium'}}">{{humanSince(sync.startTs)}}</time></td>
+              <td class="key" translate>Start Date</td>
+              <td class="value text-right"><time title="{{sync.startTs | date:'medium'}}">{{humanSince(sync.startTs)}}</time></td>
             </tr>
             <tr data-ng-show="sync.endTs">
               <td translate>Finish Date</td>
-              <td class="text-right"><time title="{{sync.startTs | date:'medium'}}" >{{humanSince(sync.endTs)}}</time></td>
+              <td class="value text-right"><time title="{{sync.startTs | date:'medium'}}" >{{humanSince(sync.endTs)}}</time></td>
             </tr>
             <tr>
-              <td translate>Initial Block Chain Height</td>
-              <td class="text-right">{{sync.blockChainHeight}}</td>
+              <td class="key" translate>Initial Block Chain Height</td>
+              <td class="value text-right">{{sync.blockChainHeight}}</td>
             </tr>
             <tr>
-              <td translate>Synced Blocks</td>
-              <td class="text-right">{{sync.syncedBlocks}}</td>
+              <td class="key" translate>Synced Blocks</td>
+              <td class="value text-right">{{sync.syncedBlocks}}</td>
             </tr>
             <!-- <tr>
-              <td translate>Skipped Blocks (previously synced)</td>
-              <td class="text-right">{{sync.skippedBlocks}}</td>
+              <td class="key" translate>Skipped Blocks (previously synced)</td>
+              <td class="value text-right">{{sync.skippedBlocks}}</td>
             </tr> -->
             <tr>
-              <td translate>Sync Type</td>
-              <td class="text-right">{{sync.type}}</td>
+              <td class="key" translate>Sync Type</td>
+              <td class="value text-right">{{sync.type}}</td>
             </tr>
           </tbody>
         </table>
-
+        </div>
       <!-- <h2 translate>Last Block</h2>
       <table class="table" style="table-layout: fixed" data-ng-controller="StatusController" data-ng-init="getStatus('LastBlockHash')">
         <thead data-ng-include src="'views/includes/infoStatus.html'"></thead>
         <tbody>
           <tr>
-            <td translate>Last Block Hash</td>
-            <td class="text-right ellipsis"><a href="block/{{lastblockhash}}">{{lastblockhash}}</a></td>
+            <td class="key" translate>Last Block Hash</td>
+            <td class="value text-right ellipsis"><a href="block/{{lastblockhash}}">{{lastblockhash}}</a></td>
           </tr>
           <tr>
-            <td translate>Current Blockchain Tip</td>
-            <td class="text-right ellipsis"><a href="block/{{syncTipHash}}">{{syncTipHash}}</a></td>
+            <td class="key" translate>Current Blockchain Tip</td>
+            <td class="value text-right ellipsis"><a href="block/{{syncTipHash}}">{{syncTipHash}}</a></td>
           </tr>
         </tbody>
       </table> -->
@@ -76,47 +77,49 @@
 
     <div class="container status-page-lower">
       <h2 translate>Newstos node information</h2>
-      <table class="table" data-ng-controller="StatusController" data-ng-init="getStatus('Info')">
+      <div class="row summary-table">
+        <table class="table" data-ng-controller="StatusController" data-ng-init="getStatus('Info')">
         <thead  data-ng-include src="'views/includes/infoStatus.html'"></thead>
         <tbody>
           <tr>
-            <td translate>Version</td>
-            <td class="text-right">{{info.version}}</td>
+            <td class="key" translate>Version</td>
+            <td class="value text-right">{{info.version}}</td>
           </tr>
           <tr>
-            <td translate>Protocol version</td>
-            <td class="text-right">{{info.protocolversion}}</td>
+            <td class="key" translate>Protocol version</td>
+            <td class="value text-right">{{info.protocolversion}}</td>
           </tr>
           <tr>
-            <td translate>Blocks</td>
-            <td class="text-right"><a href="block-index/{{info.blocks}}">{{info.blocks}}</a></td>
+            <td class="key" translate>Blocks</td>
+            <td class="value text-right"><a href="block-index/{{info.blocks}}">{{info.blocks}}</a></td>
           </tr>
           <tr>
-            <td translate>Time Offset</td>
-            <td class="text-right">{{info.timeoffset}}</td>
+            <td class="key" translate>Time Offset</td>
+            <td class="value text-right">{{info.timeoffset}}</td>
           </tr>
           <tr>
-            <td translate>Connections to other nodes</td>
-            <td class="text-right">{{info.connections}}</td>
+            <td class="key" translate>Connections to other nodes</td>
+            <td class="value text-right">{{info.connections}}</td>
           </tr>
           <tr>
-           <td translate>Mining Difficulty</td>
-            <td class="text-right">{{info.difficulty}}</td>
+           <td class="key" translate>Mining Difficulty</td>
+            <td class="value text-right">{{info.difficulty}}</td>
           </tr>
           <tr>
-            <td translate>Network</td>
-            <td class="text-right">{{info.network}}</td>
+            <td class="key" translate>Network</td>
+            <td class="value text-right">{{info.network}}</td>
           </tr>
           <!-- <tr>
-            <td translate>Proxy setting</td>
-            <td class="text-right">{{info.proxy}}</td>
+            <td class="key" translate>Proxy setting</td>
+            <td class="value text-right">{{info.proxy}}</td>
           </tr>
           <tr>
-            <td translate>Info Errors</td>
-            <td class="text-right">{{info.infoErrors}}</td>
+            <td class="key" translate>Info Errors</td>
+            <td class="value text-right">{{info.infoErrors}}</td>
           </tr> -->
         </tbody>
       </table>
+      </div>
     </div> <!-- END OF COL-GRAY -->
   </div>
 </section>

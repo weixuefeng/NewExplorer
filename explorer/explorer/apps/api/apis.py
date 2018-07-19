@@ -266,6 +266,7 @@ def api_show_block_info(request, version, blockhash):
         result['hash'] = obj.id
         result['isMainChain'] = True
         result['confirmations'] = current_height - obj.height
+        result['current_net'] = settings.CURRENT_NET
         return http.JsonResponse(result)
     except Exception, inst:
         print inst

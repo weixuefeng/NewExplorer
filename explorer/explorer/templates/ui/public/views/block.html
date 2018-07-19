@@ -24,19 +24,18 @@
         </div>
       </div>
     </div> <!-- END OF CONTAINER -->
-    <div class="hide_snavbar">
-      <a href="#" data-ng-click="hideSNavbar=!hideSNavbar">
-        <span data-ng-show="hideSNavbar"><span class="text-muted glyphicon glyphicon-chevron-down"></span></span>
-        <span data-ng-show="!hideSNavbar"><span class="text-muted glyphicon glyphicon-chevron-up"></span></span>
-      </a>
-    </div>
+    <!--<div class="hide_snavbar">-->
+      <!--<a href="#" data-ng-click="hideSNavbar=!hideSNavbar">-->
+        <!--<span data-ng-show="hideSNavbar"><span class="text-muted glyphicon glyphicon-chevron-down"></span></span>-->
+        <!--<span data-ng-show="!hideSNavbar"><span class="text-muted glyphicon glyphicon-chevron-up"></span></span>-->
+      <!--</a>-->
+    <!--</div>-->
   </div>
 
   <div class="text-muted" data-ng-if="!block.hash">
     <span translate>Loading Block Information</span>  <span class="loader-gif"></span>
   </div>
     <div data-ng-if="block.hash" class="container block-page-upper">
-      <div class="block-page-inside">
       <h1><span translate>Block</span> #{{block.height}}</h1>
       <div class="well well-sm ellipsis">
         <strong class="f16b" translate>BlockHash</strong>
@@ -54,7 +53,7 @@
             <tr>
               <td class="key"><strong translate>Height</strong></td>
               <td class="value text-right text-muted">{{block.height}}
-                <span data-ng-show="block.isMainChain" class="text-success" translate>(MainNet)</span>
+                <span data-ng-show="block.isMainChain" class="text-success" translate>({{block.current_net}})</span>
                 <span data-ng-show="!block.isMainChain" class="text-danger"> <span class="glyphicon glyphicon-warning-sign"></span> (Orphaned)</span>
               </td>
             </tr>
@@ -104,14 +103,11 @@
             </tbody>
           </table>
       </div>
-      </div>
     </div>
   <div data-ng-if="block.hash" class="container block-page-lower" data-ng-controller="transactionsController" data-ng-init="load('block')">
     <div>
-    <div class="block-page-inside">
       <h3 class="transcation-title" translate>Transactions</h3>
       <div data-ng-include src="'views/transaction/list.html'" when-scrolled="loadMore()"></div>
-    </div>
     </div>
   </div>
 
