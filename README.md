@@ -82,9 +82,9 @@ updatePO: {
 
 （3）、使用命令：newtonbd同步数据  
 
-（4）、make 编译项目  
+（4）、make 编译项目,或者使用`npm run watch`命令自动编译项目  
 
-（5）、如果改动文字样式，需要使用brunt translate编译
+（5）、如果改动文字样式，需要使用grunt translate编译
 
 （6）、使用命令：./environment/test/testing.sh 启动项目
 
@@ -129,7 +129,5 @@ wsgi.py文件: 内置runserver命令的WSGI应用配置
 `__init__.py`文件: 用来告诉python，当前目录是python模块
 
 urls.py文件: URL根配置
-
-
 
 
