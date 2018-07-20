@@ -16,7 +16,7 @@ from config import codes
 from utils import http
 from provider import models as provider_models
 from provider import services as provider_services
-DECIMAL_SATOSHI = Decimal("100000000")
+DECIMAL_SATOSHI = Decimal("1000000000000000000")
 from utils import newchain_tools
 
 
@@ -57,7 +57,7 @@ def __convert_transaction_to_client_json(obj):
     return result
 
 def __convert_num_to_float(num):
-    res = float(Decimal(str(num)) * DECIMAL_SATOSHI / DECIMAL_SATOSHI)
+    res = float(Decimal(str(num)) / DECIMAL_SATOSHI)
     return res
 
 # API functions
@@ -449,17 +449,29 @@ def api_show_addr_summary(request, version, addr):
         eth_addr = addr_translation.b58check_decode(addr)
         obj = provider_models.Address.objects.filter(addr=eth_addr).first()
         if obj:
-            total_received = provider_models.Address.objects.filter(addr=eth_addr, vtype=codes.ValueType.RECEIVE.value).sum('value')
-            total_sent = provider_models.Address.objects.filter(addr=eth_addr, vtype=codes.ValueType.SEND.value).sum('value')
+            total_received_transactions = provider_models.Transaction.objects.filter(to_address=eth_addr)
+            total_sent_transactions = provider_models.Transaction.objects.filter(from_address=eth_addr)
+            total_received = 0
+            total_sent = 0
+            for tx in total_received_transactions:
+                total_received = total_received + int(tx.value)
+            for tx in total_sent_transactions:
+                total_sent = total_sent + int(tx.value)
+            # print('+'*100, 'total set:%s' % str(total_sent))
+            # print('-'*100, "total receive: %s" % str(total_received))
             balance = total_received - total_sent
             # caculate the txlength
             txlength = provider_models.Address.objects.filter(addr=eth_addr).count()
             balance = __convert_num_to_float(balance)
             total_received = __convert_num_to_float(total_received)
+            print("total send wei : %s" %str(total_sent))
             total_sent = __convert_num_to_float(total_sent)
+            print("total send wei : %s" % str(total_sent))
+
             balanceSat = int(float(balance) * settings.UNIT_TO_SATOSHI)
             totalReceivedSat = int(float(total_received) * settings.UNIT_TO_SATOSHI)
-            totalSentSat = int(float(total_sent) * settings.UNIT_TO_SATOSHI)
+            totalSentSat = int(float(total_sent) / settings.UNIT_TO_SATOSHI)
+            print("total send sat: %s" %str(totalSentSat))
             result = {
                 "addrStr": addr,
                 "balance": balance,

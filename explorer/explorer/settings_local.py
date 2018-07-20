@@ -13,7 +13,7 @@ APPEND_SLASH = True
 
 LOGGING_API_REQUEST = True
 
-STATIC_DEFAULT_VERSION = 43
+STATIC_DEFAULT_VERSION = 44
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
@@ -31,7 +31,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 PAGE_SIZE = 50
 
 # coin
-UNIT_TO_SATOSHI = 100000000
+UNIT_TO_SATOSHI = 1000000000000000000
 
 # cache
 CACHE_KEY_NEWBLOCK = 'newblock'

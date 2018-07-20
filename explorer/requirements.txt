@@ -50,3 +50,4 @@ mongoengine==0.14.3
 eventlet==0.21.0
 flask==0.12.2
 python-socketio==1.8.4
+base58==1.0.0
