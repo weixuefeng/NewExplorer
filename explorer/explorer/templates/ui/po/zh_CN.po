@@ -201,7 +201,7 @@ msgstr "牛顿节点信息"
 
 #: public/views/includes/search.html:1
 msgid "Newton Blockchain Explorer"
-msgstr "当前区块Tip"
+msgstr ""
 
 #: public/views/block.html:100
 msgid "Next Block"

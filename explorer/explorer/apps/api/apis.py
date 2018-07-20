@@ -17,8 +17,10 @@ from utils import http
 from provider import models as provider_models
 from provider import services as provider_services
 DECIMAL_SATOSHI = Decimal("100000000")
+from utils import newchain_tools
 
 
+addr_translation = newchain_tools.NewChainAddress()
 logger = logging.getLogger(__name__)
 
 # internal utils functions
@@ -318,6 +320,8 @@ def api_show_transcations(request, version):
         addr = request.GET.get('addr')
         if not addr:
             addr = request.GET.get('address')
+        if addr:
+            addr = addr_translation.b58check_decode(addr)
         page_id = int(request.GET.get('pageNum', 1))
         limit = int(request.GET.get('limit', settings.PAGE_SIZE))
         total_page = 0
@@ -351,6 +355,10 @@ def api_show_transcations(request, version):
         for obj in objs:
             item = __convert_transaction_to_json(obj)
             item['confirmations'] = current_height - obj.blockheight
+            from_address = addr_translation.address_encode(item['from_address'])
+            to_address = addr_translation.address_encode(item['to_address'])
+            item['from_addr'] = from_address
+            item['to_addr'] = to_address
             txs.append(item)
         result = {
             "pagesTotal": total_page,
@@ -406,6 +414,10 @@ def api_show_transcation(request, version, txid):
             current_height = provider_services.get_current_height()
             result = __convert_transaction_to_json(obj)
             result['confirmations'] = current_height - obj.blockheight
+            from_address = addr_translation.address_encode(result['from_address'])
+            to_address = addr_translation.address_encode(result['to_address'])
+            result['from_addr'] = from_address
+            result['to_addr'] = to_address
             return http.JsonResponse(result)
         else:
             return http.HttpResponseNotFound()
@@ -434,13 +446,14 @@ def api_show_addr_summary(request, version, addr):
     }
     """
     try:
-        obj = provider_models.Address.objects.filter(addr=addr).first()
+        eth_addr = addr_translation.b58check_decode(addr)
+        obj = provider_models.Address.objects.filter(addr=eth_addr).first()
         if obj:
-            total_received = provider_models.Address.objects.filter(addr=addr, vtype=codes.ValueType.RECEIVE.value).sum('value')
-            total_sent = provider_models.Address.objects.filter(addr=addr, vtype=codes.ValueType.SEND.value).sum('value')
+            total_received = provider_models.Address.objects.filter(addr=eth_addr, vtype=codes.ValueType.RECEIVE.value).sum('value')
+            total_sent = provider_models.Address.objects.filter(addr=eth_addr, vtype=codes.ValueType.SEND.value).sum('value')
             balance = total_received - total_sent
             # caculate the txlength
-            txlength = provider_models.Address.objects.filter(addr=addr).count()
+            txlength = provider_models.Address.objects.filter(addr=eth_addr).count()
             balance = __convert_num_to_float(balance)
             total_received = __convert_num_to_float(total_received)
             total_sent = __convert_num_to_float(total_sent)
