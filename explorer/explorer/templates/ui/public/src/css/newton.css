@@ -68,14 +68,14 @@
 .navbar-brand {
     width: 100px;
     margin-right: 50px;
-    background:url(../img/logo-2.png?v=2) no-repeat center;
+    background:url(../img/logo-2.png) no-repeat center;
     padding-top: 48px;
 }
 @media(max-width: 768px) {
     .navbar-brand {
         width: 100%;
         margin-right: 50px;
-        background:url(../img/logo-2.png?v=2) no-repeat center;
+        background:url(../img/logo-2.png) no-repeat center;
         padding-top: 48px;
     }
 }
@@ -234,6 +234,7 @@
 
 .latest-list {
     margin: auto;
+    margin-bottom: 50px;
 }
 
 /* search section */
@@ -365,6 +366,12 @@
 }
 
 @media (max-width: 768px) {
+    .switching-blocks-btn {
+        margin: 15px auto;
+    }
+}
+
+@media (max-width: 768px) {
     .blocks-page-upper {
         padding: unset;
         margin-top: 2%;
@@ -373,6 +380,10 @@
     }
     .phone-hidden {
         display: none;
+    }
+    .blocks-page-lower {
+        padding-left: 15px;
+        padding-right: 15px;
     }
 }
 
@@ -398,6 +409,11 @@
     }
     .block-page-lower {
         margin-bottom: unset;
+    }
+    .ph-table {
+        padding: 20px 0 !important;
+        font-size: 15px;
+
     }
 }
 

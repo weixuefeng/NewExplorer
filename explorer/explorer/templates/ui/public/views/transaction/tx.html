@@ -211,12 +211,12 @@
 <div data-ng-hide="!tx">
   <div class="col-xs-6 col-sm-4 col-md-4 transaction-fee">
     <span data-ng-show="!tx.isCoinBase &&  !isNaN(parseFloat(tx.fees))"
-      class="txvalues txvalues-default txvalues-default-expand"><span translate>Fee</span>: {{$root.currency.getConvertion(tx.fees) || tx.fees + 'Wei'}} </span>
+      class="txvalues txvalues-default txvalues-default-expand"><span translate>Fee</span>: {{$root.currency.getConvertion(tx.fees) || tx.fees * 1000000000000000000 + 'Wei'}} </span>
   </div>
   <div class="col-xs-6 col-sm-8 col-md-8 text-right">
     <span data-ng-show="tx.confirmations" class="txvalues
       txvalues-success">{{tx.confirmations}} <span translate>Confirmations</span></span>
     <span data-ng-show="!tx.confirmations" class="txvalues txvalues-danger txvalues-danger-expand" translate>Unconfirmed Transaction!</span>
-    <span class="txvalues txvalues-primary txvalues-primary-expand">{{$root.currency.getConvertion(tx.valueOut) || tx.valueOut / 1000000000000000000 + ' NEW' }}</span>
+    <span class="txvalues txvalues-primary txvalues-primary-expand">{{$root.currency.getConvertion(tx.valueOut) || tx.valueOut + ' NEW' }}</span>
   </div>
 </div>

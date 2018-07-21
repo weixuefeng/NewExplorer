@@ -12,7 +12,7 @@
                 <div class="row latest-list container">
                     <div class="col-md-6">
                         <div class="panel panel-default">
-                        <div class="panel-heading" style="background-color: unset">
+                        <div class="panel-heading">
                             <span class="" translate  style="font-size: 20px">Latest Blocks</span>
                             <a href="blocks" class="link see-all-blocks">
                                 <span class="pull-right see-all-blocks-btn" translate>
@@ -47,10 +47,10 @@
                     </div>
                     <div class="col-md-6">
                         <div class="panel panel-default">
-                        <div class="panel-heading" style="background-color: unset">
+                        <div class="panel-heading">
                         <span class="" translate  style="font-size: 20px">Latest Transactions</span>
                         </div>
-                        <table class="table" style="">
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th translate>Transaction ID</th>
@@ -63,7 +63,7 @@
                                     <td style="max-width:180px">
                                         <a class="ellipsis" href="tx/{{tx.txid}}">{{tx.txid}}</a>
                                     </td>
-                                    <td class="text-right"><span class="ellipsis">{{$root.currency.getConvertion(tx.valueOut) || tx.valueOut /1000000000000000000 + ' New'}}</span></td>
+                                    <td class="text-right"><span class="ellipsis">{{$root.currency.getConvertion(tx.valueOut) || tx.valueOut + ' New'}}</span></td>
                                 </tr>
                             </tbody>
                         </table>

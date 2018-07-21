@@ -18,7 +18,7 @@ from provider import models as provider_models
 from provider import services as provider_services
 DECIMAL_SATOSHI = Decimal("1000000000000000000")
 from utils import newchain_tools
-
+import datetime
 
 addr_translation = newchain_tools.NewChainAddress()
 logger = logging.getLogger(__name__)
@@ -155,7 +155,6 @@ def api_show_blocks(request, version):
         block_date = request.GET.get('blockDate')
         start_ts = request.GET.get('startTimestamp')
         timezone = int(request.GET.get('timezone', 0))
-
         limit = int(request.GET.get('limit', settings.PAGE_SIZE))
         if block_date:
             block_date = datetime.datetime.strptime(block_date, '%Y-%m-%d')
@@ -457,8 +456,6 @@ def api_show_addr_summary(request, version, addr):
                 total_received = total_received + int(tx.value)
             for tx in total_sent_transactions:
                 total_sent = total_sent + int(tx.value)
-            # print('+'*100, 'total set:%s' % str(total_sent))
-            # print('-'*100, "total receive: %s" % str(total_received))
             balance = total_received - total_sent
             # caculate the txlength
             txlength = provider_models.Address.objects.filter(addr=eth_addr).count()

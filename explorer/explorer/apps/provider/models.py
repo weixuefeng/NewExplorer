@@ -9,7 +9,7 @@ __author__ = 'xiawu@lubangame.com'
 import logging
 from django.conf import settings
 from mongoengine import *
-import datetime
+
 
 logger = logging.getLogger(__name__)
 
