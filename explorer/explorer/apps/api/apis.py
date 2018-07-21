@@ -88,7 +88,7 @@ def api_get_sync(request, version):
             "height": current_height,
             "status": _("finished"),
             "syncPercentage": 100,
-            "type": _("newton node"),
+            "type": _("newton supernode"),
             "startTs": int(start_ts) * 1000,
             "syncedBlocks": current_height,
             }
@@ -102,6 +102,7 @@ def api_get_status(request, version):
     """ show the status info for uri: /status
     """
     current_height = provider_services.get_current_height()
+    current_net = settings.CURRENT_NET
     result = {
         "info": {
             "blocks": current_height,
@@ -114,7 +115,8 @@ def api_get_status(request, version):
             "relayfee": 0.00001,
             "testnet": False,
             "timeoffset": 0,
-            "version": 1
+            "version": 1,
+            'current_net': current_net
         }
     }
     return http.JsonResponse(result)
