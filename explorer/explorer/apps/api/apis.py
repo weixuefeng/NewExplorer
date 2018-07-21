@@ -589,7 +589,7 @@ def api_show_newtx(request, version):
     -------
     """
     try:
-        objs = provider_models.Transaction.objects.order_by("-created_at")[0: 10]
+        objs = provider_models.Transaction.objects.order_by("-time")[0: 10]
         current_height = provider_services.get_current_height()
         txs = []
         for obj in objs:
