@@ -70,10 +70,13 @@ class Address(Document):
     locktime = IntField(default=0)
     meta = { 'indexes': ['addr', 'txid', 'blockheight', 'time', 'vtype']}
 
-class Balance(Document):
-    addr = StringField(max_length=128, required=True)
-    value = FloatField(default=0)
-    meta = { 'indexes': ['addr'] }
+
+class Account(Document):
+    address = StringField(max_length=128, required=True, primary_key=True)
+    balance = FloatField(default=0)
+    total_received = FloatField(default=0)
+    total_sent = FloatField(dafault=0)
+    meta = { 'indexes': ['address', 'balance', 'total_received', 'total_sent'] }
 
 # init the connection
 connect(settings.BLOCK_CHAIN_DB_NAME, host=settings.MONGODB_HOST)

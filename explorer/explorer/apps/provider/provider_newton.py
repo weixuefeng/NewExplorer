@@ -12,9 +12,11 @@ import requests
 import copy
 from decimal import *
 
+
 logger = logging.getLogger(__name__)
 COINBASE_TXID = '0' * 64
 DECIMAL_SATOSHI = Decimal("100000000")
+
 
 class Provider(object):
     def __init__(self, url):
@@ -32,7 +34,7 @@ class Provider(object):
         response = requests.post(self.url, data=json.dumps(payload), headers=self.headers)
         response = response.json()
         return response
-    
+
     def get_block_height(self):
         response = self._post('eth_blockNumber', [])
         return int(response['result'], 0)
@@ -99,7 +101,8 @@ class Provider(object):
         return self.parse_transaction_response(result)
 
     def get_balance_by_address(self, address):
-        response = self._post('eth_getBalance', [address])
+        response = self._post('eth_getBalance', [address, "latest"])
+        print "response %s" % str(response)
         result = int(response['result'], 0)
         return result
 
@@ -108,17 +111,21 @@ class Provider(object):
         result = response['result']
         return result
 
+
 if __name__ == '__main__':
-    url = 'http://47.91.208.241:8801'
+    url = 'http://explorer.newtonproject.dev.diynova.com:8501'
     provider = Provider(url)
     # get block height
     print provider.get_block_height()
+    address_str = "0xe33eb7666bba40eccca84cf7a8d623735fa566d5"
+    balance = provider.get_balance_by_address(address_str)
+    print "balance %s" % str(balance)
     # get block by height
-    print provider.get_block_height(1)
+    # print provider.get_block_height(1)
     # get transaction count 
     print provider.get_transaction_count_by_height(1)
     # get transaction by height and index
-    print provider.get_transaction_by_height_and_index(2, 0)
+    # print provider.get_transaction_by_height_and_index(2, 0)
     # get block by hash
     # get transaction by hash
     # get utxos by address

@@ -19,6 +19,7 @@ from provider import services as provider_services
 DECIMAL_SATOSHI = Decimal("1000000000000000000")
 from utils import newchain_tools
 import datetime
+from mongoengine.queryset.visitor import Q
 
 addr_translation = newchain_tools.NewChainAddress()
 logger = logging.getLogger(__name__)
@@ -338,8 +339,9 @@ def api_show_transcations(request, version):
                     total_page = (cnt / settings.PAGE_SIZE)
             objs = objs.skip(page_id * settings.PAGE_SIZE).limit(limit)
         elif addr:
-            rs = provider_models.Address.objects.filter(addr=addr)
-            cnt = rs.count()
+            objs = provider_models.Transaction.objects.filter(Q(from_address=addr) | Q(to_address=addr)).order_by('-time')
+            cnt = objs.count()
+            print('-'*100, cnt)
             if cnt == 0:
                 total_page = 1
             else:
@@ -347,8 +349,8 @@ def api_show_transcations(request, version):
                     total_page = (cnt / settings.PAGE_SIZE) + 1
                 else:
                     total_page = (cnt / settings.PAGE_SIZE)
-            txids = [item.txid for item in rs.skip(page_id * settings.PAGE_SIZE).limit(limit)]
-            objs = provider_models.Transaction.objects.filter(txid__in=txids).order_by('-time')
+            # txids = [item.txid for item in objs.skip(page_id * settings.PAGE_SIZE).limit(limit)]
+            # objs = provider_models.Transaction.objects.filter(txid__in=txids).order_by('-time')
         else:
             raise Exception("invalid parameter")
         txs = []
@@ -463,14 +465,10 @@ def api_show_addr_summary(request, version, addr):
             txlength = provider_models.Address.objects.filter(addr=eth_addr).count()
             balance = __convert_num_to_float(balance)
             total_received = __convert_num_to_float(total_received)
-            print("total send wei : %s" %str(total_sent))
             total_sent = __convert_num_to_float(total_sent)
-            print("total send wei : %s" % str(total_sent))
-
             balanceSat = int(float(balance) * settings.UNIT_TO_SATOSHI)
             totalReceivedSat = int(float(total_received) * settings.UNIT_TO_SATOSHI)
             totalSentSat = int(float(total_sent) / settings.UNIT_TO_SATOSHI)
-            print("total send sat: %s" %str(totalSentSat))
             result = {
                 "addrStr": addr,
                 "balance": balance,
@@ -681,14 +679,14 @@ def api_richest_list(request, version):
     #     print total_received
 
     info = []
-    balance_list = provider_models.Balance.objects.filter()
-    richest_list = balance_list.order_by("-value").limit(100)
-    sum_balance = balance_list.sum('value')
+    balance_list = provider_models.Account.objects.filter()
+    richest_list = balance_list.order_by("-balance").limit(100)
+    sum_balance = balance_list.sum('balance')
     for rl in richest_list:
         balance = {}
-        balance['address'] = rl['addr']
-        balance['balance'] = round(__convert_num_to_float(rl['value']), 6)
-        balance['percentage'] = round((rl['value'] / sum_balance) * 100, 5)
+        balance['address'] = rl['address']
+        balance['balance'] = round(__convert_num_to_float(rl['balance']), 6)
+        balance['percentage'] = round((rl['balance'] / sum_balance) * 100, 5)
         info.append(balance)
     result = {
         "info": info
