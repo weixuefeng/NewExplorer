@@ -452,6 +452,7 @@ def api_show_addr_summary(request, version, addr):
     """
     try:
         eth_addr = addr_translation.b58check_decode(addr)
+        print('-'*100, 'test', '-'*100)
         obj = provider_models.Account.objects.filter(address=eth_addr)
         if obj:
             res = __convert_account_to_json(obj)
@@ -636,53 +637,6 @@ def api_get_estimatefee(request, version):
         return http.JsonResponse(result)
     except Exception, inst:
         return http.HttpResponseServerError()
-
-
-def api_richest_list(request, version):
-    """ show the richest list for uri: /addrs/richest-list 
-    """ 
-    # vtype RECEIVE = 1, SEND = 2 
-    # response
-    # -------
-    # [
-    # {
-    # percentage: 0.45,
-    # balance: 14999999.999999,
-    # address: "8KNrJAyF4M67HT5tma7ZE4Rx9N9YzaUbtM"
-    # },
-    # {
-    # percentage: 0.15,
-    # balance: 5000000,
-    # address: "8K9gkit8NPM5bD84wJuE5n7tS9Rdski5uB"
-    # },
-    # {
-    # percentage: 0.1,
-    # balance: 3338576.362979,
-    # address: "8S7jTjYjqBhJpS9DxaZEbBLfAhvvyGypKx"
-    # },
-    # ...
-    # ]
-    # addr_list = provider_models.Address.objects.filter().distinct('addr')
-    # for addr in addr_list:
-    #     total_received = provider_models.Address.objects.filter(addr=addr, vtype=codes.ValueType.RECEIVE.value).sum('value')
-    #     total_sent = provider_models.Address.objects.filter(addr=addr, vtype=codes.ValueType.SEND.value).sum('value')
-    #     print total_received
-
-    info = []
-    balance_list = provider_models.Account.objects.filter()
-    richest_list = balance_list.order_by("-balance").limit(100)
-    sum_balance = balance_list.sum('balance')
-    for rl in richest_list:
-        balance = {}
-        balance['address'] = rl['address']
-        balance['balance'] = round(__convert_num_to_float(rl['balance']), 6)
-        balance['percentage'] = round((rl['balance'] / sum_balance) * 100, 5)
-        info.append(balance)
-    result = {
-        "info": info
-    }
-    
-    return http.JsonResponse(result)
 
 def api_show_client_transactions(request, version):
     try:

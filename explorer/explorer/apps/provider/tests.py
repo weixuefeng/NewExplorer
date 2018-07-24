@@ -4,7 +4,7 @@ from utils import newchain_tools
 import base58
 
 
-class GetBalanceTestCase(TestCase):
+class ProviderTestCase(TestCase):
     def test_celery_data(self):
         url = 'http://explorer.newtonproject.dev.diynova.com:8501'
         provider = Provider(url)
@@ -13,6 +13,3 @@ class GetBalanceTestCase(TestCase):
         addr = translation.b58check_decode(newton_addr)
         balance = provider.get_balance_by_address(addr)
         print(balance)
-
-
-

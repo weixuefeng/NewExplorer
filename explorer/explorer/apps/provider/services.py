@@ -151,8 +151,18 @@ def sync_account_data(provider, transaction):
             if address:
                 instance = provider_models.Account.objects.filter(address=address).first()
                 if not instance:
-                    pass
+                    instance = provider_models.Account.objects()
+                objs = provider_models.Transaction.objects.filter(from_address=address)
+                sent = objs.sum('value')
+                fees = objs.sum('fees')
+                total_sent = sent + fees
+                total_received = provider_models.Transaction.objects.filter(to_address=address).sum('value')
                 # caculate the balance
+                balance = total_received - total_sent
+                instance.total_sent = total_sent
+                instance.total_received = total_received
+                instance.balance = balance
+                instance.save()
     except Exception, inst:
         logger.exception("fail to sync account data:%s" % str(inst))
 
