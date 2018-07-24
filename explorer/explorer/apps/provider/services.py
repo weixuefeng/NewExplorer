@@ -87,26 +87,6 @@ def store_block_data(block_info, provider, blockchain_type=codes.BlockChainType.
                 transaction_instance.blockheight = block_info['height']
                 transaction_instance.time = block_info['time']
                 transaction_instance.save()
-                # indexing address
-                if transaction_instance.to_address:
-                    obj = provider_models.Address()
-                    obj.addr = transaction_instance.from_address
-                    obj.txid = txid
-                    obj.blockheight = block_info['height']
-                    obj.value = transaction_instance.value
-                    obj.vtype = codes.ValueType.SEND.value
-                    obj.n = transaction_instance.transaction_index
-                    obj.time = transaction_instance.time
-                    obj.save()
-                    obj = provider_models.Address()
-                    obj.addr = transaction_instance.to_address
-                    obj.txid = txid
-                    obj.blockheight = block_info['height']
-                    obj.value = transaction_instance.value
-                    obj.vtype = codes.ValueType.RECEIVE.value
-                    obj.n = transaction_instance.transaction_index
-                    obj.time = transaction_instance.time
-                    obj.save()
         # when transaction is finish, store block
         block_instance.save()
         return True
@@ -161,7 +141,22 @@ def insert_transaction_to_cache(transaction):
         logger.exception("fail to insert transaction to cache:%s" % str(inst))
         return False
 
-    
+
+def sync_account_data(provider, transaction):
+    """Sync the data of account
+    """
+    try:
+        address_list = [transaction.from_address, transaction.to_address]
+        for address in address_list:
+            if address:
+                instance = provider_models.Account.objects.filter(address=address).first()
+                if not instance:
+                    pass
+                # caculate the balance
+    except Exception, inst:
+        logger.exception("fail to sync account data:%s" % str(inst))
+
+
 def save_transaction_data(provider, block_info):
     """Save the transaction info
     """
@@ -179,26 +174,6 @@ def save_transaction_data(provider, block_info):
             transaction_instance.save()
             # cache transaction
             insert_transaction_to_cache(transaction_instance)
-            # indexing address
-            if transaction_instance.to_address:
-                obj = provider_models.Address()
-                obj.addr = transaction_instance.from_address
-                obj.txid = txid
-                obj.blockheight = block_info['height']
-                obj.value = transaction_instance.value
-                obj.vtype = codes.ValueType.SEND.value
-                obj.n = transaction_instance.transaction_index
-                obj.time = transaction_instance.time
-                obj.save()
-                obj = provider_models.Address()
-                obj.addr = transaction_instance.to_address
-                obj.txid = txid
-                obj.blockheight = block_info['height']
-                obj.value = transaction_instance.value
-                obj.vtype = codes.ValueType.RECEIVE.value
-                obj.n = transaction_instance.transaction_index
-                obj.time = transaction_instance.time
-                obj.save()
         return True
     except Exception, inst:
         print inst
@@ -209,7 +184,6 @@ def save_transaction_data(provider, block_info):
 def delete_data_by_block_height(height):
     provider_models.Block.objects.filter(height__gte=height).delete()
     provider_models.Transaction.objects.filter(blockheight__gte=height).delete()
-    provider_models.Address.objects.filter(blockheight__gte=height).delete()
 
 def handle_block_fork(blockchain_type):
     """Handle the block fork
