@@ -102,7 +102,6 @@ class Provider(object):
 
     def get_balance_by_address(self, address):
         response = self._post('eth_getBalance', [address, "latest"])
-        print "response %s" % str(response)
         result = int(response['result'], 0)
         return result
 

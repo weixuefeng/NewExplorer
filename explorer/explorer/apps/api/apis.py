@@ -341,7 +341,6 @@ def api_show_transcations(request, version):
         elif addr:
             objs = provider_models.Transaction.objects.filter(Q(from_address=addr) | Q(to_address=addr)).order_by('-time')
             cnt = objs.count()
-            print('-'*100, cnt)
             if cnt == 0:
                 total_page = 1
             else:
@@ -349,8 +348,7 @@ def api_show_transcations(request, version):
                     total_page = (cnt / settings.PAGE_SIZE) + 1
                 else:
                     total_page = (cnt / settings.PAGE_SIZE)
-            # txids = [item.txid for item in objs.skip(page_id * settings.PAGE_SIZE).limit(limit)]
-            # objs = provider_models.Transaction.objects.filter(txid__in=txids).order_by('-time')
+            objs = objs.skip(page_id * settings.PAGE_SIZE).limit(limit)
         else:
             raise Exception("invalid parameter")
         txs = []

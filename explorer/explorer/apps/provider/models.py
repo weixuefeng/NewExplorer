@@ -42,7 +42,7 @@ class Transaction(Document):
     data = StringField(required=False)
     transaction_index = IntField(default=0)
     locktime = IntField(default=0)
-    meta = { 'indexes': ['blockhash', 'blockheight', 'time']}
+    meta = { 'indexes': ['blockhash', 'blockheight', 'time', 'from_address', 'to_address']}
 
 
 class CappedTransaction(Document):
@@ -76,7 +76,7 @@ class Account(Document):
     balance = FloatField(default=0)
     total_received = FloatField(default=0)
     total_sent = FloatField(dafault=0)
-    meta = { 'indexes': ['address', 'balance', 'total_received', 'total_sent'] }
+    meta = { 'indexes': ['address'] }
 
 # init the connection
 connect(settings.BLOCK_CHAIN_DB_NAME, host=settings.MONGODB_HOST)
