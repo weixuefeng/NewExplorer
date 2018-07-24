@@ -141,7 +141,22 @@ def insert_transaction_to_cache(transaction):
         logger.exception("fail to insert transaction to cache:%s" % str(inst))
         return False
 
-    
+
+def sync_account_data(provider, transaction):
+    """Sync the data of account
+    """
+    try:
+        address_list = [transaction.from_address, transaction.to_address]
+        for address in address_list:
+            if address:
+                instance = provider_models.Account.objects.filter(address=address).first()
+                if not instance:
+                    pass
+                # caculate the balance
+    except Exception, inst:
+        logger.exception("fail to sync account data:%s" % str(inst))
+
+
 def save_transaction_data(provider, block_info):
     """Save the transaction info
     """
