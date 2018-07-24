@@ -63,7 +63,7 @@ class BlockchainSyncManager(object):
         except Exception, inst:
             logger.exception('fail to query new block:%s' % str(inst))
 
-    def close_server_handler(signum, frame):
+    def close_server_handler(self, signum, frame):
         try:
             logger.info("close_server_handler")
             for p in self.indexing_processes:
