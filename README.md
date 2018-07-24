@@ -131,3 +131,8 @@ wsgi.py文件: 内置runserver命令的WSGI应用配置
 urls.py文件: URL根配置
 
 
+### newtonbd程序同步区块过程 ###
+newtonbd主进程,有三个子进程,一个retriere server、一个indexing server 还有一个account server.
+retriere server子进程主要负责从NewChain中获取信息,每隔100ms使用rest polling程序获取block info信息.
+retriere server通过主进程中的消息队列Queue把信息传到indexing server子进程,indexing server将其存储到数据库中.
+account server子进程如果发现新的地址,就直接从链上查询,并保存到数据库中.  
