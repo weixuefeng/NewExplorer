@@ -61,6 +61,10 @@ def __convert_num_to_float(num):
     res = float(Decimal(str(num)) / DECIMAL_SATOSHI)
     return res
 
+def __convert_account_to_json(obj):
+    result = json.loads(obj.to_json())
+    return result
+
 # API functions
 def api_ping(request, version):
     return http.JsonSuccessResponse()
@@ -448,22 +452,14 @@ def api_show_addr_summary(request, version, addr):
     """
     try:
         eth_addr = addr_translation.b58check_decode(addr)
-        obj = provider_models.Address.objects.filter(addr=eth_addr).first()
+        obj = provider_models.Account.objects.filter(address=eth_addr)
         if obj:
-            total_received_transactions = provider_models.Transaction.objects.filter(to_address=eth_addr)
-            total_sent_transactions = provider_models.Transaction.objects.filter(from_address=eth_addr)
-            total_received = 0
-            total_sent = 0
-            for tx in total_received_transactions:
-                total_received = total_received + int(tx.value)
-            for tx in total_sent_transactions:
-                total_sent = total_sent + int(tx.value)
-            balance = total_received - total_sent
+            res = __convert_account_to_json(obj)
             # caculate the txlength
-            txlength = provider_models.Address.objects.filter(addr=eth_addr).count()
-            balance = __convert_num_to_float(balance)
-            total_received = __convert_num_to_float(total_received)
-            total_sent = __convert_num_to_float(total_sent)
+            txlength = provider_models.Transaction.objects.filter(Q(from_address=eth_addr) | Q(to_address=eth_addr)).count()
+            balance = res['balance']
+            total_received = res['total_received']
+            total_sent = res['total_sent']
             balanceSat = int(float(balance) * settings.UNIT_TO_SATOSHI)
             totalReceivedSat = int(float(total_received) * settings.UNIT_TO_SATOSHI)
             totalSentSat = int(float(total_sent) / settings.UNIT_TO_SATOSHI)
@@ -525,14 +521,10 @@ def api_show_transactions_by_addresses(request, version, addrs=None):
         current_height = provider_services.get_current_height()
         for addr in addrs:
             if no_spent:
-                rs = provider_models.Address.objects.filter(addr=addr, vtype=codes.ValueType.RECEIVE.value)
+                rs = provider_models.Transaction.objects.filter(to_address=addr)
             else:
-                rs = provider_models.Address.objects.filter(addr=addr)
-            if start_pos != None and end_pos != None:
-                txids = [item.txid for item in rs.skip(start_pos).limit(end_pos - start_pos)]
-            else:
-                txids = [item.txid for item in rs]
-            objs = provider_models.Transaction.objects.filter(txid__in=txids).order_by('-blockheight')
+                rs = provider_models.Transaction.objects.filter(Q(from_address=addr) | Q(to_address=addr))
+            objs = rs.skip(start_pos).limit(end_pos - start_pos)
             for obj in objs:
                 tmp = __convert_transaction_to_json(obj)
                 tmp['confirmations'] = current_height - obj.blockheight
@@ -702,7 +694,7 @@ def api_show_client_transactions(request, version):
         total_page = 0
         if addr:
             addr = addr.lower()
-            rs = provider_models.Address.objects.filter(addr=addr).order_by('-time')
+            rs = provider_models.Transaction.objects.filter(Q(from_address=addr) | Q(to_address=addr)).order_by('-time')
             cnt = rs.count()
             if cnt == 0:
                 total_page = 1
@@ -711,8 +703,7 @@ def api_show_client_transactions(request, version):
                     total_page = (cnt / limit) + 1
                 else:
                     total_page = (cnt / limit)
-            txids = [item.txid for item in rs.skip((page_id - 1) * limit).limit(limit)]
-            objs = provider_models.Transaction.objects.filter(txid__in=txids).order_by('-time')
+            objs = rs.skip((page_id - 1) * limit).limit(limit)
         else:
             raise Exception("invalid parameter")
         txs = []
