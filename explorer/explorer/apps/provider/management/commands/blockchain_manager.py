@@ -24,27 +24,26 @@ class BlockchainSyncManager(object):
         self.indexing_processes = []
         self.query_processes = []
         self.query_input_queues = []
-        self.query_output_queues = []
+        self.query_output_queue = None
         self.current_height = provider_services.get_current_height(self.blockchain_type)
         self.provider = provider_services.blockchain_providers[self.blockchain_type].Provider(self.url_prefix)
         self.__start_worker()
         
     def __start_worker(self):
         # Init the processes of indexing server
+        self.query_output_queue = self.manager.Queue()
         for i in range(5):
             # init the input Queue
             query_input_queue = self.manager.Queue()
             self.query_input_queues.append(query_input_queue)
-            query_output_queue = self.manager.Queue()
-            self.query_output_queues.append(query_output_queue)            
             # query proxy
-            query_process = Process(target=query_proxy.init_entry, args=(self.blockchain_type, self.url_prefix, query_input_queue, query_output_queue, ))
+            query_process = Process(target=query_proxy.init_entry, args=(self.blockchain_type, self.url_prefix, query_input_queue, self.query_output_queue, ))
             self.query_processes.append(query_process)
             query_process.start()
-            # indexing server
-            indexing_process = Process(target=indexing_server.init_entry, args=(self.blockchain_type, self.url_prefix, query_output_queue, ))
-            self.indexing_processes.append(indexing_process)
-            indexing_process.start()
+        # indexing server
+        indexing_process = Process(target=indexing_server.init_entry, args=(self.blockchain_type, self.url_prefix, self.query_output_queue, ))
+        self.indexing_processes.append(indexing_process)
+        indexing_process.start()
 
     def query_new_block(self):
         try:
