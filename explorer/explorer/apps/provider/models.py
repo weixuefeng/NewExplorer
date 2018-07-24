@@ -56,7 +56,7 @@ class CappedTransaction(Document):
     to_address = StringField(max_length=128)
     value = StringField(max_length=128, required=True)
     time = IntField()
-    meta = {'max_documents': 100, 'max_size': 2000000}
+    meta = {'max_documents': 5000, 'max_size': 20000000}
 
     
 class Address(Document):
