@@ -59,18 +59,6 @@ class CappedTransaction(Document):
     meta = {'max_documents': 5000, 'max_size': 20000000}
 
     
-class Address(Document):
-    addr = StringField(max_length=128, required=True)
-    txid = StringField(max_length=128, required=True)
-    blockheight = IntField()
-    time = IntField()
-    value = StringField(max_length=128, required=True)
-    vtype = IntField()
-    n = IntField(default=0)
-    locktime = IntField(default=0)
-    meta = { 'indexes': ['addr', 'txid', 'blockheight', 'time', 'vtype']}
-
-
 class Account(Document):
     address = StringField(max_length=128, required=True, primary_key=True)
     balance = FloatField(default=0)
