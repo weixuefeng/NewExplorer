@@ -31,7 +31,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr data-ng-show="!blocks.length"><td colspan="5" translate>Waiting for blocks...</td></tr>
+                                <tr data-ng-show="!blocks.length" class="text-center text-muted"><td colspan="5" translate>Waiting for blocks...</td></tr>
                                 <tr class="fader" data-ng-repeat='b in blocks'>
                                     <td>
                                         <a href="block/{{b.hash}}">{{b.height}}</a>
@@ -58,7 +58,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr data-ng-show="!txs.length"><td colspan="3" translate>Waiting for transactions...</td></tr>
+                                <tr data-ng-show="!txs.length" class="text-center text-muted"><td colspan="3" translate>Waiting for transactions...</td></tr>
                                 <tr class="fader" data-ng-repeat='tx in txs'>
                                     <td style="max-width:180px">
                                         <a class="ellipsis" href="tx/{{tx.txid}}">{{tx.txid}}</a>

@@ -146,19 +146,26 @@ def sync_account_data(provider, transaction):
     """Sync the data of account
     """
     try:
-        address_list = [transaction.from_address, transaction.to_address]
+        address_list = [transaction['from_address'], transaction['to_address']]
         for address in address_list:
             if address:
                 instance = provider_models.Account.objects.filter(address=address).first()
                 if not instance:
-                    instance = provider_models.Account.objects()
-                objs = provider_models.Transaction.objects.filter(from_address=address)
-                sent = objs.sum('value')
-                fees = objs.sum('fees')
-                total_sent = sent + fees
-                total_received = provider_models.Transaction.objects.filter(to_address=address).sum('value')
+                    instance = provider_models.Account()
+                from_objs = provider_models.Transaction.objects.filter(from_address=address)
+                total_sent = 0
+                for obj in from_objs:
+                    sent = int(obj.value)
+                    fees = int(obj.fees)
+                    total_sent += sent + fees
+                to_objs = provider_models.Transaction.objects.filter(to_address=address)
+                total_received = 0
+                for obj in to_objs:
+                    received = int(obj.value)
+                    total_received += received
                 # caculate the balance
                 balance = total_received - total_sent
+                instance.address = address
                 instance.total_sent = total_sent
                 instance.total_received = total_received
                 instance.balance = balance

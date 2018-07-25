@@ -66,16 +66,16 @@
     border-redius: unset;
 }
 .navbar-brand {
-    width: 100px;
+    width: 130px;
     margin-right: 50px;
-    background:url(../img/logo-2.png) no-repeat center;
+    background:url(../img/logo-3.svg) no-repeat center;
     padding-top: 48px;
 }
 @media(max-width: 768px) {
     .navbar-brand {
-        width: 100%;
-        margin-right: 50px;
-        background:url(../img/logo-2.png) no-repeat center;
+        width: 40%;
+        margin-left: 30%;
+        background:url(../img/logo-3.svg) no-repeat center;
         padding-top: 48px;
     }
 }
@@ -109,6 +109,7 @@
     .navbar-collapse.in {
         height: 2000px !important;
         max-height: 2000px;
+        margin-top: 5%;
     }
 
     .fsn .toggle-nav {

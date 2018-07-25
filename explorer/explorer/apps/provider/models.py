@@ -64,7 +64,7 @@ class Account(Document):
     balance = FloatField(default=0)
     total_received = FloatField(default=0)
     total_sent = FloatField(dafault=0)
-    meta = { 'indexes': ['address'] }
+
 
 # init the connection
 connect(settings.BLOCK_CHAIN_DB_NAME, host=settings.MONGODB_HOST)

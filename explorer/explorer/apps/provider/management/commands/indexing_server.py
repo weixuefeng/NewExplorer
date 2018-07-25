@@ -26,6 +26,9 @@ def run():
                 data = g_queue.get()
                 if data:
                     provider_services.save_transaction_data(g_provider, data)
+                    for item in data['transactions']:
+                        tx_item = g_provider.parse_transaction_response(item)
+                        provider_services.sync_account_data(g_provider, tx_item)
             time.sleep(0.1)
     except Exception, inst:
         logger.exception('fail to run:%s' % str(inst))

@@ -452,15 +452,14 @@ def api_show_addr_summary(request, version, addr):
     """
     try:
         eth_addr = addr_translation.b58check_decode(addr)
-        print('-'*100, 'test', '-'*100)
         obj = provider_models.Account.objects.filter(address=eth_addr)
         if obj:
             res = __convert_account_to_json(obj)
             # caculate the txlength
             txlength = provider_models.Transaction.objects.filter(Q(from_address=eth_addr) | Q(to_address=eth_addr)).count()
-            balance = res['balance']
-            total_received = res['total_received']
-            total_sent = res['total_sent']
+            balance = res[0]['balance']
+            total_received = res[0]['total_received']
+            total_sent = res[0]['total_sent']
             balanceSat = int(float(balance) * settings.UNIT_TO_SATOSHI)
             totalReceivedSat = int(float(total_received) * settings.UNIT_TO_SATOSHI)
             totalSentSat = int(float(total_sent) / settings.UNIT_TO_SATOSHI)
