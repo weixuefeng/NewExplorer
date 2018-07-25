@@ -197,7 +197,7 @@ def api_show_blocks(request, version):
         if cnt > settings.PAGE_SIZE:
             is_more = True
         if cnt > 0:
-            rs = rs[:limit]
+            rs = rs.limit(limit)
         # output
         blocks = []
         for item in rs:
@@ -209,10 +209,10 @@ def api_show_blocks(request, version):
             # get the last timestamp
             more_ts = blocks[-1]['time']
         # add the total number of transactions
-        number_of_transactions = provider_models.Transaction.objects.filter().count()
+        # number_of_transactions = provider_models.Transaction.objects.filter().count()
         result = {
             'blocks': blocks,
-            'number_of_transactions': number_of_transactions,
+            # 'number_of_transactions': number_of_transactions,
             'length': len(blocks),
             'pagination': {
                 "next": next_date.strftime('%Y-%m-%d'),
@@ -460,17 +460,17 @@ def api_show_addr_summary(request, version, addr):
             balance = res[0]['balance']
             total_received = res[0]['total_received']
             total_sent = res[0]['total_sent']
-            balanceSat = int(float(balance) * settings.UNIT_TO_SATOSHI)
-            totalReceivedSat = int(float(total_received) * settings.UNIT_TO_SATOSHI)
-            totalSentSat = int(float(total_sent) / settings.UNIT_TO_SATOSHI)
+            balanceSat = int(balance) / DECIMAL_SATOSHI
+            totalReceivedSat = int(total_received) / DECIMAL_SATOSHI
+            totalSentSat = int(total_sent) / DECIMAL_SATOSHI
             result = {
                 "addrStr": addr,
-                "balance": balance,
-                "balanceSat": balanceSat,
-                "totalReceived": total_received,
-                "totalReceivedSat": totalReceivedSat,
-                "totalSent": total_sent,
-                "totalSentSat": totalSentSat,
+                "balance": balanceSat,
+                # "balanceSat": balanceSat,
+                "totalReceived": totalReceivedSat,
+                # "totalReceivedSat": totalReceivedSat,
+                "totalSent": totalSentSat,
+                # "totalSentSat": totalSentSat,
                 "unconfirmedBalance": 0,
                 "unconfirmedBalanceSat": 0,
                 "unconfirmedTxApperances": 0,
