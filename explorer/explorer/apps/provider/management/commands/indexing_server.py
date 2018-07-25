@@ -25,7 +25,8 @@ def run():
             for i in range(qsize):
                 data = g_queue.get()
                 if data:
-                    provider_services.save_transaction_data(g_provider, data)
+                    if provider_services.save_transaction_data(g_provider, data):
+                        provider_services.save_block_data(data)
             time.sleep(0.1)
     except Exception, inst:
         logger.exception('fail to run:%s' % str(inst))
@@ -41,7 +42,8 @@ def init_entry(blockchain_type, url_prefix, input_queue):
     global g_queue
     global g_provider
     g_queue = input_queue
-    provider_services.init_transaction_cache()
+    clean = provider_services.init_transaction_cache()
+    print("+"*100, clean)
     g_provider = provider_services.blockchain_providers[blockchain_type].Provider(url_prefix)
     run()
     

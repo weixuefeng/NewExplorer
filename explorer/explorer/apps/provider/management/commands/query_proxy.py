@@ -30,7 +30,6 @@ def run():
                     data = g_provider.get_block_by_height(target_height)
                     if data:
                         g_output_queue.put(data)
-                        provider_services.save_block_data(data)
                         break
             time.sleep(0.1)
     except:
