@@ -191,6 +191,7 @@ def save_transaction_data(provider, block_info):
             transaction_instance.save()
             # cache transaction
             insert_transaction_to_cache(transaction_instance)
+            sync_account_data(provider, transaction_instance)
         return True
     except Exception, inst:
         print inst
