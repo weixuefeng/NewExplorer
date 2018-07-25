@@ -201,6 +201,7 @@ def api_show_blocks(request, version):
         # output
         blocks = []
         for item in rs:
+            item.tx = ''
             t = json.loads(item.to_json())
             # workaround
             t['hash'] = item.id
