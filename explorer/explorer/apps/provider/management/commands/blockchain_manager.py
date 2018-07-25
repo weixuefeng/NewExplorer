@@ -24,7 +24,7 @@ class BlockchainSyncManager(object):
         self.indexing_processes = []
         self.query_processes = []
         self.query_input_queues = []
-        self.query_output_queues = None
+        self.query_output_queue = None
         self.current_height = provider_services.get_current_height(self.blockchain_type)
         self.provider = provider_services.blockchain_providers[self.blockchain_type].Provider(self.url_prefix)
         self.__start_worker()

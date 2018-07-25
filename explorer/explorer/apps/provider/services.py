@@ -124,45 +124,46 @@ def init_transaction_cache():
         return False
 
 
-def insert_transaction_to_cache(transaction):
-    """Insert the transaction to cache (capped collection)
+def insert_transactions_to_cache(transactions):
+    """Insert the transactions to cache (capped collection)
 
     :param object transaction:  The transaction object
     :return: the execution status, True is success, False is fail
     :rtype: bool
     """
     try:
-        capped_instance = provider_models.CappedTransaction()
-        for k in transaction:
-            setattr(capped_instance, k, getattr(transaction, k))
-        capped_instance.save()
+        items = []
+        for item in transactions:
+            capped_instance = provider_models.CappedTransaction()
+            for k in item:
+                setattr(capped_instance, k, getattr(item, k))
+            capped_instance._created = True
+            items.append(capped_instance)
+        provider_models.CappedTransaction.objects.insert(items)
         return True
     except Exception, inst:
         logger.exception("fail to insert transaction to cache:%s" % str(inst))
         return False
 
 
-def sync_account_data(provider, transaction):
+def sync_account_data(address_list):
     """Sync the data of account
     """
     try:
-        address_list = [transaction['from_address'], transaction['to_address']]
         for address in address_list:
             if address:
                 instance = provider_models.Account.objects.filter(address=address).first()
                 if not instance:
                     instance = provider_models.Account()
-                from_objs = provider_models.Transaction.objects.filter(from_address=address)
-                total_sent = 0
-                for obj in from_objs:
-                    sent = int(obj.value)
-                    fees = int(obj.fees)
-                    total_sent += sent + fees
-                to_objs = provider_models.Transaction.objects.filter(to_address=address)
-                total_received = 0
-                for obj in to_objs:
-                    received = int(obj.value)
-                    total_received += received
+                    instance._created = True
+                else:
+                    instance._created = False
+                # from
+                value = provider_models.Transaction.objects.filter(from_address=address).sum('value')
+                fees = provider_models.Transaction.objects.filter(from_address=address).sum('fees')
+                total_sent = value + fees
+                # to
+                total_received = provider_models.Transaction.objects.filter(to_address=address).sum('value')
                 # caculate the balance
                 balance = total_received - total_sent
                 instance.address = address
@@ -178,6 +179,8 @@ def save_transaction_data(provider, block_info):
     """Save the transaction info
     """
     try:
+        transactions = []
+        address_list = []
         for item in block_info['transactions']:
             tx_item = provider.parse_transaction_response(item)
             transaction_info = tx_item
@@ -188,10 +191,15 @@ def save_transaction_data(provider, block_info):
             transaction_instance.blockhash = block_info['blockhash']
             transaction_instance.blockheight = block_info['height']
             transaction_instance.time = block_info['time']
-            transaction_instance.save()
+            transaction_instance._created = True
+            transactions.append(transaction_instance)
+            address_list.append(transaction_instance.from_address)
+            address_list.append(transaction_instance.to_address)
+        if transactions:
+            provider_models.Transaction.objects.insert(transactions)
             # cache transaction
-            insert_transaction_to_cache(transaction_instance)
-            sync_account_data(provider, transaction_instance)
+            insert_transactions_to_cache(transactions)
+            sync_account_data(list(set(address_list)))
         return True
     except Exception, inst:
         print inst
