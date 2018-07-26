@@ -146,31 +146,21 @@ def insert_transactions_to_cache(transactions):
         return False
 
 
-def sync_account_data(address_list):
+def sync_account_data(provider, address_list):
     """Sync the data of account
     """
     try:
-        for address in address_list:
-            if address:
+        def store_account_data(result):
+            for address,balance in result.items():
                 instance = provider_models.Account.objects.filter(address=address).first()
                 if not instance:
                     instance = provider_models.Account()
-                    instance._created = True
-                else:
-                    instance._created = False
-                # from
-                value = provider_models.Transaction.objects.filter(from_address=address).sum('value')
-                fees = provider_models.Transaction.objects.filter(from_address=address).sum('fees')
-                total_sent = value + fees
-                # to
-                total_received = provider_models.Transaction.objects.filter(to_address=address).sum('value')
-                # caculate the balance
-                balance = total_received - total_sent
-                instance.address = address
-                instance.total_sent = total_sent
-                instance.total_received = total_received
+                    instance.address = address
                 instance.balance = balance
                 instance.save()
+        # start sync thread
+        thread_instance = job.SyncAccountThread(provider, store_account_data, address_list)
+        thread_instance.start()
     except Exception, inst:
         logger.exception("fail to sync account data:%s" % str(inst))
 
@@ -199,7 +189,7 @@ def save_transaction_data(provider, block_info):
             provider_models.Transaction.objects.insert(transactions)
             # cache transaction
             insert_transactions_to_cache(transactions)
-            sync_account_data(list(set(address_list)))
+            sync_account_data(provider, list(set(address_list)))
         return True
     except Exception, inst:
         print inst
