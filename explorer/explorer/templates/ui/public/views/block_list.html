@@ -31,14 +31,14 @@
     </div>
     <div class="blocks-page-lower container">
             <div class="panel panel-default blocks-table table-responsive">
-            <table class="table table-hover table-striped table-list">
+            <table class="table table-hover table-striped">
                 <thead>
                     <tr>
-                        <th class="table-title" translate>Height</th>
-                        <th class="table-title" translate>Timestamp</th>
-                        <th class="table-title" translate>Transactions</th>
-                        <th class="text-right hidden-xs table-title" translate>Validator</th>
-                        <th class="text-right table-title" translate>Size</th>
+                        <th class="table-title blocks-table-header" translate>Height</th>
+                        <th class="table-title blocks-table-header" translate>Timestamp</th>
+                        <th class="table-title blocks-table-header" translate>Transactions</th>
+                        <th class="text-right hidden-xs table-title blocks-table-header" translate>Validator</th>
+                        <th class="text-right table-title blocks-table-header" translate>Size</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,11 +46,11 @@
                         <td colspan="5"><span translate>Waiting for blocks...</span> <span class="loader-gif"></span></td>
                     </tr>
                     <tr class="table-cell" data-ng-repeat='b in blocks'>
-                        <td class="table-height ph-table"><a href="block/{{b.hash}}">{{b.height}}</a></td>
-                        <td class="table-time ph-table">{{b.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-                        <td class="table-time ph-table">{{b.txlength}}</td>
-                        <td class="hidden-xs ph-table"><a href="{{b.poolInfo.url}}" title="{{b.poolInfo.poolName}}" target="_blank" data-ng-show="b.poolInfo">{{b.poolInfo.poolName}}</a></td>
-                        <td class="table-time text-right ph-table">{{b.size}}</td>
+                        <td class="table-height ph-table table-del-border"><a href="block/{{b.hash}}">{{b.height}}</a></td>
+                        <td class="table-time ph-table table-del-border">{{b.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td class="table-time ph-table table-del-border">{{b.txlength}}</td>
+                        <td class="hidden-xs ph-table table-del-border"><a href="{{b.poolInfo.url}}" title="{{b.poolInfo.poolName}}" target="_blank" data-ng-show="b.poolInfo">{{b.poolInfo.poolName}}</a></td>
+                        <td class="table-time text-right ph-table table-del-border">{{b.size}}</td>
                     </tr>
                 </tbody>
             </table>

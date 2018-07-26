@@ -5,14 +5,14 @@
       <div class="page-header">
         <h1 translate>Application Status</h1>
         </div>
-        <h2 translate>Sync Status</h2>
+        <h2 class="init-h" translate>Sync Status</h2>
         <div class="row summary-table">
         <table class="table" data-ng-controller="StatusController" data-ng-init="getSync()">
           <tbody>
             <tr>
               <td class="key" translate>Sync Progress</td>
               <td class="value">
-                <div class="progress">
+                <div class="progress" style="margin-bottom: unset;">
                   <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{ sync.syncPercentage}}%">
                     <span data-ng-show="sync.syncPercentage>0">{{sync.syncPercentage}}%
                       <span translate>Complete</span>
@@ -76,7 +76,7 @@
     </div> <!-- END OF COL-8 -->
 
     <div class="container status-page-lower">
-      <h2 translate>Newstos node information</h2>
+      <h2 class="init-h" translate>Newstos node information</h2>
       <div class="row summary-table">
         <table class="table" data-ng-controller="StatusController" data-ng-init="getStatus('Info')">
         <thead  data-ng-include src="'views/includes/infoStatus.html'"></thead>

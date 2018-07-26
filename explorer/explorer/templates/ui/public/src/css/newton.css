@@ -230,7 +230,17 @@
     width: 106px;
     height: 33px;
     text-align: center;
-    padding-top: 7px;
+    padding-top: 8px;
+}
+
+@media (max-width: 768px) {
+    .see-all-blocks-btn {
+        background: url(../img/phone-index-button.png) no-repeat center;
+        width: 106px;
+        height: 33px;
+        text-align: center;
+        padding-top: 7px;
+    }
 }
 
 .latest-list {
@@ -242,7 +252,7 @@
     .phone-index {
         margin: 10% -2%;
         padding: unset;
-        box-shadow: 0px 0px 20px 5px #ddd;
+        box-shadow: 0px 0px 10px 2px #aaa;
     }
 }
 
@@ -318,9 +328,9 @@
 .blocks-page-upper {
     padding: unset;
     margin-top: 2%;
-    border: 1px solid #ddd;
     border-radius: 4px;
     background-color: #FFFFFF;
+    box-shadow: 0px 0px 10px 2px #e2e2e2;
 }
 
 .blocks-page-lower {
@@ -334,7 +344,9 @@
 }
 
 .blocks-table {
-    margin-bottom: unset;
+    margin-bottom: 8px;
+    box-shadow: 0px 0px 10px 2px #e2e2e2;
+    border: unset;
 }
 
 .change-date-btn {
@@ -380,6 +392,11 @@
     text-align: center;
 }
 
+.blocks-table-header {
+    line-height: 40px !important;
+    font-size: 20px;
+}
+
 @media (max-width: 768px) {
     .switching-blocks-btn {
         margin: 15px auto;
@@ -388,10 +405,8 @@
 
 @media (max-width: 768px) {
     .blocks-page-upper {
-        padding: unset;
-        margin-top: 2%;
+        margin: 8% 2%;
         background-color: #FFFFFF;
-        border: unset;
     }
     .phone-hidden {
         display: none;
@@ -400,6 +415,15 @@
         padding-left: 2%;
         padding-right: 2%;
     }
+    .blocks-table-header {
+        line-height: 50px !important;
+        font-size: 18px;
+        padding: unset !important;
+    }
+}
+
+.table-del-border {
+    border: unset !important;
 }
 
 /* block page */
@@ -407,28 +431,31 @@
     background-color: #FFFFFF;
     margin-top: 4%;
     margin-bottom: 4%;
-    border: 1px solid #ddd;
+    box-shadow: 0 0 10px 2px #e2e2e2;
     border-radius: 4px;
 }
 
 .block-page-lower {
     background-color: #FFFFFF;
-    border: 1px solid #ddd;
+    box-shadow: 0 0 10px 2px #e2e2e2;
     border-radius: 4px;
     margin-bottom: 3%;
 }
 
 @media (max-width: 768px) {
     .block-page-upper {
-        margin-top: unset;
+        margin: 8% 2%;
+        box-shadow: 0 0 10px 2px #e2e2e2;
     }
     .block-page-lower {
-        margin-bottom: unset;
+        margin-bottom: 8%;
+        margin-left: 2%;
+        margin-right: 2%;
+        box-shadow: 0 0 10px 2px #e2e2e2;
     }
     .ph-table {
-        padding: 20px 0 !important;
-        font-size: 12px !important;
-
+        padding: 12px 0 !important;
+        font-size: 13px !important;
     }
 }
 
@@ -437,44 +464,51 @@
     background-color: #FFFFFF;
     margin-top: 4%;
     margin-bottom: 4%;
-    border: 1px solid #ddd;
     border-radius: 4px;
+    box-shadow: 0 0 10px 2px #e2e2e2;
 }
 
 .status-page-lower {
     background-color: #FFFFFF;
-    border: 1px solid #ddd;
+    box-shadow: 0 0 10px 2px #e2e2e2;
     margin-bottom: 4%;
     border-radius: 4px;
+    padding-top: 1%;
+}
+.init-h {
+    margin: unset;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 @media (max-width: 768px) {
     .status-page-upper {
-        margin-top: unset;
+        margin: 8% 2%;
     }
     .status-page-lower {
-        margin-bottom: unset;
-}
+        margin: 0 2%;
+        padding-top: 3%;
+    }
 }
 
 /* transaction page */
 .transaction-page-upper {
-    border: 1px solid #ddd;
+    box-shadow: 0 0 10px 2px #e2e2e2;
     border-radius: 4px;
     margin-top: 4%;
     margin-bottom: 4%;
 }
 
 .transaction-page-lower {
-    border: 1px solid #ddd;
+    box-shadow: 0 0 10px 2px #e2e2e2;
     border-radius: 4px;
     margin-bottom: 4%;
 }
 
-.transaction-fee {
-    background-color: #ddd;
-    border-radius: 4px;
-}
+/*.transaction-fee {*/
+    /*background-color: #ddd;*/
+    /*border-radius: 4px;*/
+/*}*/
 
 .transaction-block {
     background-color: #ddd;
@@ -483,10 +517,10 @@
 
 @media (max-width: 768px) {
     .transaction-page-upper {
-        margin-top: unset;
+        margin: 8% 2% 8% 2%;
     }
     .transaction-page-lower {
-        margin-bottom: unset;
+        margin: 0 2% 8% 2%;
     }
 }
 

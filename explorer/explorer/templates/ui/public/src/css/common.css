@@ -330,11 +330,21 @@ margin-left: 0;
 .block-tx {
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
-  border-radius: 2px;
   margin: 20px 0 10px;
   overflow: hidden;
   padding: 15px;
   border-bottom: 1px solid #ddd;
+}
+
+@media (max-width: 768px) {
+    .block-tx {
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        margin: unset;
+        overflow: hidden;
+        padding: 10px 0 0 0;
+        border-bottom: 1px solid #ddd;
+    }
 }
 
 .btn {
@@ -664,6 +674,7 @@ margin-left: 0;
 .page-header {
     margin: 0;
     background-color: #FFFFFF;
+    padding: unset;
 }
 
 .panel {
@@ -940,23 +951,46 @@ a.v_highlight_more {
     font-size: 30px;
     font-weight: bold;
     color: #333333;
-    margin-top:40px;
     margin-bottom: 20px;
 }
+
+@media (max-width: 768px) {
+    .summary-title{
+        font-size: 18px;
+        font-weight: bold;
+        color: #333333;
+        margin-top:unset;
+        margin-bottom: 20px;
+    }
+    .summary-table .key{
+        font-size: 12px !important;
+        padding-top: 3%!important;
+        padding-bottom: 3%!important;
+        vertical-align: inherit;
+    }
+    .summary-table .value{
+        padding-top: 3% !important;
+        padding-bottom: 3% !important;
+    }
+}
+
 .summary-table{
     margin: auto;
+    border: unset;
 }
 .summary-table .key{
     font-size: 16px;
     font-weight: bold;
     padding-top: 22px;
     padding-bottom: 22px;
+    padding-left: unset;
 }
 .summary-table .value{
     padding-top:22px;
     padding-bottom:22px;
     font-weight:bold;
     color: #999999;
+    vertical-align: inherit;
 }
 .transcation-title{
     font-size: 24px;
@@ -972,9 +1006,13 @@ a.v_highlight_more {
     font-size: 14px;
     font-weight: bold;
 }
-.table-list{
-    
+
+@media (max-width: 768px) {
+    .transcation-title{
+        font-size: 18px;
+    }
 }
+
 .table-list .table-title{
     padding:20px;
 }
