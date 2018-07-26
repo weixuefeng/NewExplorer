@@ -238,6 +238,14 @@
     margin-bottom: 50px;
 }
 
+@media (max-width: 768px) {
+    .phone-index {
+        margin: 10% -2%;
+        padding: unset;
+        box-shadow: 0px 0px 20px 5px #ddd;
+    }
+}
+
 /* search section */
 .search-container {
     margin-left: auto;
@@ -258,6 +266,12 @@
 .section-search {
     background-color: #303948;
     margin-bottom: 40px;
+}
+@media (max-width: 768px) {
+    .section-search {
+        background-color: #303948;
+        margin-bottom: unset;
+    }
 }
 
 .search-form-outside {
@@ -383,8 +397,8 @@
         display: none;
     }
     .blocks-page-lower {
-        padding-left: 15px;
-        padding-right: 15px;
+        padding-left: 2%;
+        padding-right: 2%;
     }
 }
 
@@ -413,7 +427,7 @@
     }
     .ph-table {
         padding: 20px 0 !important;
-        font-size: 15px;
+        font-size: 12px !important;
 
     }
 }
