@@ -459,19 +459,10 @@ def api_show_addr_summary(request, version, addr):
             # caculate the txlength
             txlength = provider_models.Transaction.objects.filter(Q(from_address=eth_addr) | Q(to_address=eth_addr)).count()
             balance = res[0]['balance']
-            total_received = res[0]['total_received']
-            total_sent = res[0]['total_sent']
             balanceSat = int(balance) / DECIMAL_SATOSHI
-            totalReceivedSat = int(total_received) / DECIMAL_SATOSHI
-            totalSentSat = int(total_sent) / DECIMAL_SATOSHI
             result = {
                 "addrStr": addr,
                 "balance": balanceSat,
-                # "balanceSat": balanceSat,
-                "totalReceived": totalReceivedSat,
-                # "totalReceivedSat": totalReceivedSat,
-                "totalSent": totalSentSat,
-                # "totalSentSat": totalSentSat,
                 "unconfirmedBalance": 0,
                 "unconfirmedBalanceSat": 0,
                 "unconfirmedTxApperances": 0,

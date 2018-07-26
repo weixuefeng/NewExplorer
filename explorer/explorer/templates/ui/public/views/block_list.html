@@ -1,37 +1,35 @@
 <div data-ng-include src="'views/includes/connection.html'"></div>
 <section data-ng-controller="BlocksController" data-ng-init="list()" class="blocks-body">
     <div class="blocks-page-upper container">
-    <div class="blocks-page-header">
-        <h1 class="text-center">
-            <span class="blocks-title" translate>Blocks</span>
-            <!-- <small><span translate>by date.</span> {{detail}} {{before}}</small> -->
-        </h1>
-    </div>
-    <div class="row  block-calendar">
-        <div class="col-md-12">
-            <p class="lead text-center calendar-date">
-                {{pagination.currentDate}}
-                <a href="#" class="btn btn-primary btn-xs calendar-style phone-hidden" datepicker-popup show-button-bar="false" data-ng-click="openCalendar($event)" data-ng-model="dt" is-open="opened" data-ng-required="true"><span class="glyphicon glyphicon-calendar"></span></a>
-            </p>
-            <div class="m20v text-center text-muted" data-ng-if="!pagination.current">
-                <span translate>Loading Selected Date...</span>
-            </div>
-            <div data-ng-if="pagination.current">
-                <p class="lead text-center m20v"  data-ng-show="loading">&nbsp;</p>
-                <p class="text-center m20v"  data-ng-show="pagination.isToday && !loading" translate>Today</p>
-                <p class="text-center m20v"  data-ng-show="!pagination.isToday && !loading">
-                    <p class="text-center m20v"  data-ng-show="loading">&nbsp;</p>
-                    <div class="calendar-btn text-center">
-                        <a class="btn btn-primary calendar-style" href="blocks-date/{{pagination.prev}}/{{timezone}}"><small>&larr; {{pagination.prevDate}}</small></a>
-                        <a class="btn btn-primary calendar-style" href="blocks-date/{{pagination.next}}/{{timezone}}" data-ng-show="!pagination.isToday"><small>{{pagination.nextDate}} &rarr;</small></a>
-                    </div>
+        <div class="blocks-page-header">
+            <h1 class="text-center">
+                <span class="blocks-title" translate>Blocks</span>
+                <!-- <small><span translate>by date.</span> {{detail}} {{before}}</small> -->
+            </h1>
+        </div>
+        <div class="row  block-calendar">
+            <div class="col-md-12">
+                <p class="lead text-center calendar-date">
+                    {{pagination.currentDate}}
+                    <a href="#" class="btn btn-primary btn-xs calendar-style phone-hidden" datepicker-popup show-button-bar="false" data-ng-click="openCalendar($event)" data-ng-model="dt" is-open="opened" data-ng-required="true"><span class="glyphicon glyphicon-calendar"></span></a>
+                </p>
+                <div class="m20v text-center text-muted" data-ng-if="!pagination.current">
+                    <span translate>Loading Selected Date...</span>
+                </div>
+                <div data-ng-if="pagination.current">
+                    <p class="lead text-center m20v"  data-ng-show="loading">&nbsp;</p>
+                    <p class="text-center m20v"  data-ng-show="pagination.isToday && !loading" translate>Today</p>
+                    <p class="text-center m20v"  data-ng-show="!pagination.isToday && !loading">
+                        <p class="text-center m20v"  data-ng-show="loading">&nbsp;</p>
+                        <div class="calendar-btn text-center">
+                            <a class="btn btn-primary calendar-style" href="blocks-date/{{pagination.prev}}/{{timezone}}"><small>&larr; {{pagination.prevDate}}</small></a>
+                            <a class="btn btn-primary calendar-style" href="blocks-date/{{pagination.next}}/{{timezone}}" data-ng-show="!pagination.isToday"><small>{{pagination.nextDate}} &rarr;</small></a>
+                        </div>
+                </div>
             </div>
         </div>
     </div>
-    </div>
     <div class="blocks-page-lower container">
-    <div class="row">
-        <div class="col-xs-12">
             <div class="panel panel-default blocks-table table-responsive">
             <table class="table table-hover table-striped table-list">
                 <thead>
@@ -59,13 +57,12 @@
             </div>
             <div data-ng-if="pagination.more" class="change-date-btn">
                 <div class="switching-blocks-btn">
-                    <a class="btn btn-primary order-blocks-btn" href="blocks-date/{{pagination.current}}/{{timezone}}/{{pagination.moreTs}}" translate>Previous blocks from date</a>
-                    <a class="btn btn-primary latest-blocks-btn" href="blocks-date/{{pagination.current}}/{{timezone}}" data-ng-show="{{before}}" translate>Next blocks from date</a>
+                    <a class="btn btn-primary order-blocks-btn calendar-style" href="blocks-date/{{pagination.current}}/{{timezone}}/{{pagination.moreTs}}" translate>Previous blocks from date</a>
+                    <a class="btn btn-primary latest-blocks-btn calendar-style" href="blocks-date/{{pagination.current}}/{{timezone}}" data-ng-show="{{before}}" translate>Next blocks from date</a>
 
                 </div>
             </div>
-        </div>
-    </div>
+
     <h2 class="text-center text-muted" data-ng-show="!blocks.length && !loading"
         translate>No blocks yet.</h2>
     </div>
