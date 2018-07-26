@@ -61,9 +61,7 @@ class CappedTransaction(Document):
 
 class Account(Document):
     address = StringField(max_length=128, required=True, primary_key=True)
-    balance = FloatField(default=0)
-    total_received = FloatField(default=0)
-    total_sent = FloatField(dafault=0)
+    balance = StringField()
 
 
 # init the connection

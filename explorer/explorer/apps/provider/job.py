@@ -41,3 +41,24 @@ class FastSyncThread(Thread):
             print inst
             logger.exception('fail to exeucte fast sync thread: %s' % str(inst))
 
+
+class SyncAccountThread(Thread):
+    """ Sync account thread
+    """
+    def __init__(self, provider, storage_func, address_list):
+        Thread.__init__(self)
+        self.provider = provider
+        self.storage_func = storage_func
+        self.address_list = address_list
+
+    def run(self):
+        try:
+            logger.info("start the sync account thread")
+            result = {}
+            for address in self.address_list:
+                value = self.provider.get_balance_by_address(address)
+                result[address] = value
+            self.storage_func(result)
+        except Exception, inst:
+            print inst
+            logger.exception('fail to exeucte sync account thread: %s' % str(inst))

@@ -102,7 +102,7 @@ class Provider(object):
 
     def get_balance_by_address(self, address):
         response = self._post('eth_getBalance', [address, "latest"])
-        result = int(response['result'], 0)
+        result = str(long(response['result'], 0))
         return result
 
     def send_transaction(self, rawtx):

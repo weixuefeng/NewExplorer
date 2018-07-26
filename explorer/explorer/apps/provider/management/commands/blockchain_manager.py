@@ -8,7 +8,10 @@ __author__ = 'xiawu@newtonproject.org'
 
 import logging
 import time
+import sys
+import os
 from multiprocessing import Process, Manager
+import signal
 
 from provider import services as provider_services
 from . import indexing_server
@@ -25,8 +28,8 @@ class BlockchainSyncManager(object):
         self.query_processes = []
         self.query_input_queues = []
         self.query_output_queue = None
-        self.current_height = provider_services.get_current_height(self.blockchain_type)
         self.provider = provider_services.blockchain_providers[self.blockchain_type].Provider(self.url_prefix)
+        self.current_height = self.provider.get_block_height() - 1 # always retrieve the previous block of current height
         self.__start_worker()
         
     def __start_worker(self):
