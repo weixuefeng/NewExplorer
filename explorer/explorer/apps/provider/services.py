@@ -165,8 +165,8 @@ def sync_account_data(provider, address_list):
         logger.exception("fail to sync account data:%s" % str(inst))
 
 
-def save_transaction_data(provider, block_info):
-    """Save the transaction info
+def save_transaction_data(provider, block_info, is_cached=True):
+    """Save the transaction info    
     """
     try:
         transactions = []
@@ -188,7 +188,8 @@ def save_transaction_data(provider, block_info):
         if transactions:
             provider_models.Transaction.objects.insert(transactions)
             # cache transaction
-            insert_transactions_to_cache(transactions)
+            if is_cached:
+                insert_transactions_to_cache(transactions)
             sync_account_data(provider, list(set(address_list)))
         return True
     except Exception, inst:
@@ -310,14 +311,19 @@ def fast_sync_blockchain(url_prefix, blockchain_type=codes.BlockChainType.NEWTON
         logger.exception("fail to fast sync blockchain:%s" % str(inst))
 
 
-def fill_missing_block(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.value):
+def fill_missing_block(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.value, start_height=0, end_height=0):
     """Retrieve the missing blocks according to current block database
     """
     try:
         provider = blockchain_providers[blockchain_type].Provider(url_prefix)
         # query the current height
         current_height = get_current_height(blockchain_type)
-        for tmp_height in range(current_height):
+        if start_height > current_height or end_height > current_height:
+            print "error: start_height > current_height"
+            return
+        if end_height == 0:
+            end_height = current_height
+        for tmp_height in range(start_height, end_height + 1):
             data = get_block_hash_by_height(tmp_height)
             if not data:
                 try:
@@ -325,8 +331,11 @@ def fill_missing_block(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.v
                 except:
                     pass
                 if data:
-                    store_block_data(data, provider, is_fast_sync=True)
-                    print "retrieve missing block:", tmp_height
+                    # delete wrong data
+                    provider_models.Transaction.objects.filter(blockheight=tmp_height).delete()
+                    if save_transaction_data(provider, data, is_cached=False):
+                        save_block_data(data)
+                        logger.info("sync missing block:%s" % tmp_height)
     except Exception, inst:
         print "fail to fill missing block", inst
         logger.exception("fail to fill missing block:%s" % str(inst))
