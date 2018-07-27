@@ -20,7 +20,7 @@ msgstr ""
 msgid "404 Page not found :("
 msgstr "404 Seite nicht gefunden :("
 
-#: public/views/address.html:23 public/views/address.html:27
+#: public/views/address.html:22 public/views/address.html:34
 #: public/views/address.html:6 public/views/messages_verify.html:11
 #: public/views/rank.html:6
 msgid "Address"
@@ -94,7 +94,7 @@ msgstr "Keine Verbindung zum Internet möglich, bitte Zugangsdaten prüfen."
 msgid "Complete"
 msgstr "Vollständig"
 
-#: public/views/transaction.html:14 public/views/transaction/tx.html:218
+#: public/views/transaction.html:14 public/views/transaction/tx.html:68
 msgid "Confirmations"
 msgstr "Bestätigungen"
 
@@ -106,7 +106,7 @@ msgstr "Verbindungen zu Nodes"
 msgid "Current Sync Status"
 msgstr "Aktueller Status"
 
-#: public/views/transaction.html:97
+#: public/views/transaction.html:92
 msgid "Details"
 msgstr "Details"
 
@@ -118,15 +118,11 @@ msgstr ""
 msgid "Error!"
 msgstr "Fehler!"
 
-#: public/views/transaction/tx.html:214
+#: public/views/transaction/tx.html:60
 msgid "Fee"
 msgstr "Gebühr"
 
-#: public/views/transaction.html:59
-msgid "Fee Rate"
-msgstr ""
-
-#: public/views/address.html:10 public/views/address.html:44
+#: public/views/address.html:10 public/views/address.html:38
 msgid "Final Balance"
 msgstr "Schlussbilanz"
 
@@ -134,16 +130,26 @@ msgstr "Schlussbilanz"
 msgid "Finish Date"
 msgstr "Fertigstellung"
 
+#: public/views/transaction/tx.html:15
+#, fuzzy
+msgid "From Address :"
+msgstr "Adresse"
+
 #: public/views/404.html:5
 msgid "Go to home"
 msgstr "Zur Startseite"
 
-#: public/views/block.html:54 public/views/block_list.html:39
+#: public/views/block.html:15
+#, fuzzy
+msgid "Hash"
+msgstr "Blöcke"
+
+#: public/views/block.html:54 public/views/block_list.html:37
 #: public/views/includes/header.html:33 public/views/index.html:26
 msgid "Height"
 msgstr "Höhe"
 
-#: public/views/transaction.html:73 public/views/transaction/tx.html:207
+#: public/views/transaction.html:68 public/views/transaction/tx.html:50
 msgid "Included in Block"
 msgstr "Eingefügt in Block"
 
@@ -164,7 +170,7 @@ msgstr "Letzte Blöcke"
 msgid "Latest Transactions"
 msgstr "Transaktionen"
 
-#: public/views/address.html:25
+#: public/views/address.html:26
 msgid "Loading Address Information"
 msgstr "Lade Adressinformationen"
 
@@ -180,7 +186,7 @@ msgstr "Lade gewähltes Datum..."
 msgid "Loading Transaction Details"
 msgstr "Lade Transaktionsdetails"
 
-#: public/views/transaction/list.html:9
+#: public/views/transaction/list.html:7
 msgid "Loading Transactions..."
 msgstr "Lade Transaktionen..."
 
@@ -193,15 +199,7 @@ msgstr "Lade..."
 msgid "Message"
 msgstr ""
 
-#: public/views/transaction.html:68
-msgid "Mined Time"
-msgstr "Block gefunden (Mining)"
-
 #: public/views/status.html:105
-msgid "Mining Difficulty"
-msgstr "Schwierigkeitgrad"
-
-#: public/views/status.html:109
 msgid "Network"
 msgstr ""
 
@@ -218,7 +216,7 @@ msgstr ""
 msgid "Next Block"
 msgstr "Nächster Block"
 
-#: public/views/block_list.html:63
+#: public/views/block_list.html:61
 #, fuzzy
 msgid "Next blocks from date"
 msgstr "Letzte Blöcke"
@@ -228,7 +226,7 @@ msgstr "Letzte Blöcke"
 msgid "No Rank yet."
 msgstr "Keine Blöcke bisher."
 
-#: public/views/block_list.html:68
+#: public/views/block_list.html:66
 msgid "No blocks yet."
 msgstr "Keine Blöcke bisher."
 
@@ -236,7 +234,7 @@ msgstr "Keine Blöcke bisher."
 msgid "No matching records found!"
 msgstr "Keine passenden Einträge gefunden!"
 
-#: public/views/address.html:48 public/views/address.html:66
+#: public/views/address.html:42 public/views/address.html:60
 msgid "No. Transactions"
 msgstr "Anzahl Transaktionen"
 
@@ -256,7 +254,7 @@ msgstr ""
 msgid "Previous Block"
 msgstr "Letzter Block"
 
-#: public/views/block_list.html:62
+#: public/views/block_list.html:60
 #, fuzzy
 msgid "Previous blocks from date"
 msgstr "Letzte Blöcke"
@@ -299,7 +297,7 @@ msgstr "Transaktion"
 msgid "Signature"
 msgstr ""
 
-#: public/views/block_list.html:43 public/views/index.html:30
+#: public/views/block_list.html:41 public/views/index.html:30
 #: public/views/transaction.html:55
 msgid "Size"
 msgstr "Größe"
@@ -316,13 +314,10 @@ msgstr "Startdatum"
 msgid "Status"
 msgstr "Status"
 
-#: public/views/block.html:45 public/views/transaction.html:51
+#: public/views/address.html:23 public/views/block.html:45
+#: public/views/transaction.html:51
 msgid "Summary"
 msgstr "Zusammenfassung"
-
-#: public/views/address.html:31
-msgid "Summary <small>confirmed</small>"
-msgstr "Zusammenfassung <small>bestätigt</small>"
 
 #: public/views/status.html:13
 msgid "Sync Progress"
@@ -368,29 +363,26 @@ msgstr ""
 msgid "Time Offset"
 msgstr "Zeitoffset zu UTC"
 
-#: public/views/block.html:65 public/views/block_list.html:40
+#: public/views/block.html:65 public/views/block_list.html:38
 #: public/views/index.html:27
 msgid "Timestamp"
 msgstr "Zeitstempel"
 
+#: public/views/transaction/tx.html:23
+#, fuzzy
+msgid "To Address :"
+msgstr "Adresse"
+
 #: public/views/block_list.html:21
 msgid "Today"
 msgstr "Heute"
-
-#: public/views/address.html:36
-msgid "Total Received"
-msgstr "Insgesamt empfangen"
-
-#: public/views/address.html:40
-msgid "Total Sent"
-msgstr "Insgesamt gesendet"
 
 #: public/views/transaction.html:39 public/views/transaction.html:47
 #: public/views/transaction.html:6
 msgid "Transaction"
 msgstr "Transaktion"
 
-#: public/views/index.html:56
+#: public/views/index.html:56 public/views/transaction/tx.html:7
 #, fuzzy
 msgid "Transaction ID"
 msgstr "Transaktion"
@@ -399,24 +391,24 @@ msgstr "Transaktion"
 msgid "Transaction succesfully broadcast.<br>Transaction id: {{txid}}"
 msgstr ""
 
-#: public/views/address.html:76 public/views/block.html:109
-#: public/views/block_list.html:41 public/views/index.html:28
+#: public/views/address.html:69 public/views/block.html:109
+#: public/views/block_list.html:39 public/views/index.html:28
 msgid "Transactions"
 msgstr "Transaktionen"
 
-#: public/views/address.html:58
+#: public/views/address.html:52
 msgid "Unconfirmed"
 msgstr "Unbestätigt"
 
-#: public/views/transaction.html:16 public/views/transaction/tx.html:219
+#: public/views/transaction.html:16
 msgid "Unconfirmed Transaction!"
 msgstr "Unbestätigte Transaktion!"
 
-#: public/views/address.html:62
+#: public/views/address.html:56
 msgid "Unconfirmed Txs Balance"
 msgstr "Unbestätigtes Guthaben"
 
-#: public/views/block.html:69 public/views/block_list.html:42
+#: public/views/block.html:69 public/views/block_list.html:40
 #: public/views/index.html:29
 msgid "Validator"
 msgstr ""
@@ -424,6 +416,11 @@ msgstr ""
 #: public/views/index.html:57
 #, fuzzy
 msgid "Value"
+msgstr "Wert"
+
+#: public/views/transaction/tx.html:31
+#, fuzzy
+msgid "Value :"
 msgstr "Wert"
 
 #: public/views/messages_verify.html:39
@@ -443,7 +440,7 @@ msgstr "Version"
 msgid "Waiting for Rank..."
 msgstr "Warte auf Blöcke..."
 
-#: public/views/block_list.html:48 public/views/index.html:34
+#: public/views/block_list.html:46 public/views/index.html:34
 msgid "Waiting for blocks..."
 msgstr "Warte auf Blöcke..."
 
@@ -451,14 +448,28 @@ msgstr "Warte auf Blöcke..."
 msgid "Waiting for transactions..."
 msgstr "Warte auf Transaktionen..."
 
-#: public/views/transaction/tx.html:23
-msgid "first seen at"
-msgstr "zuerst gesehen am"
-
-#: public/views/transaction/tx.html:27
+#: public/views/transaction/tx.html:40
 #, fuzzy
 msgid "transaction time:"
 msgstr "Transaktion"
+
+#~ msgid "Mined Time"
+#~ msgstr "Block gefunden (Mining)"
+
+#~ msgid "Mining Difficulty"
+#~ msgstr "Schwierigkeitgrad"
+
+#~ msgid "Summary <small>confirmed</small>"
+#~ msgstr "Zusammenfassung <small>bestätigt</small>"
+
+#~ msgid "Total Received"
+#~ msgstr "Insgesamt empfangen"
+
+#~ msgid "Total Sent"
+#~ msgstr "Insgesamt gesendet"
+
+#~ msgid "first seen at"
+#~ msgstr "zuerst gesehen am"
 
 #~ msgid "(Input unconfirmed)"
 #~ msgstr "(Eingabe unbestätigt)"

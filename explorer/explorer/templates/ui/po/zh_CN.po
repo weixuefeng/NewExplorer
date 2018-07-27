@@ -20,7 +20,7 @@ msgstr ""
 msgid "404 Page not found :("
 msgstr "页面没有找到：（"
 
-#: public/views/address.html:23 public/views/address.html:27
+#: public/views/address.html:22 public/views/address.html:34
 #: public/views/address.html:6 public/views/messages_verify.html:11
 #: public/views/rank.html:6
 msgid "Address"
@@ -85,7 +85,7 @@ msgstr ""
 msgid "Complete"
 msgstr "完成"
 
-#: public/views/transaction.html:14 public/views/transaction/tx.html:218
+#: public/views/transaction.html:14 public/views/transaction/tx.html:68
 msgid "Confirmations"
 msgstr "确认数"
 
@@ -97,7 +97,7 @@ msgstr "连接节点"
 msgid "Current Sync Status"
 msgstr "当前同步状态"
 
-#: public/views/transaction.html:97
+#: public/views/transaction.html:92
 msgid "Details"
 msgstr "详情"
 
@@ -109,15 +109,11 @@ msgstr "错误消息："
 msgid "Error!"
 msgstr "错误！"
 
-#: public/views/transaction/tx.html:214
+#: public/views/transaction/tx.html:60
 msgid "Fee"
 msgstr "交易费"
 
-#: public/views/transaction.html:59
-msgid "Fee Rate"
-msgstr "费率"
-
-#: public/views/address.html:10 public/views/address.html:44
+#: public/views/address.html:10 public/views/address.html:38
 msgid "Final Balance"
 msgstr "余额"
 
@@ -125,16 +121,24 @@ msgstr "余额"
 msgid "Finish Date"
 msgstr "完成时间"
 
+#: public/views/transaction/tx.html:15
+msgid "From Address :"
+msgstr "发送地址"
+
 #: public/views/404.html:5
 msgid "Go to home"
 msgstr "返回首页"
 
-#: public/views/block.html:54 public/views/block_list.html:39
+#: public/views/block.html:15
+msgid "Hash"
+msgstr "散列值"
+
+#: public/views/block.html:54 public/views/block_list.html:37
 #: public/views/includes/header.html:33 public/views/index.html:26
 msgid "Height"
 msgstr "高度"
 
-#: public/views/transaction.html:73 public/views/transaction/tx.html:207
+#: public/views/transaction.html:68 public/views/transaction/tx.html:50
 msgid "Included in Block"
 msgstr "所在区块"
 
@@ -154,7 +158,7 @@ msgstr "最新区块"
 msgid "Latest Transactions"
 msgstr "最新交易"
 
-#: public/views/address.html:25
+#: public/views/address.html:26
 msgid "Loading Address Information"
 msgstr "加载地址信息"
 
@@ -170,7 +174,7 @@ msgstr "加载选择时间..."
 msgid "Loading Transaction Details"
 msgstr "加载交易详情"
 
-#: public/views/transaction/list.html:9
+#: public/views/transaction/list.html:7
 msgid "Loading Transactions..."
 msgstr "加载交易..."
 
@@ -183,15 +187,7 @@ msgstr "加载中..."
 msgid "Message"
 msgstr "消息"
 
-#: public/views/transaction.html:68
-msgid "Mined Time"
-msgstr "挖矿时间"
-
 #: public/views/status.html:105
-msgid "Mining Difficulty"
-msgstr "挖矿难度"
-
-#: public/views/status.html:109
 msgid "Network"
 msgstr "网络"
 
@@ -207,7 +203,7 @@ msgstr ""
 msgid "Next Block"
 msgstr "下一区块"
 
-#: public/views/block_list.html:63
+#: public/views/block_list.html:61
 msgid "Next blocks from date"
 msgstr "更晚"
 
@@ -215,7 +211,7 @@ msgstr "更晚"
 msgid "No Rank yet."
 msgstr "没有排名."
 
-#: public/views/block_list.html:68
+#: public/views/block_list.html:66
 msgid "No blocks yet."
 msgstr "没有区块."
 
@@ -223,7 +219,7 @@ msgstr "没有区块."
 msgid "No matching records found!"
 msgstr "没有匹配记录!"
 
-#: public/views/address.html:48 public/views/address.html:66
+#: public/views/address.html:42 public/views/address.html:60
 msgid "No. Transactions"
 msgstr "交易数量"
 
@@ -243,7 +239,7 @@ msgstr "百分比"
 msgid "Previous Block"
 msgstr "上一区块"
 
-#: public/views/block_list.html:62
+#: public/views/block_list.html:60
 msgid "Previous blocks from date"
 msgstr "更早"
 
@@ -283,7 +279,7 @@ msgstr "发送交易"
 msgid "Signature"
 msgstr "签名"
 
-#: public/views/block_list.html:43 public/views/index.html:30
+#: public/views/block_list.html:41 public/views/index.html:30
 #: public/views/transaction.html:55
 msgid "Size"
 msgstr "大小"
@@ -300,13 +296,10 @@ msgstr "开始时间"
 msgid "Status"
 msgstr "节点状态"
 
-#: public/views/block.html:45 public/views/transaction.html:51
+#: public/views/address.html:23 public/views/block.html:45
+#: public/views/transaction.html:51
 msgid "Summary"
 msgstr "基本信息"
-
-#: public/views/address.html:31
-msgid "Summary <small>confirmed</small>"
-msgstr "基本信息<small>已确认</small>"
 
 #: public/views/status.html:13
 msgid "Sync Progress"
@@ -352,29 +345,25 @@ msgstr ""
 msgid "Time Offset"
 msgstr "时差"
 
-#: public/views/block.html:65 public/views/block_list.html:40
+#: public/views/block.html:65 public/views/block_list.html:38
 #: public/views/index.html:27
 msgid "Timestamp"
 msgstr "时间"
 
+#: public/views/transaction/tx.html:23
+msgid "To Address :"
+msgstr "接收地址"
+
 #: public/views/block_list.html:21
 msgid "Today"
 msgstr "今天"
-
-#: public/views/address.html:36
-msgid "Total Received"
-msgstr "总收入"
-
-#: public/views/address.html:40
-msgid "Total Sent"
-msgstr "总支出"
 
 #: public/views/transaction.html:39 public/views/transaction.html:47
 #: public/views/transaction.html:6
 msgid "Transaction"
 msgstr "交易"
 
-#: public/views/index.html:56
+#: public/views/index.html:56 public/views/transaction/tx.html:7
 msgid "Transaction ID"
 msgstr "交易编号"
 
@@ -382,30 +371,34 @@ msgstr "交易编号"
 msgid "Transaction succesfully broadcast.<br>Transaction id: {{txid}}"
 msgstr "交易广播成功.<br>交易Id: {{txid}}"
 
-#: public/views/address.html:76 public/views/block.html:109
-#: public/views/block_list.html:41 public/views/index.html:28
+#: public/views/address.html:69 public/views/block.html:109
+#: public/views/block_list.html:39 public/views/index.html:28
 msgid "Transactions"
 msgstr "交易"
 
-#: public/views/address.html:58
+#: public/views/address.html:52
 msgid "Unconfirmed"
 msgstr "未确认"
 
-#: public/views/transaction.html:16 public/views/transaction/tx.html:219
+#: public/views/transaction.html:16
 msgid "Unconfirmed Transaction!"
 msgstr "未确认的交易!"
 
-#: public/views/address.html:62
+#: public/views/address.html:56
 msgid "Unconfirmed Txs Balance"
 msgstr "未确认交易金额"
 
-#: public/views/block.html:69 public/views/block_list.html:42
+#: public/views/block.html:69 public/views/block_list.html:40
 #: public/views/index.html:29
 msgid "Validator"
 msgstr "验证节点"
 
 #: public/views/index.html:57
 msgid "Value"
+msgstr "金额"
+
+#: public/views/transaction/tx.html:31
+msgid "Value :"
 msgstr "金额"
 
 #: public/views/messages_verify.html:39
@@ -424,7 +417,7 @@ msgstr "版本"
 msgid "Waiting for Rank..."
 msgstr "等待排名..."
 
-#: public/views/block_list.html:48 public/views/index.html:34
+#: public/views/block_list.html:46 public/views/index.html:34
 msgid "Waiting for blocks..."
 msgstr "等待区块..."
 
@@ -432,13 +425,30 @@ msgstr "等待区块..."
 msgid "Waiting for transactions..."
 msgstr "加载交易..."
 
-#: public/views/transaction/tx.html:23
-msgid "first seen at"
-msgstr "首次出现时间"
-
-#: public/views/transaction/tx.html:27
+#: public/views/transaction/tx.html:40
 msgid "transaction time:"
 msgstr "交易时间"
+
+#~ msgid "Fee Rate"
+#~ msgstr "费率"
+
+#~ msgid "Mined Time"
+#~ msgstr "挖矿时间"
+
+#~ msgid "Mining Difficulty"
+#~ msgstr "挖矿难度"
+
+#~ msgid "Summary <small>confirmed</small>"
+#~ msgstr "基本信息<small>已确认</small>"
+
+#~ msgid "Total Received"
+#~ msgstr "总收入"
+
+#~ msgid "Total Sent"
+#~ msgstr "总支出"
+
+#~ msgid "first seen at"
+#~ msgstr "首次出现时间"
 
 #~ msgid "Older blocks from this date"
 #~ msgstr "更早"

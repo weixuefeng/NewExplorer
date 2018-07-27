@@ -55,19 +55,14 @@
           <td class="key"><strong translate>Size</strong></td>
           <td class="value text-muted text-right">{{tx.size}} (bytes)</td>
         </tr>
-        <tr data-ng-show="tx.fees">
-          <td class="key"><strong translate>Fee Rate</strong></td>
-          <td class="value text-muted text-right">{{$root.currency.getConvertion((tx.fees * 1000) / tx.size) + ' per kB' || ((tx.fees * 1000) / tx.size) + 'New per kB'}}</td>
-        </tr>
+        <!--<tr data-ng-show="tx.fees">-->
+          <!--<td class="key"><strong translate>Fee Rate</strong></td>-->
+          <!--<td class="value text-muted text-right">{{$root.currency.getConvertion((tx.fees * 1000) / tx.size) + ' per kB' || ((tx.fees * 1000) / tx.size) + 'New per kB'}}</td>-->
+        <!--</tr>-->
         <tr>
           <td class="key"><strong translate>Received Time</strong></td>
           <td data-ng-show="tx.time" class="value text-muted text-right">{{tx.time * 1000|date:'yyyy-MM-dd HH:mm:ss'}}</td>
           <td data-ng-show="!tx.time" class="value text-muted text-right">N/A</td>
-        </tr>
-        <tr>
-          <td class="key"><strong translate>Mined Time</strong></td>
-          <td data-ng-show="tx.blocktime" class="value text-muted text-right">{{tx.blocktime * 1000|date:'yyyy-MM-dd HH:mm:ss'}}</td>
-          <td data-ng-show="!tx.blocktime" class="value text-muted text-right">N/A</td>
         </tr>
         <tr>
           <td class="key"><strong translate>Included in Block</strong></td>

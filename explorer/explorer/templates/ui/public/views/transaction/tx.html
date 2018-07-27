@@ -12,7 +12,7 @@
     </tr>
     <tr>
       <td class="key">
-        <strong>From Address :</strong>
+        <strong translate>From Address :</strong>
       </td>
       <td class="value text-right ellipsis">
         <span><a href="address/{{ tx.from_addr }}">{{ tx.from_addr }}</a></span>
@@ -20,7 +20,7 @@
     </tr>
     <tr>
       <td class="key">
-        <strong>To Address :</strong>
+        <strong translate>To Address :</strong>
       </td>
       <td class="value text-right ellipsis">
         <span><a href="address/{{ tx.to_addr }}">{{ tx.to_addr }}</a></span>
@@ -28,10 +28,10 @@
     </tr>
     <tr>
       <td class="key">
-        <strong>Value :</strong>
+        <strong translate>Value :</strong>
       </td>
       <td class="value text-right">
-        <span>{{ tx.value / 1000000000000000000 }} New</span>
+        <span>{{ tx.value / 1000000000000000000 }} NEW</span>
       </td>
     </tr>
     <tr>
@@ -60,7 +60,7 @@
         <strong translate>Fee</strong>
       </td>
       <td class="value text-right">
-        <span data-ng-show="!tx.isCoinBase &&  !isNaN(parseFloat(tx.fees))">{{$root.currency.getConvertion(tx.fees) || tx.fees * 1000000000000000000 + 'Wei'}} </span>
+        <span data-ng-show="!tx.isCoinBase &&  !isNaN(parseFloat(tx.fees))">{{$root.currency.getConvertion(tx.fees) || tx.fees * 1000000000000000000 + 'WEI'}} </span>
       </td>
     </tr>
     <tr>
