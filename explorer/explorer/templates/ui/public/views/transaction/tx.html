@@ -1,34 +1,34 @@
-<div class="transcation-cell" data-ng-hide="!tx">
-  <div class="summary-table table-responsive">
-  <table class="table">
+<div class="tx-list container" data-ng-hide="!tx">
+  <div class="summary-table" style="margin-top:20px">
+  <table class="table" style="table-layout:fixed;">
     <tbody>
     <tr>
       <td class="key" style="border-top:unset">
-        <span translate>Transaction ID</span>
+        <strong translate>Transaction ID</strong>
       </td>
-      <td class="value text-right" style="border-top:unset">
-        <a class="block-hash" href="tx/{{tx.txid}}">{{tx.txid}}</a>
+      <td class="value text-right ellipsis" style="border-top:unset">
+        <a href="tx/{{tx.txid}}">{{tx.txid}}</a>
       </td>
     </tr>
     <tr>
       <td class="key">
-        <span>From Address :</span>
+        <strong>From Address :</strong>
       </td>
-      <td class="value text-right">
+      <td class="value text-right ellipsis">
         <span><a href="address/{{ tx.from_addr }}">{{ tx.from_addr }}</a></span>
       </td>
     </tr>
     <tr>
       <td class="key">
-        <span>To Address :</span>
+        <strong>To Address :</strong>
       </td>
-      <td class="value text-right">
+      <td class="value text-right ellipsis">
         <span><a href="address/{{ tx.to_addr }}">{{ tx.to_addr }}</a></span>
       </td>
     </tr>
     <tr>
       <td class="key">
-        <span>Value :</span>
+        <strong>Value :</strong>
       </td>
       <td class="value text-right">
         <span>{{ tx.value / 1000000000000000000 }} New</span>
@@ -37,10 +37,10 @@
     <tr>
       <div data-ng-show="tx.blocktime && !tx.firstSeenTs">
       <td class="key">
-        <span translate>transaction time:</span>
+        <strong translate>transaction time:</strong>
       </td>
       <td class="value text-right">
-        <time>{{tx.time * 1000 | date:'medium'}}</time>
+        <time>{{tx.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</time>
       </td>
     </div>
     </tr>
@@ -49,15 +49,15 @@
       <td class="key">
         <strong translate>Included in Block</strong>
       </td>
-      <td class="value text-right">
-          <a class="text-muted" href="block/{{tx.blockhash}}">{{tx.blockhash}}</a>
+      <td class="value text-right ellipsis">
+          <a href="block/{{tx.blockhash}}">{{tx.blockhash}}</a>
           <span class="btn-copy" clip-copy="tx.blockhash"></span>
       </td>
       </div>
     </tr>
     <tr>
       <td class="key">
-        <span translate>Fee</span>
+        <strong translate>Fee</strong>
       </td>
       <td class="value text-right">
         <span data-ng-show="!tx.isCoinBase &&  !isNaN(parseFloat(tx.fees))">{{$root.currency.getConvertion(tx.fees) || tx.fees * 1000000000000000000 + 'Wei'}} </span>
@@ -65,10 +65,10 @@
     </tr>
     <tr>
       <td class="key">
-        <span translate>Confirmations</span>
+        <strong translate>Confirmations</strong>
       </td>
       <td class="value text-right">
-        <span data-ng-show="tx.confirmations">{{tx.confirmations}} </span>
+        <span data-ng-show="tx.confirmations">{{tx.confirmations}}</span>
       </td>
     </tr>
     </tbody>

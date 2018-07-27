@@ -7,7 +7,7 @@
             </button>
             <a class="navbar-brand" href="/"></a>
         </div>
-        <nav class="collapse navbar-collapse" collapse="$root.isCollapsed">
+        <nav class="collapse navbar-collapse" collapse="$root.isCollapsed" style="overflow:unset;">
             <ul class="nav navbar-nav">
                 <li data-ng-repeat="item in menu" ui-route="{{item.link}}" data-ng-class="{active: $uiRoute}">
                     <a class="color-font" href="{{item.link}}">{{item.title|translate}}</a>

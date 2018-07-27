@@ -3,7 +3,7 @@
   <div class="secondary_navbar hidden-xs hidden-sm" scroll data-ng-class="{'hidden': !secondaryNavbar}" data-ng-show="tx.txid" data-ng-init="hideSNavbar=0">
     <div class="container" data-ng-if="!hideSNavbar">
       <div class="col-md-6 col-lg-7 text-left">
-          <h3 class="transcation-title" translate>Transaction</h3>
+          <h3 class="transaction-title" translate>Transaction</h3>
           <div class="ellipsis"> 
             <small>{{tx.txid}}</small> 
             <span class="btn-copy" clip-copy="tx.txid"></span>
@@ -93,8 +93,8 @@
         </tbody>
       </table>
     </div>
-    <div class="container transaction-page-lower">
-        <h2 translate>Details</h2>
+    <div>
+        <div class="container mobile-lower-title" style="padding:unset;"><h2 translate>Details</h2></div>
         <div class="block-tx" data-ng-if="tx.txid">
             <div data-ng-include src="'views/transaction/tx.html'"></div>
         </div>

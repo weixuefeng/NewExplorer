@@ -19,26 +19,20 @@
   </div>
 
   <div data-ng-if="address.addrStr" class="container address-page-upper">
+    <h1><span translate>Address</span></h1>
+    <h2 class="summary-title" translate>Summary</h2>
     <div class="ellipsis">
-      <h1><span translate>Address</span> <small data-ng-show="address.addrStr">{{$root.currency.getConvertion(address.balance) || address.balance + ' New'}}</small></h1>
         <div class="text-muted" data-ng-if="!address.addrStr">
           <span translate>Loading Address Information</span> <span class="loader-gif"></span>
         </div>
-        <strong translate>Address</strong>
-      <span class="text-muted">{{address.addrStr}}</span>
       <span class="btn-copy" clip-copy="address.addrStr"></span>
     </div>
-    <h2 translate>Summary <small>confirmed</small></h2>
-    <div data-ng-hide="!address.addrStr" class="row summary-table">
+    <div data-ng-hide="!address.addrStr" class="row summary-table table-responsive">
         <table class="table">
           <tbody>
           <tr>
-            <td class="key"><strong translate>Total Received</strong></td>
-            <td class="ellipsis value text-right">{{$root.currency.getConvertion(address.totalReceived) || address.totalReceived + ' New'}}</td>
-          </tr>
-          <tr>
-            <td class="key"><strong translate>Total Sent</strong></td>
-            <td class="ellipsis value text-right">{{$root.currency.getConvertion(address.totalSent) || address.totalSent + ' New'}}</td>
+            <td class="key"><strong translate>Address</strong></td>
+            <td class="ellipsis value text-right"><span class="text-muted">{{address.addrStr}}</span></td>
           </tr>
           <tr>
             <td class="key"><strong translate>Final Balance</strong></td>
@@ -72,10 +66,8 @@
     </div>
   </div>
   <div data-ng-if="address.addrStr" data-ng-controller="transactionsController" data-ng-init="load('address')">
-    <div class="container address-page-lower">
-      <h2 translate>Transactions</h2>
+    <div class="container mobile-lower-title" style="padding:unset;"><h2 translate>Transactions</h2></div>
       <div data-ng-include src="'views/transaction/list.html'" when-scrolled="loadMore()"></div>
-    </div>
   </div>
 </section>
 

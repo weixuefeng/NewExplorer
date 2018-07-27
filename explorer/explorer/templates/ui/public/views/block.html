@@ -104,9 +104,9 @@
           </table>
       </div>
     </div>
-  <div data-ng-if="block.hash" class="container block-page-lower" data-ng-controller="transactionsController" data-ng-init="load('block')">
+  <div data-ng-if="block.hash" data-ng-controller="transactionsController" data-ng-init="load('block')">
     <div>
-      <h3 class="transcation-title" translate>Transactions</h3>
+      <div class="container mobile-lower-title" style="padding:unset;"><h2 class="transaction-title" translate>Transactions</h2></div>
       <div data-ng-include src="'views/transaction/list.html'" when-scrolled="loadMore()"></div>
     </div>
   </div>

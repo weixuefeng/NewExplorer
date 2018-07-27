@@ -333,7 +333,6 @@ margin-left: 0;
   margin: 20px 0 10px;
   overflow: hidden;
   padding: 15px;
-  border-bottom: 1px solid #ddd;
 }
 
 @media (max-width: 768px) {
@@ -343,7 +342,6 @@ margin-left: 0;
         margin: unset;
         overflow: hidden;
         padding: 10px 0 0 0;
-        border-bottom: 1px solid #ddd;
     }
 }
 
@@ -442,13 +440,16 @@ margin-left: 0;
 }
 
 .txvalues-normal {
-  background-color: transparent;
-  text-transform: none;
-  color: #333;
-  font-size: 14px;
-  font-weight: normal;
+    background-color: transparent;
+    text-transform: none;
+    color: #333;
+    font-size: 14px;
+    font-weight: normal;
 }
-.progress-bar-info { background-color: #0070c9; }
+.progress-bar-info {
+    background-color: #e2e2e2;
+    color: #999
+}
 
 /* Set the fixed height of the footer here */
 .footer span a{font-size: 14px;padding-top: 20px; padding-left: 20px; text-decoration: none;}
@@ -675,6 +676,7 @@ margin-left: 0;
     margin: 0;
     background-color: #FFFFFF;
     padding: unset;
+    border: unset;
 }
 
 .panel {
@@ -948,7 +950,7 @@ a.v_highlight_more {
 }
 
 .summary-title{
-    font-size: 30px;
+    font-size: 20px;
     font-weight: bold;
     color: #333333;
     margin-bottom: 20px;
@@ -992,14 +994,14 @@ a.v_highlight_more {
     color: #999999;
     vertical-align: inherit;
 }
-.transcation-title{
-    font-size: 24px;
+.transaction-title{
+    font-size: 30px;
     color:#333333;
 }
-.transcation-cell{
+.transaction-cell{
     padding: 0 0 10px;
 }
-.transcation-cell .block-hash{
+.transaction-cell .block-hash{
     font-size:14px;
     font-weight: bold;
     color:#428bca;
@@ -1008,7 +1010,7 @@ a.v_highlight_more {
 }
 
 @media (max-width: 768px) {
-    .transcation-title{
+    .transaction-title{
         font-size: 18px;
     }
 }
