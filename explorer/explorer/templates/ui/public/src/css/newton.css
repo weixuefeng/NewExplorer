@@ -469,6 +469,11 @@
     }
 }
 
+.ph-table {
+    padding-top: 13px !important;
+    padding-bottom: 13px !important;
+}
+
 /* node status page */
 .status-page-upper {
     background-color: #FFFFFF;
