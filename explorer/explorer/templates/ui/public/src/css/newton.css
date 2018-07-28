@@ -474,6 +474,13 @@
     padding-bottom: 13px !important;
 }
 
+.previous-block-logo {
+    background:url(../img/previous-block.svg) no-repeat center;
+    height: 30px;
+    width: 50px;
+    display: block;
+}
+
 /* node status page */
 .status-page-upper {
     background-color: #FFFFFF;

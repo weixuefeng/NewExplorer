@@ -16,7 +16,7 @@
         <span data-ng-show="!tx.confirmations" 
           class="txvalues txvalues-danger txvalues-danger-extand" translate>Unconfirmed Transaction!</span>
         <div class="txvalues txvalues-primary txvalues-primary-extand">
-          <span>{{$root.currency.getConvertion(tx.valueOut) || tx.valueOut + ' New' }}</span>
+          <span>{{$root.currency.getConvertion(tx.valueOut) || tx.valueOut + ' NEW' }}</span>
         </div>
       </div>
     </div>
@@ -51,10 +51,10 @@
       <h2 class="summary-title" translate>Summary</h2>
       <table class="table" style="table-layout: fixed">
         <tbody>
-        <tr>
-          <td class="key"><strong translate>Size</strong></td>
-          <td class="value text-muted text-right">{{tx.size}} (bytes)</td>
-        </tr>
+        <!--<tr>-->
+          <!--<td class="key"><strong translate>Size</strong></td>-->
+          <!--<td class="value text-muted text-right">{{tx.size}} (bytes)</td>-->
+        <!--</tr>-->
         <!--<tr data-ng-show="tx.fees">-->
           <!--<td class="key"><strong translate>Fee Rate</strong></td>-->
           <!--<td class="value text-muted text-right">{{$root.currency.getConvertion((tx.fees * 1000) / tx.size) + ' per kB' || ((tx.fees * 1000) / tx.size) + 'New per kB'}}</td>-->
