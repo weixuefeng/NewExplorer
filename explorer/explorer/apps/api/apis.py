@@ -65,6 +65,13 @@ def __convert_account_to_json(obj):
     result = json.loads(obj.to_json())
     return result
 
+def handle_validator(address):
+    obj = provider_models.Validator.objects.filter(address=address).first()
+    validator = json.loads(obj.to_json())
+    url = validator['url']
+    name = validator['name']
+    return name, url
+
 # API functions
 def api_ping(request, version):
     return http.JsonSuccessResponse()
@@ -205,6 +212,9 @@ def api_show_blocks(request, version):
             t = json.loads(item.to_json())
             # workaround
             t['hash'] = item.id
+            validator_name, validator_url = handle_validator(t['validator'])
+            t['validator_name'] = validator_name
+            t['validator_url'] = validator_url
             blocks.append(t)
         if blocks:
             # get the last timestamp
@@ -276,6 +286,9 @@ def api_show_block_info(request, version, blockhash):
         result['isMainChain'] = True
         result['confirmations'] = current_height - obj.height
         result['current_net'] = settings.CURRENT_NET
+        validator_name, validator_url = handle_validator(result['validator'])
+        result['validator_name'] = validator_name
+        result['validator_url'] = validator_url
         return http.JsonResponse(result)
     except Exception, inst:
         print inst

@@ -11,7 +11,9 @@ import json
 import requests
 import copy
 from decimal import *
-
+from config import server
+from ctypes import *
+import os
 
 logger = logging.getLogger(__name__)
 COINBASE_TXID = '0' * 64
@@ -43,6 +45,8 @@ class Provider(object):
         # convert to uniform format
         if not result:
             return None
+        rpc_url = server.RPC_URL
+        validator = self.get_validator(rpc_url, long(result['number'], 0))
         transactions = result['transactions']
         final_result = {
             'blockhash': result['hash'],
@@ -53,6 +57,7 @@ class Provider(object):
             'nonce': result['nonce'],
             'tx': [],
             'transactions': transactions,
+            'validator': validator,
         }
         for item in transactions:
             final_result['tx'].append(item['hash'])
@@ -110,6 +115,19 @@ class Provider(object):
         result = response['result']
         return result
 
+    def get_validator(self, urlstr, number):
+        current_path = os.path.abspath(__file__)
+        index = current_path.rfind('/')
+        current_path = current_path[:index] + '/cliquesigner.so'
+        lib = cdll.LoadLibrary(current_path)
+
+        class GoString(Structure):
+            _fields_ = [("p", c_char_p), ("n", c_longlong)]
+        lib.GetSignerByBlockNumber.argtypes = [GoString, c_longlong]
+        lib.GetSignerByBlockNumber.restype = GoString
+        url = GoString(urlstr, len(urlstr))
+        ret = lib.GetSignerByBlockNumber(url, number)
+        return ret.p
 
 if __name__ == '__main__':
     url = 'http://explorer.newtonproject.dev.diynova.com:8501'

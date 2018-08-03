@@ -136,3 +136,6 @@ FULL_NODES = {
 DEFAULT_MONITOR_PORT = 8090
 
 CURRENT_NET = 'TestNet'
+
+# RPC_URL = b"https://rpc1.newchain.newtonproject.org/"
+RPC_URL = b"http://explorer.newtonproject.dev.diynova.com:8501"

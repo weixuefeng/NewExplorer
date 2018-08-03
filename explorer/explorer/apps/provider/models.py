@@ -25,6 +25,7 @@ class Block(Document):
     time = LongField()
     nonce = StringField()
     size = LongField()
+    validator = StringField(max_length=128, required=True)
     meta = { 'indexes': ['previousblockhash', 'height', 'time']}
 
 class Transaction(Document):
@@ -62,6 +63,12 @@ class CappedTransaction(Document):
 class Account(Document):
     address = StringField(max_length=128, required=True, primary_key=True)
     balance = StringField()
+
+
+class Validator(Document):
+    address = StringField(max_length=128, required=True, primary_key=True)
+    name = StringField(max_length=128)
+    url = StringField(max_length=128)
 
 
 # init the connection

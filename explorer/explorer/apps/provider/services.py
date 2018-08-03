@@ -89,11 +89,29 @@ def store_block_data(block_info, provider, blockchain_type=codes.BlockChainType.
                 transaction_instance.save()
         # when transaction is finish, store block
         block_instance.save()
+        sync_validator_data(block_info['validator'])
         return True
     except Exception, inst:
         print inst
         logger.exception("fail to store block data:%s, block_info:%s" % (str(inst), block_info))
         return False
+
+
+def sync_validator_data(address, name="", url=""):
+    """sync the data of validator
+    """
+    try:
+        logger.debug("sync_validator_data: enter %s" % address)
+        instance = provider_models.Validator.objects.filter(address=address).first()
+        if not instance:
+            instance = provider_models.Validator()
+            instance.address = address
+            instance.name = name
+            instance.url = url
+            instance.save()
+    except Exception, inst:
+        logger.exception("fail to sync validator data:%s" % str(inst))
+
 
 def save_block_data(block_info):
     """Save the block info
@@ -103,6 +121,7 @@ def save_block_data(block_info):
         for k, v in block_info.items():
             setattr(block_instance, k, v)
         block_instance.save()
+        sync_validator_data(block_info['validator'])
         return True
     except Exception, inst:
         print inst

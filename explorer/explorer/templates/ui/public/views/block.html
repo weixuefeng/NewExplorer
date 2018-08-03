@@ -65,10 +65,11 @@
               <td class="key"><strong translate>Timestamp</strong></td>
               <td class="value text-right text-muted">{{block.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
             </tr>
-            <tr data-ng-show="block.poolInfo">
+            <tr data-ng-show="block.validator">
               <td class="key"><strong translate>Validator</strong></td>
               <td class="value text-right text-muted">
-                <a href="{{block.poolInfo.url}}" target="_blank" title="{{block.poolInfo.poolName}}">{{block.poolInfo.poolName}}</a>
+                <!-- <a href="{{block.validator_url}}" target="_blank" title="{{block.validator_name}}">{{block.validator_name}}</a> -->
+                {{block.validator_name}}
               </td>
             </tr>
             <!--<tr>-->
