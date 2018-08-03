@@ -120,7 +120,7 @@ class Provider(object):
         index = current_path.rfind('/')
         current_path = current_path[:index] + '/cliquesigner.so'
         lib = cdll.LoadLibrary(current_path)
-
+        # lib = cdll.LoadLibrary('/home/fivemeter/Desktop/newton-explorer/explorer/explorer/apps/provider/cliquesigner.so')
         class GoString(Structure):
             _fields_ = [("p", c_char_p), ("n", c_longlong)]
         lib.GetSignerByBlockNumber.argtypes = [GoString, c_longlong]
