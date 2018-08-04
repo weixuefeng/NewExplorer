@@ -194,11 +194,10 @@ def api_show_blocks(request, version):
         next_date_ts = next_date.timetuple()  
         next_date_ts = int(time.mktime(next_date_ts))
         # query db
-        time.sleep(5)
         if start_ts > 0:
-            rs = provider_models.Block.objects.filter(time__gte=block_ts, time__lt=start_ts).order_by('-height')
+            rs = provider_models.Block.objects.filter(time__gte=block_ts, time__lt=start_ts, validator__ne='Waiting for assignment').order_by('-height')
         else:
-            rs = provider_models.Block.objects.filter(time__gte=block_ts, time__lt=next_date_ts).order_by('-height')
+            rs = provider_models.Block.objects.filter(time__gte=block_ts, time__lt=next_date_ts, validator__ne='Waiting for assignment').order_by('-height')
         cnt = rs.count()
         is_more = False
         more_ts = block_ts
@@ -281,7 +280,6 @@ def api_show_block_info(request, version, blockhash):
     """
     try:
         current_height = provider_services.get_current_height()
-        time.sleep(1)
         obj = provider_models.Block.objects.get(blockhash=blockhash)
         result = json.loads(obj.to_json())
         result['hash'] = obj.id
