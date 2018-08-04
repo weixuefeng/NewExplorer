@@ -66,6 +66,7 @@ def __convert_account_to_json(obj):
     return result
 
 def handle_validator(address):
+    time.sleep(1)
     obj = provider_models.Validator.objects.filter(address=address).first()
     validator = json.loads(obj.to_json())
     url = validator['url']
