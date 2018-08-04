@@ -90,7 +90,8 @@ def store_block_data(block_info, provider, blockchain_type=codes.BlockChainType.
                 transaction_instance.save()
         # when transaction is finish, store block
         block_instance.save()
-        sync_validator_data(provider, block_instance)
+        validator_lib = provider.load_validator_lib()
+        sync_validator_data(provider, validator_lib, block_instance)
         return True
     except Exception, inst:
         print inst
@@ -98,13 +99,13 @@ def store_block_data(block_info, provider, blockchain_type=codes.BlockChainType.
         return False
 
 
-def sync_validator_data(provider, block_info, name="", url=""):
+def sync_validator_data(provider, validator_lib, block_info, name="", url=""):
     """sync the data of validator
     """
     try:
-        def store_validator_data(provider, block_info, name, url):
+        def store_validator_data(provider, validator_lib, block_info, name, url):
             rpc_url = server.RPC_URL
-            validator_address = provider.get_validator(rpc_url, block_info.height)
+            validator_address = provider.get_validator(validator_lib, rpc_url, block_info.height)
             instance = provider_models.Validator.objects.filter(address=validator_address).first()
             if not instance:
                 instance = provider_models.Validator()
@@ -114,7 +115,7 @@ def sync_validator_data(provider, block_info, name="", url=""):
                 instance.save()
             block_info.validator = validator_address
             block_info.save()
-        thread_instance = job.SyncValidatorThread(provider, store_validator_data, block_info, name, url)
+        thread_instance = job.SyncValidatorThread(provider, store_validator_data, validator_lib, block_info, name, url)
         thread_instance.start()
     except Exception, inst:
         logger.exception("fail to sync validator data:%s" % str(inst))
@@ -129,7 +130,8 @@ def save_block_data(provider, block_info):
             setattr(block_instance, k, v)
         block_instance['validator'] = 'Waiting for assignment'
         block_instance.save()
-        sync_validator_data(provider, block_instance)
+        validator_lib = provider.load_validator_lib()
+        sync_validator_data(provider, validator_lib, block_instance)
         return True
     except Exception, inst:
         print inst

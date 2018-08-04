@@ -65,18 +65,19 @@ class SyncAccountThread(Thread):
 
 
 class SyncValidatorThread(Thread):
-    def __init__(self, provider, storage_func, block_info, name ,url):
+    def __init__(self, provider, storage_func, validator_lib, block_info, name ,url):
         Thread.__init__(self)
         self.provider = provider
         self.storage_func = storage_func
         self.name = name
         self.url = url
         self.block_info = block_info
+        self.validator_lib = validator_lib
 
     def run(self):
         try:
             logger.info("start the sync validator thread")
-            self.storage_func(self.provider, self.block_info, self.name, self.url)
+            self.storage_func(self.provider, self.validator_lib, self.block_info, self.name, self.url)
         except Exception, inst:
             print inst
             logger.exception('fail to exeucte sync validator thread: %s' % str(inst))

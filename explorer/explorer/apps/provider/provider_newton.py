@@ -111,19 +111,22 @@ class Provider(object):
         result = response['result']
         return result
 
-    def get_validator(self, urlstr, number):
+    def load_validator_lib(self):
         current_path = os.path.abspath(__file__)
         index = current_path.rfind('/')
         current_path = current_path[:index] + '/cliquesigner.so'
         validator_lib = cdll.LoadLibrary(current_path)
+        return validator_lib
+
+    def get_validator(self, validator_lib, urlstr, number):
         class GoString(Structure):
             _fields_ = [("p", c_char_p), ("n", c_longlong)]
         validator_lib.GetSignerByBlockNumber.argtypes = [GoString, c_longlong]
         validator_lib.GetSignerByBlockNumber.restype = GoString
         url = GoString(urlstr, len(urlstr))
-        logger.debug('validator_number===================================================%s' % number)
+        logger.debug('validator_number:%s' % number)
         ret = validator_lib.GetSignerByBlockNumber(url, number)
-        logger.debug('validator_result===================================================%s' % ret.p)
+        logger.debug('validator_result:%s' % ret.p)
         return ret.p
 
 if __name__ == '__main__':

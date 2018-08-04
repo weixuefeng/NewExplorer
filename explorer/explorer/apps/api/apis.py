@@ -66,7 +66,6 @@ def __convert_account_to_json(obj):
     return result
 
 def handle_validator(address):
-    time.sleep(1)
     obj = provider_models.Validator.objects.filter(address=address).first()
     validator = json.loads(obj.to_json())
     url = validator['url']
@@ -195,6 +194,7 @@ def api_show_blocks(request, version):
         next_date_ts = next_date.timetuple()  
         next_date_ts = int(time.mktime(next_date_ts))
         # query db
+        time.sleep(5)
         if start_ts > 0:
             rs = provider_models.Block.objects.filter(time__gte=block_ts, time__lt=start_ts).order_by('-height')
         else:
@@ -281,6 +281,7 @@ def api_show_block_info(request, version, blockhash):
     """
     try:
         current_height = provider_services.get_current_height()
+        time.sleep(1)
         obj = provider_models.Block.objects.get(blockhash=blockhash)
         result = json.loads(obj.to_json())
         result['hash'] = obj.id
