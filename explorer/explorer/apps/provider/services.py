@@ -19,6 +19,7 @@ from provider import models as provider_models
 from decimal import *
 import job
 from config import server
+import binascii
 
 DECIMAL_SATOSHI = Decimal("100000000")
 logger = logging.getLogger(__name__)
@@ -104,8 +105,9 @@ def sync_validator_data(provider, validator_lib, block_info, name="", url=""):
     """
     try:
         def store_validator_data(provider, validator_lib, block_info, name, url):
-            rpc_url = server.RPC_URL
-            validator_address = provider.get_validator(validator_lib, rpc_url, block_info.height)
+            RPC_URL = server.FULL_NODES['new']['rest_url']
+            # rpc_url = bin(int(binascii.hexlify(RPC_URL), 16))
+            validator_address = provider.get_validator(validator_lib, RPC_URL, block_info.height)
             instance = provider_models.Validator.objects.filter(address=validator_address).first()
             if not instance:
                 instance = provider_models.Validator()
