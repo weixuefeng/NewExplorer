@@ -139,7 +139,7 @@ urls.py文件: URL根配置
 
 
 ### beta上线文档 ###
-- 在mongo中给validator字段添加name
-1.首先进入mongo数据库
-2.use blockchain
-3.db.validator.update({'name': ''},{$set:{'name': 'Newton-Singapore'}})  其中'Newton-Singapore'为可替换内容
+- 在mongo中给validator字段添加name  
+1.首先进入mongo数据库  
+2.use blockchain  
+3.db.validator.update({'name': ''},{$set:{'name': 'Newton-Singapore'}})  其中'Newton-Singapore'为可替换内容  
