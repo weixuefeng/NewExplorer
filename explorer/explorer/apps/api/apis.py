@@ -212,9 +212,9 @@ def api_show_blocks(request, version):
             t = json.loads(item.to_json())
             # workaround
             t['hash'] = item.id
-            validator_name, validator_url = handle_validator(t['validator'])
-            t['validator_name'] = validator_name
-            t['validator_url'] = validator_url
+            # validator_name, validator_url = handle_validator(t['validator'])
+            # t['validator_name'] = validator_name
+            # t['validator_url'] = validator_url
             blocks.append(t)
         if blocks:
             # get the last timestamp
@@ -286,9 +286,9 @@ def api_show_block_info(request, version, blockhash):
         result['isMainChain'] = True
         result['confirmations'] = current_height - obj.height
         result['current_net'] = settings.CURRENT_NET
-        validator_name, validator_url = handle_validator(result['validator'])
-        result['validator_name'] = validator_name
-        result['validator_url'] = validator_url
+        # validator_name, validator_url = handle_validator(result['validator'])
+        # result['validator_name'] = validator_name
+        # result['validator_url'] = validator_url
         return http.JsonResponse(result)
     except Exception, inst:
         print inst

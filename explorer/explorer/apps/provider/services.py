@@ -18,6 +18,7 @@ import provider_newton
 from provider import models as provider_models
 from decimal import *
 import job
+from config import server
 
 DECIMAL_SATOSHI = Decimal("100000000")
 logger = logging.getLogger(__name__)
@@ -89,7 +90,7 @@ def store_block_data(block_info, provider, blockchain_type=codes.BlockChainType.
                 transaction_instance.save()
         # when transaction is finish, store block
         block_instance.save()
-        sync_validator_data(block_info['validator'])
+        sync_validator_data(provider, block_instance)
         return True
     except Exception, inst:
         print inst
@@ -97,31 +98,38 @@ def store_block_data(block_info, provider, blockchain_type=codes.BlockChainType.
         return False
 
 
-def sync_validator_data(address, name="", url=""):
+def sync_validator_data(provider, block_info, name="", url=""):
     """sync the data of validator
     """
     try:
-        logger.debug("sync_validator_data: enter %s" % address)
-        instance = provider_models.Validator.objects.filter(address=address).first()
-        if not instance:
-            instance = provider_models.Validator()
-            instance.address = address
-            instance.name = name
-            instance.url = url
-            instance.save()
+        def store_validator_data(provider, block_info, name, url):
+            rpc_url = server.RPC_URL
+            validator_address = provider.get_validator(rpc_url, block_info.height)
+            instance = provider_models.Validator.objects.filter(address=validator_address).first()
+            if not instance:
+                instance = provider_models.Validator()
+                instance.address = validator_address
+                instance.name = name
+                instance.url = url
+                instance.save()
+            block_info.validator = validator_address
+            block_info.save()
+        thread_instance = job.SyncValidatorThread(provider, store_validator_data, block_info, name, url)
+        thread_instance.start()
     except Exception, inst:
         logger.exception("fail to sync validator data:%s" % str(inst))
 
 
-def save_block_data(block_info):
+def save_block_data(provider, block_info):
     """Save the block info
     """
     try:
         block_instance = provider_models.Block()
         for k, v in block_info.items():
             setattr(block_instance, k, v)
+        block_instance['validator'] = 'Waiting for assignment'
         block_instance.save()
-        sync_validator_data(block_info['validator'])
+        sync_validator_data(provider, block_instance)
         return True
     except Exception, inst:
         print inst
