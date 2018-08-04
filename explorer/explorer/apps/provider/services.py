@@ -345,6 +345,8 @@ def fill_missing_block(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.v
         provider = blockchain_providers[blockchain_type].Provider(url_prefix)
         # query the current height
         current_height = get_current_height(blockchain_type)
+        if current_height == -1:
+            start_height = 0
         if start_height > current_height or end_height > current_height:
             print "error: start_height > current_height"
             return
