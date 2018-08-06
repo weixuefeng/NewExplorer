@@ -90,6 +90,7 @@ def store_block_data(block_info, provider, blockchain_type=codes.BlockChainType.
                 transaction_instance.time = block_info['time']
                 transaction_instance.save()
         # when transaction is finish, store block
+        block_instance['validator'] = 'Waiting for assignment'
         block_instance.save()
         validator_lib = provider.load_validator_lib()
         sync_validator_data(provider, validator_lib, block_instance)
