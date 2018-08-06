@@ -286,9 +286,13 @@ def api_show_block_info(request, version, blockhash):
         result['isMainChain'] = True
         result['confirmations'] = current_height - obj.height
         result['current_net'] = settings.CURRENT_NET
-        validator_name, validator_url = handle_validator(result['validator'])
-        result['validator_name'] = validator_name
-        result['validator_url'] = validator_url
+        if result['validator'] != 'Waiting for assignment':
+            validator_name, validator_url = handle_validator(result['validator'])
+            result['validator_name'] = validator_name
+            result['validator_url'] = validator_url
+        else:
+            result['validator_name'] = ''
+            result['validator_url'] = ''
         return http.JsonResponse(result)
     except Exception, inst:
         print inst
