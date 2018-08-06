@@ -106,7 +106,6 @@ def sync_validator_data(provider, validator_lib, block_info, name="", url=""):
     try:
         def store_validator_data(provider, validator_lib, block_info, name, url):
             RPC_URL = server.FULL_NODES['new']['rest_url']
-            # rpc_url = bin(int(binascii.hexlify(RPC_URL), 16))
             validator_address = provider.get_validator(validator_lib, RPC_URL, block_info.height)
             instance = provider_models.Validator.objects.filter(address=validator_address).first()
             if not instance:
