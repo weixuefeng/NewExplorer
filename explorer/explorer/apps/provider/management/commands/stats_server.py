@@ -17,6 +17,7 @@ g_provider = None
 
 
 def run():
+    logger.debug('stats_server beginning!!!!!!!!')
     global g_queue
     global g_provider
     try:
@@ -26,7 +27,9 @@ def run():
                 data = g_queue.get()
                 if data:
                     provider_services.sync_validator_data(g_provider, data)
+                    logger.info('sync_validator_data is running !')
                     provider_services.sync_account_data(g_provider, data)
+                    logger.info('sync_account_data is running !')
             time.sleep(0.1)
     except Exception, inst:
         logger.exception('fail to run:%s' % str(inst))
