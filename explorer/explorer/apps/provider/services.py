@@ -18,7 +18,6 @@ import provider_newton
 from provider import models as provider_models
 from decimal import *
 import job
-from config import server
 import binascii
 
 DECIMAL_SATOSHI = Decimal("100000000")
@@ -104,7 +103,7 @@ def sync_validator_data(provider, block_info, name="", url=""):
     """
     try:
         validator_lib = provider.load_validator_lib()
-        RPC_URL = server.FULL_NODES['new']['rest_url']
+        RPC_URL = settings.FULL_NODES['new']['rest_url']
         validator_address = provider.get_validator(validator_lib, RPC_URL, block_info['height'])
         instance = provider_models.Validator.objects.filter(address=validator_address).first()
         if not instance:
@@ -113,10 +112,7 @@ def sync_validator_data(provider, block_info, name="", url=""):
             instance.name = name
             instance.url = url
             instance.save()
-        block_instance = provider_models.Block.objects.filter(height=block_info['height']).first()
-        if block_instance:
-            block_instance['validator'] = validator_address
-            block_instance.save()
+        return validator_address
     except Exception, inst:
         logger.exception("fail to sync validator data:%s" % str(inst))
 
@@ -128,7 +124,8 @@ def save_block_data(provider, block_info):
         block_instance = provider_models.Block()
         for k, v in block_info.items():
             setattr(block_instance, k, v)
-        block_instance['validator'] = ''
+        validator_address = sync_validator_data(provider, block_instance)
+        block_instance['validator'] = validator_address
         block_instance.save()
         return True
     except Exception, inst:
@@ -173,16 +170,10 @@ def insert_transactions_to_cache(transactions):
         return False
 
 
-def sync_account_data(provider, block_info):
+def sync_account_data(provider, address_list):
     """Sync the data of account
     """
     try:
-        address_list = []
-        for item in block_info['transactions']:
-            tx_item = provider.parse_transaction_response(item)
-            address_list.append(tx_item['from_address'])
-            address_list.append(tx_item['to_address'])
-        address_list = list(set(address_list))
         result = {}
         for address in address_list:
             value = provider.get_balance_by_address(address)
@@ -204,6 +195,7 @@ def save_transaction_data(provider, block_info, is_cached=True):
     """
     try:
         transactions = []
+        address_list = []
         for item in block_info['transactions']:
             tx_item = provider.parse_transaction_response(item)
             transaction_info = tx_item
@@ -216,11 +208,14 @@ def save_transaction_data(provider, block_info, is_cached=True):
             transaction_instance.time = block_info['time']
             transaction_instance._created = True
             transactions.append(transaction_instance)
+            address_list.append(transaction_info['from_address'])
+            address_list.append(transaction_info['to_address'])
         if transactions:
             provider_models.Transaction.objects.insert(transactions)
             # cache transaction
             if is_cached:
                 insert_transactions_to_cache(transactions)
+            sync_account_data(provider, list(set(address_list)))
         return True
     except Exception, inst:
         print inst
