@@ -62,7 +62,7 @@ def get_block_hash_by_height(height, blockchain_type=codes.BlockChainType.NEWTON
         print inst
         return ''
 
-def store_block_data(block_info, provider, blockchain_type=codes.BlockChainType.NEWTON.value, is_fast_sync=True):
+def store_block_data(provider, block_info, blockchain_type=codes.BlockChainType.NEWTON.value, is_fast_sync=True):
     """Store the block info
     """
     try:
@@ -90,10 +90,8 @@ def store_block_data(block_info, provider, blockchain_type=codes.BlockChainType.
                 transaction_instance.time = block_info['time']
                 transaction_instance.save()
         # when transaction is finish, store block
-        block_instance['validator'] = 'Waiting for assignment'
+        block_instance['validator'] = ''
         block_instance.save()
-        validator_lib = provider.load_validator_lib()
-        sync_validator_data(provider, validator_lib, block_instance)
         return True
     except Exception, inst:
         print inst
@@ -101,24 +99,24 @@ def store_block_data(block_info, provider, blockchain_type=codes.BlockChainType.
         return False
 
 
-def sync_validator_data(provider, validator_lib, block_info, name="", url=""):
+def sync_validator_data(provider, block_info, name="", url=""):
     """sync the data of validator
     """
     try:
-        def store_validator_data(provider, validator_lib, block_info, name, url):
-            RPC_URL = server.FULL_NODES['new']['rest_url']
-            validator_address = provider.get_validator(validator_lib, RPC_URL, block_info.height)
-            instance = provider_models.Validator.objects.filter(address=validator_address).first()
-            if not instance:
-                instance = provider_models.Validator()
-                instance.address = validator_address
-                instance.name = name
-                instance.url = url
-                instance.save()
-            block_info.validator = validator_address
-            block_info.save()
-        thread_instance = job.SyncValidatorThread(provider, store_validator_data, validator_lib, block_info, name, url)
-        thread_instance.start()
+        validator_lib = provider.load_validator_lib()
+        RPC_URL = server.FULL_NODES['new']['rest_url']
+        validator_address = provider.get_validator(validator_lib, RPC_URL, block_info['height'])
+        instance = provider_models.Validator.objects.filter(address=validator_address).first()
+        if not instance:
+            instance = provider_models.Validator()
+            instance.address = validator_address
+            instance.name = name
+            instance.url = url
+            instance.save()
+        block_instance = provider_models.Block.objects.filter(height=block_info['height']).first()
+        if block_instance:
+            block_instance['validator'] = validator_address
+            block_instance.save()
     except Exception, inst:
         logger.exception("fail to sync validator data:%s" % str(inst))
 
@@ -130,10 +128,8 @@ def save_block_data(provider, block_info):
         block_instance = provider_models.Block()
         for k, v in block_info.items():
             setattr(block_instance, k, v)
-        block_instance['validator'] = 'Waiting for assignment'
+        block_instance['validator'] = ''
         block_instance.save()
-        validator_lib = provider.load_validator_lib()
-        sync_validator_data(provider, validator_lib, block_instance)
         return True
     except Exception, inst:
         print inst
@@ -177,21 +173,28 @@ def insert_transactions_to_cache(transactions):
         return False
 
 
-def sync_account_data(provider, address_list):
+def sync_account_data(provider, block_info):
     """Sync the data of account
     """
     try:
-        def store_account_data(result):
-            for address,balance in result.items():
-                instance = provider_models.Account.objects.filter(address=address).first()
-                if not instance:
-                    instance = provider_models.Account()
-                    instance.address = address
-                instance.balance = balance
-                instance.save()
+        address_list = []
+        for item in block_info['transactions']:
+            tx_item = provider.parse_transaction_response(item)
+            address_list.append(tx_item['from_address'])
+            address_list.append(tx_item['to_address'])
+        address_list = list(set(address_list))
+        result = {}
+        for address in address_list:
+            value = provider.get_balance_by_address(address)
+            result[address] = value
+        for address,balance in result.items():
+            instance = provider_models.Account.objects.filter(address=address).first()
+            if not instance:
+                instance = provider_models.Account()
+                instance.address = address
+            instance.balance = balance
+            instance.save()
         # start sync thread
-        thread_instance = job.SyncAccountThread(provider, store_account_data, address_list)
-        thread_instance.start()
     except Exception, inst:
         logger.exception("fail to sync account data:%s" % str(inst))
 
@@ -201,7 +204,6 @@ def save_transaction_data(provider, block_info, is_cached=True):
     """
     try:
         transactions = []
-        address_list = []
         for item in block_info['transactions']:
             tx_item = provider.parse_transaction_response(item)
             transaction_info = tx_item
@@ -214,14 +216,11 @@ def save_transaction_data(provider, block_info, is_cached=True):
             transaction_instance.time = block_info['time']
             transaction_instance._created = True
             transactions.append(transaction_instance)
-            address_list.append(transaction_instance.from_address)
-            address_list.append(transaction_instance.to_address)
         if transactions:
             provider_models.Transaction.objects.insert(transactions)
             # cache transaction
             if is_cached:
                 insert_transactions_to_cache(transactions)
-            sync_account_data(provider, list(set(address_list)))
         return True
     except Exception, inst:
         print inst
@@ -286,7 +285,7 @@ def sync_blockchain(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.valu
         for tmp_height in range(current_height+1, height+1):
             # get block info
             data = provider.get_block_by_height(tmp_height)
-            status = store_block_data(data, provider)
+            status = store_block_data(provider, data)
             if not status:
                 break
             logger.info("sync_blockchain:height:%s" % tmp_height)

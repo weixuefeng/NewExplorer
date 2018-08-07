@@ -16,6 +16,8 @@ import signal
 from provider import services as provider_services
 from . import indexing_server
 from . import query_proxy
+from . import stats_server
+
 
 logger = logging.getLogger(__name__)
 
@@ -28,6 +30,7 @@ class BlockchainSyncManager(object):
         self.query_processes = []
         self.query_input_queues = []
         self.query_output_queue = None
+        self.stats_output_queue = None
         self.provider = provider_services.blockchain_providers[self.blockchain_type].Provider(self.url_prefix)
         self.current_height = self.provider.get_block_height() - 1 # always retrieve the previous block of current height
         self.__start_worker()
@@ -35,18 +38,22 @@ class BlockchainSyncManager(object):
     def __start_worker(self):
         # Init the processes of indexing server
         self.query_output_queue = self.manager.Queue()
+        self.stats_output_queue = self.manager.Queue()
         for i in range(5):
             # init the input Queue
             query_input_queue = self.manager.Queue()
             self.query_input_queues.append(query_input_queue)
             # query proxy
-            query_process = Process(target=query_proxy.init_entry, args=(self.blockchain_type, self.url_prefix, query_input_queue, self.query_output_queue, ))
+            query_process = Process(target=query_proxy.init_entry, args=(self.blockchain_type, self.url_prefix, query_input_queue, self.query_output_queue, self.stats_output_queue))
             self.query_processes.append(query_process)
             query_process.start()
         # indexing server
         indexing_process = Process(target=indexing_server.init_entry, args=(self.blockchain_type, self.url_prefix, self.query_output_queue, ))
         self.indexing_processes.append(indexing_process)
+        stats_process = Process(target=stats_server.init_entry, args=(self.blockchain_type, self.url_prefix, self.stats_output_queue, ))
+        self.indexing_processes.append(stats_process)
         indexing_process.start()
+        stats_process.start()
 
     def query_new_block(self):
         try:

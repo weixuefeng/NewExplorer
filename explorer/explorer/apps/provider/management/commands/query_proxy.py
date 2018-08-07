@@ -14,12 +14,14 @@ from provider import services as provider_services
 logger = logging.getLogger(__name__)
 g_input_queue = []
 g_output_queue = []
+g_stats_output_queue = []
 g_provider = None
 
 def run():
     global g_provider
     global g_input_queue
     global g_output_queue
+    global g_stats_output_queue
     try:
         while True:
             qsize = g_input_queue.qsize()
@@ -30,12 +32,13 @@ def run():
                     data = g_provider.get_block_by_height(target_height)
                     if data:
                         g_output_queue.put(data)
+                        g_stats_output_queue.put(data)
                         break
             time.sleep(0.1)
     except:
         pass
 
-def init_entry(blockchain_type, url_prefix, input_queue, output_queue):
+def init_entry(blockchain_type, url_prefix, input_queue, output_queue, stats_output_queue):
     """Entry of indexing server
 
     :param int       blockchain_type: the type of blockchain
@@ -46,7 +49,9 @@ def init_entry(blockchain_type, url_prefix, input_queue, output_queue):
     global g_input_queue
     global g_output_queue
     global g_provider
+    global g_stats_output_queue
     g_input_queue = input_queue
     g_output_queue = output_queue
+    g_stats_output_queue = stats_output_queue
     g_provider = provider_services.blockchain_providers[blockchain_type].Provider(url_prefix)
     run()

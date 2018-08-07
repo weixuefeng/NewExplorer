@@ -195,9 +195,9 @@ def api_show_blocks(request, version):
         next_date_ts = int(time.mktime(next_date_ts))
         # query db
         if start_ts > 0:
-            rs = provider_models.Block.objects.filter(time__gte=block_ts, time__lt=start_ts, validator__ne='Waiting for assignment').order_by('-height')
+            rs = provider_models.Block.objects.filter(time__gte=block_ts, time__lt=start_ts, validator__ne='').order_by('-height')
         else:
-            rs = provider_models.Block.objects.filter(time__gte=block_ts, time__lt=next_date_ts, validator__ne='Waiting for assignment').order_by('-height')
+            rs = provider_models.Block.objects.filter(time__gte=block_ts, time__lt=next_date_ts, validator__ne='').order_by('-height')
         cnt = rs.count()
         is_more = False
         more_ts = block_ts
@@ -286,7 +286,7 @@ def api_show_block_info(request, version, blockhash):
         result['isMainChain'] = True
         result['confirmations'] = current_height - obj.height
         result['current_net'] = settings.CURRENT_NET
-        if result['validator'] != 'Waiting for assignment':
+        if result['validator'] != '':
             validator_name, validator_url = handle_validator(result['validator'])
             result['validator_name'] = validator_name
             result['validator_url'] = validator_url
