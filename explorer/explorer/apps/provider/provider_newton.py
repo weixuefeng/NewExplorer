@@ -63,7 +63,11 @@ class Provider(object):
     def get_block_by_height(self, height):
         response = self._post('eth_getBlockByNumber', ['0x%x' % height, True])
         result = response.get('result')
-        return self.parse_block_info(result)
+        validator_lib = self.load_validator_lib()
+        validator_address = self.get_validator(validator_lib, result)
+        final_result = self.parse_block_info(result)
+        final_result['validator'] = validator_address
+        return final_result
 
     def get_block_by_hash(self, hash_key):
         response = self._post('eth_getBlockByHash', [hash_key, True])
@@ -118,14 +122,14 @@ class Provider(object):
         validator_lib = cdll.LoadLibrary(current_path)
         return validator_lib
 
-    def get_validator(self, validator_lib, urlstr, number):
+    def get_validator(self, validator_lib, block_info):
+        blockJson = json.dumps(block_info)
         class GoString(Structure):
             _fields_ = [("p", c_char_p), ("n", c_longlong)]
-        validator_lib.GetSignerByBlockNumber.argtypes = [GoString, c_longlong]
-        validator_lib.GetSignerByBlockNumber.restype = GoString
-        url = GoString(urlstr, len(urlstr))
-        logger.debug('validator_number:%s' % number)
-        ret = validator_lib.GetSignerByBlockNumber(url, number)
+        validator_lib.GetSignerByBlockJSON.argtypes = [GoString]
+        validator_lib.GetSignerByBlockJSON.restype = GoString
+        blockJsonGoString = GoString(blockJson, len(blockJson))
+        ret = validator_lib.GetSignerByBlockJSON(blockJsonGoString)
         logger.debug('validator_result:%s' % ret.p)
         return ret.p
 

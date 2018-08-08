@@ -20,6 +20,7 @@ from decimal import *
 import job
 import binascii
 
+
 DECIMAL_SATOSHI = Decimal("100000000")
 logger = logging.getLogger(__name__)
 blockchain_providers = {
@@ -102,17 +103,13 @@ def sync_validator_data(provider, block_info, name="", url=""):
     """sync the data of validator
     """
     try:
-        validator_lib = provider.load_validator_lib()
-        RPC_URL = settings.FULL_NODES['new']['rest_url']
-        validator_address = provider.get_validator(validator_lib, RPC_URL, block_info['height'])
-        instance = provider_models.Validator.objects.filter(address=validator_address).first()
+        instance = provider_models.Validator.objects.filter(address=block_info['validator']).first()
         if not instance:
             instance = provider_models.Validator()
-            instance.address = validator_address
+            instance.address = block_info['validator']
             instance.name = name
             instance.url = url
             instance.save()
-        return validator_address
     except Exception, inst:
         logger.exception("fail to sync validator data:%s" % str(inst))
 
@@ -124,8 +121,7 @@ def save_block_data(provider, block_info):
         block_instance = provider_models.Block()
         for k, v in block_info.items():
             setattr(block_instance, k, v)
-        validator_address = sync_validator_data(provider, block_instance)
-        block_instance['validator'] = validator_address
+        sync_validator_data(provider, block_info)
         block_instance.save()
         return True
     except Exception, inst:
@@ -191,7 +187,7 @@ def sync_account_data(provider, address_list):
 
 
 def save_transaction_data(provider, block_info, is_cached=True):
-    """Save the transaction info    
+    """Save the transaction info
     """
     try:
         transactions = []
@@ -226,6 +222,7 @@ def save_transaction_data(provider, block_info, is_cached=True):
 def delete_data_by_block_height(height):
     provider_models.Block.objects.filter(height__gte=height).delete()
     provider_models.Transaction.objects.filter(blockheight__gte=height).delete()
+
 
 def handle_block_fork(blockchain_type):
     """Handle the block fork
