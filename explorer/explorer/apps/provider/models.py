@@ -70,6 +70,11 @@ class Validator(Document):
     name = StringField(max_length=128)
     url = StringField(max_length=128)
 
+class Address(Document):
+    address = StringField(max_length=128, required=True)
+    txid = StringField(max_length=128, required=True)
+    time = IntField()
+    meta = { 'indexes': ['address', 'txid', 'time']}
 
 # init the connection
 connect(settings.BLOCK_CHAIN_DB_NAME, host=settings.MONGODB_HOST)

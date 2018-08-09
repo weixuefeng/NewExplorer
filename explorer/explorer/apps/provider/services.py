@@ -181,7 +181,6 @@ def sync_account_data(provider, address_list):
                 instance.address = address
             instance.balance = balance
             instance.save()
-        # start sync thread
     except Exception, inst:
         logger.exception("fail to sync account data:%s" % str(inst))
 
@@ -206,6 +205,7 @@ def save_transaction_data(provider, block_info, is_cached=True):
             transactions.append(transaction_instance)
             address_list.append(transaction_info['from_address'])
             address_list.append(transaction_info['to_address'])
+            sync_address_data(transaction_instance)
         if transactions:
             provider_models.Transaction.objects.insert(transactions)
             # cache transaction
@@ -216,6 +216,35 @@ def save_transaction_data(provider, block_info, is_cached=True):
     except Exception, inst:
         print inst
         logger.exception("fail to save transaction data:%s" % (str(inst)))
+        return False
+
+
+def sync_address_data(transaction_instance):
+    """Save the address info
+    """
+    try:
+        to_address = transaction_instance.to_address
+        from_address = transaction_instance.from_address
+        if to_address == from_address:
+            addr_obj = provider_models.Address()
+            addr_obj.address = to_address
+            addr_obj.txid = transaction_instance.txid
+            addr_obj.time = transaction_instance.time
+            addr_obj.save()
+        else:
+            to_addr_obj = provider_models.Address()
+            to_addr_obj.address = to_address
+            to_addr_obj.txid = transaction_instance.txid
+            to_addr_obj.time = transaction_instance.time
+            to_addr_obj.save()
+            from_addr_obj = provider_models.Address()
+            from_addr_obj.address = from_address
+            from_addr_obj.txid = transaction_instance.txid
+            from_addr_obj.time = transaction_instance.time
+            from_addr_obj.save()
+    except Exception, inst:
+        print inst
+        logger.exception('fail to save address data:%s' % (str(inst)))
         return False
 
         

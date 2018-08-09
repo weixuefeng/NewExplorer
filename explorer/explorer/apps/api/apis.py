@@ -357,8 +357,8 @@ def api_show_transcations(request, version):
                     total_page = (cnt / settings.PAGE_SIZE)
             objs = objs.skip(page_id * settings.PAGE_SIZE).limit(limit)
         elif addr:
-            objs = provider_models.Transaction.objects.filter(Q(from_address=addr) | Q(to_address=addr)).order_by('-time')
-            cnt = objs.count()
+            addr_objs = provider_models.Address.objects.filter(address=addr).order_by('-time')
+            cnt = addr_objs.count()
             if cnt == 0:
                 total_page = 1
             else:
@@ -366,7 +366,12 @@ def api_show_transcations(request, version):
                     total_page = (cnt / settings.PAGE_SIZE) + 1
                 else:
                     total_page = (cnt / settings.PAGE_SIZE)
-            objs = objs.skip(page_id * settings.PAGE_SIZE).limit(limit)
+            addr_objs = addr_objs.skip(page_id * settings.PAGE_SIZE).limit(limit)
+            txid_list = []
+            for addr_obj in addr_objs:
+                txid = addr_obj.txid
+                txid_list.append(txid)
+            objs = provider_models.Transaction.objects.filter(txid__in=txid_list).order_by('-time')
         else:
             raise Exception("invalid parameter")
         txs = []
@@ -470,7 +475,7 @@ def api_show_addr_summary(request, version, addr):
         if obj:
             res = __convert_account_to_json(obj)
             # caculate the txlength
-            txlength = provider_models.Transaction.objects.filter(Q(from_address=eth_addr) | Q(to_address=eth_addr)).count()
+            txlength = provider_models.Address.objects.filter(address=eth_addr).count()
             balance = res[0]['balance']
             balanceSat = int(balance) / DECIMAL_SATOSHI
             result = {
@@ -652,7 +657,7 @@ def api_show_client_transactions(request, version):
         total_page = 0
         if addr:
             addr = addr.lower()
-            rs = provider_models.Transaction.objects.filter(Q(from_address=addr) | Q(to_address=addr)).order_by('-time')
+            rs = provider_models.Address.objects.filter(address=addr).order_by('-time')
             cnt = rs.count()
             if cnt == 0:
                 total_page = 1
@@ -661,7 +666,12 @@ def api_show_client_transactions(request, version):
                     total_page = (cnt / limit) + 1
                 else:
                     total_page = (cnt / limit)
-            objs = rs.skip((page_id - 1) * limit).limit(limit)
+            addr_objs = rs.skip((page_id - 1) * limit).limit(limit)
+            txid_list = []
+            for addr_obj in addr_objs:
+                txid = addr_obj.txid
+                txid_list.append(txid)
+            objs = provider_models.Transaction.objects.filter(txid__in=txid_list).order_by('-time')
         else:
             raise Exception("invalid parameter")
         txs = []
