@@ -426,8 +426,8 @@
         padding-right: 2%;
     }
     .blocks-table-header {
-        line-height: 50px !important;
-        font-size: 18px;
+        line-height: 60px !important;
+        font-size: 15px;
         padding: unset !important;
     }
 }
@@ -452,6 +452,11 @@
     margin-bottom: 3%;
 }
 
+.blocks-page-lower .table-cell td.ph-table {
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+
 @media (max-width: 768px) {
     .block-page-upper {
         margin: 8% 2%;
@@ -463,15 +468,10 @@
         margin-right: 2%;
         box-shadow: 0 0 10px 2px #e2e2e2;
     }
-    .ph-table {
-        padding: 12px 0 !important;
-        font-size: 13px !important;
+    .blocks-page-lower .table-cell td.ph-table {
+        padding: 13px 4px;
+        font-size: 13px;
     }
-}
-
-.ph-table {
-    padding-top: 13px !important;
-    padding-bottom: 13px !important;
 }
 
 .previous-block-logo {

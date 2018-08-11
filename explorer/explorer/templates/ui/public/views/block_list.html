@@ -30,15 +30,15 @@
         </div>
     </div>
     <div class="blocks-page-lower container">
-            <div class="panel panel-default blocks-table table-responsive">
+            <div class="panel panel-default blocks-table">
             <table class="table table-hover table-striped">
                 <thead>
                     <tr>
-                        <th class="table-title blocks-table-header" translate>Height</th>
-                        <th class="table-title blocks-table-header" translate>Timestamp</th>
-                        <th class="table-title blocks-table-header" translate>Transactions</th>
-                        <th class="table-title blocks-table-header" translate>Validator</th>
-                        <th class="text-right table-title blocks-table-header" translate>Size</th>
+                        <th class="table-title blocks-table-header text-center" translate>Height</th>
+                        <th class="table-title blocks-table-header text-center" translate>Timestamp</th>
+                        <th class="table-title blocks-table-header text-center" translate>Transactions</th>
+                        <th class="table-title blocks-table-header text-center" translate>Validator</th>
+                        <th class=" text-center table-title blocks-table-header" translate>Size</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -47,11 +47,11 @@
                     </tr>
                     <tr class="table-cell" data-ng-repeat='b in blocks'>
                         <td class="table-height ph-table table-del-border"><a href="block/{{b.hash}}">{{b.height}}</a></td>
-                        <td class="table-time ph-table table-del-border">{{b.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-                        <td class="table-time ph-table table-del-border">{{b.txlength}}</td>
+                        <td class="table-time ph-table table-del-border text-center">{{b.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td class="table-time ph-table table-del-border text-center">{{b.txlength}}</td>
                         <!-- <td class="ph-table table-del-border"><a href="{{b.validator_url}}" title="{{b.validator_name}}" target="_blank" data-ng-show="b.validator">{{b.validator_name}}</a></td> -->
-                        <td class="ph-table table-del-border">{{b.validator_name}}</td>
-                        <td class="table-time text-right ph-table table-del-border">{{b.size}}</td>
+                        <td class="ph-table table-del-border text-center">{{b.validator_name}}</td>
+                        <td class="table-time text-center ph-table table-del-border">{{b.size}}</td>
                     </tr>
                 </tbody>
             </table>
