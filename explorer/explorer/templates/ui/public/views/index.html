@@ -20,30 +20,32 @@
                                 </span>
                             </a>
                         </div>
-                        <table class="table table-striped" >
-                            <thead>
-                                <tr>
-                                    <th translate style='padding-left:6px;'>Height</th>
-                                    <th class="text-center" translate>Timestamp</th>
-                                    <th class="text-right"><span class="ellipsis" translate>Transactions</span></th>
-                                    <th class="text-center"><span class="ellipsis" translate>Validator</span></th>
-                                    <th class="text-right" translate>Size</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr data-ng-show="!blocks.length" class="text-center text-muted"><td colspan="5" translate>Waiting for blocks...</td></tr>
-                                <tr class="fader" data-ng-repeat='b in blocks'>
-                                    <td style="vertical-align: middle;">
-                                        <a href="block/{{b.hash}}">{{b.height}}</a>
-                                    </td>
-                                    <td class="table-time text-center">{{b.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-                                    <td style="vertical-align: middle;">{{b.txlength}}</td>
-                                    <!-- <td class="text-right"><a href="{{b.validator_url}}" title="{{b.validator_name}}" target="_blank" data-ng-show="b.validator">{{b.validator_name}}</a></td> -->
-                                    <td class="text-center" style="vertical-align: middle;">{{b.validator_name}}</td>
-                                    <td class="text-right" style="vertical-align: middle;">{{b.size}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-striped" >
+                                <thead>
+                                    <tr>
+                                        <th translate style='padding-left:6px;'>Height</th>
+                                        <th class="text-center" translate>Timestamp</th>
+                                        <th class="text-right"><span class="ellipsis" translate>Transactions</span></th>
+                                        <th class="text-center"><span class="ellipsis" translate>Validator</span></th>
+                                        <th class="text-right" translate>Size</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-show="!blocks.length" class="text-center text-muted"><td colspan="5" translate>Waiting for blocks...</td></tr>
+                                    <tr class="fader" data-ng-repeat='b in blocks'>
+                                        <td style="vertical-align: middle;">
+                                            <a href="block/{{b.hash}}">{{b.height}}</a>
+                                        </td>
+                                        <td class="table-time text-center">{{b.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                        <td style="vertical-align: middle;" class="text-center">{{b.txlength}}</td>
+                                        <!-- <td class="text-right"><a href="{{b.validator_url}}" title="{{b.validator_name}}" target="_blank" data-ng-show="b.validator">{{b.validator_name}}</a></td> -->
+                                        <td class="text-center" style="vertical-align: middle;">{{b.validator_name}}</td>
+                                        <td class="text-right" style="vertical-align: middle;">{{b.size}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                             </div>
                     </div>
                     <div class="col-md-6 mobile-index-table">
