@@ -452,7 +452,7 @@ margin-left: 0;
 }
 
 /* Set the fixed height of the footer here */
-.footer span a{font-size: 14px;padding-top: 20px; padding-left: 20px; text-decoration: none;}
+.footer span a{font-size: 14px; text-decoration: none;}
 /* Footer ----------------------------------------------------------- */
 .footer { text-align: center; padding: 0; font-size: 12px; background-color: #f5f5f5; }
 .footer .pc-line{ position:relative; height:50px; line-height:50px; color: #595959; text-align:left}
@@ -461,8 +461,7 @@ margin-left: 0;
 .footer span a img{ display:inline-block; margin-right:3px; width:15px; height:15px;}
 .footer .pc-right{ position: absolute;right: 0;}
 .footer .pc-left{
-    position: absolute;
-    display: inline-block;
+  
 }
 .footer .pc-align-right {
     float: right;
@@ -471,20 +470,12 @@ margin-left: 0;
 
 @media (max-width: 768px) {
     .footer .pc-left {
-        position: absolute;
-        display: block;
-        top: 0px;
-        left: 10px;
+
     }
     .footer .pc-align-right {
-        position: absolute;
-        display: block;
-        top: 20px;
-        left: 30px;
-        height: 35px;
+        margin-top: -20px;
     }
     .footer .pc-line{
-        position: absolute;
         color: #595959;
         width: 100%;
         height: 9%;
@@ -493,8 +484,10 @@ margin-left: 0;
 
 }
 
-
-.footer span { color: #929292; }
+.footer span {
+    color: #929292;
+    display: inline-block;
+}
 .footer h4 {
     color: #333;
     font-size: 18px;
@@ -533,7 +526,7 @@ margin-left: 0;
 
 .footer-language {
     font-size: 14px;
-    color: white;
+    color: #595959 !important;
 }
 
 /* Custom page CSS
