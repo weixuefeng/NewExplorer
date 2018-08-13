@@ -470,7 +470,7 @@ margin-left: 0;
 
 @media (max-width: 768px) {
     .footer .pc-left {
-        
+
     }
     .footer .pc-align-right {
         margin-top: -20px;
@@ -958,16 +958,6 @@ a.v_highlight_more {
         margin-top:unset;
         margin-bottom: 20px;
     }
-    .summary-table .key{
-        font-size: 12px !important;
-        padding-top: 3%!important;
-        padding-bottom: 3%!important;
-        vertical-align: inherit;
-    }
-    .summary-table .value{
-        padding-top: 3% !important;
-        padding-bottom: 3% !important;
-    }
 }
 
 .summary-table{
@@ -980,14 +970,36 @@ a.v_highlight_more {
     padding-top: 22px;
     padding-bottom: 22px;
     padding-left: unset;
+    color: #7d8c9e;
 }
 .summary-table .value{
     padding-top:22px;
     padding-bottom:22px;
     font-weight:bold;
-    color: #999999;
+    color: #7d8c9e;;
     vertical-align: inherit;
 }
+
+/*.summary-table .value a{
+    color: #2e4e63;
+    font-weight: 800;
+}*/
+
+@media (max-width: 768px) {
+    .summary-table .key{
+      font-size: 12px;
+      padding-top: 3%;
+      padding-bottom: 3%;
+      vertical-align: inherit;
+      color: #7d8c9e;
+    }
+    .summary-table .value{
+        padding-top: 3%;
+        padding-bottom: 3%;
+        color: #7d8c9e;
+    }
+}
+
 .transaction-title{
     font-size: 30px;
     color:#333333;

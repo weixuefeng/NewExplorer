@@ -274,19 +274,21 @@
 table thead tr th.table-th {
     padding: 12px;
     font-size: 18px;
-    
+    font-weight: unset;
+    border-bottom: unset;
 }
 
 table tbody tr td.table-th {
     padding: 14px;
-    border: unset;
+    
 }
 
 @media (max-width: 768px) {
     table thead tr th.table-th {
         padding: 8px;
         font-size: 14px;
-
+        font-weight: unset;
+        border-bottom: unset;
     }
 
     table tbody tr td.table-th {
@@ -308,10 +310,10 @@ table tbody tr td.table-th {
     }
 }
 
-.index-table table tbody tr td a {
-    font-weight: 500;
+/*.index-table table tbody tr td a {
+    font-weight: 800;
     color: #7d8c9e;
-}
+}*/
 
 .index-table .index-table-title{
     font-size: 25px;
@@ -321,6 +323,10 @@ table tbody tr td.table-th {
     .index-table .index-table-title{
         font-size: 19px;
     }
+}
+
+.index-table table tbody tr td {
+    color: #7d8c9e;
 }
 
 /* search section */

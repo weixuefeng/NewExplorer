@@ -46,7 +46,7 @@
                         <td colspan="5"><span translate>Waiting for blocks...</span> <span class="loader-gif"></span></td>
                     </tr>
                     <tr class="table-cell" data-ng-repeat='b in blocks'>
-                        <td class="table-height ph-table table-del-border"><a href="block/{{b.hash}}">{{b.height}}</a></td>
+                        <td class="table-height ph-table table-del-border text-center"><a href="block/{{b.hash}}">{{b.height}}</a></td>
                         <td class="table-time ph-table table-del-border text-center">{{b.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                         <td class="table-time ph-table table-del-border text-center">{{b.txlength}}</td>
                         <!-- <td class="ph-table table-del-border"><a href="{{b.validator_url}}" title="{{b.validator_name}}" target="_blank" data-ng-show="b.validator">{{b.validator_name}}</a></td> -->
