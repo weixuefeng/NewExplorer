@@ -233,30 +233,35 @@
 }
 
 .see-all-blocks-btn {
-    background:url(../img/see-all-blocks.png?v=2) no-repeat center;
     width: 106px;
     height: 33px;
     text-align: center;
     padding-top: 8px;
+    border-radius: 16px;
+    background-color: #8f9da6;
+    color: #FFFFFF;
 }
 
 @media (max-width: 768px) {
     .see-all-blocks-btn {
-        background: url(../img/phone-index-button.png) no-repeat center;
-        width: 106px;
-        height: 33px;
+        width: 80px;
+        height: 24px;
         text-align: center;
-        padding-top: 8px;
+        padding-top: 4px;
+        border-radius: 15px;
+        background-color: #8f9da6;
+        color: #FFFFFF;
+        margin-top: 2px;
     }
 }
 
 .latest-list {
     margin: auto;
-    margin-bottom: 50px;
 }
 
 .index-table {
     box-shadow: 0px 0px 10px 2px #e2e2e2;
+    margin-bottom: 5%;
 }
 @media (max-width: 768px) {
     .mobile-index-table {
@@ -266,7 +271,57 @@
     }
 }
 
+table thead tr th.table-th {
+    padding: 12px;
+    font-size: 18px;
+    
+}
 
+table tbody tr td.table-th {
+    padding: 14px;
+    border: unset;
+}
+
+@media (max-width: 768px) {
+    table thead tr th.table-th {
+        padding: 8px;
+        font-size: 14px;
+
+    }
+
+    table tbody tr td.table-th {
+        padding: 8px;
+    }
+}
+
+.mobile-index-table .index-table .panel-heading {
+    border: unset;
+    background-color: #e9edf0;
+    padding: 15px;
+}
+
+@media (max-width: 768px) {
+    .mobile-index-table .index-table .panel-heading {
+        border: unset;
+        background-color: #e9edf0;
+        padding: 8px;
+    }
+}
+
+.index-table table tbody tr td a {
+    font-weight: 500;
+    color: #7d8c9e;
+}
+
+.index-table .index-table-title{
+    font-size: 25px;
+}
+
+@media (max-width: 768px) {
+    .index-table .index-table-title{
+        font-size: 19px;
+    }
+}
 
 /* search section */
 .search-container {
@@ -287,7 +342,7 @@
 
 .section-search {
     background-color: #303948;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
 }
 @media (max-width: 768px) {
     .section-search {

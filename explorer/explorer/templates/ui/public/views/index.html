@@ -10,10 +10,10 @@
             </section>
 
                 <div class="row latest-list container">
-                    <div class="col-md-6 mobile-index-table">
+                    <div class="mobile-index-table" style="margin-bottom: 5%">
                         <div class="index-table panel-default">
                         <div class="panel-heading">
-                            <span class="" translate  style="font-size: 20px">Latest Blocks</span>
+                            <span class="index-table-title" translate>Latest Blocks</span>
                             <a href="blocks" class="link see-all-blocks">
                                 <span class="pull-right see-all-blocks-btn" translate>
                                 See all blocks
@@ -24,49 +24,49 @@
                             <table class="table table-striped" >
                                 <thead>
                                     <tr>
-                                        <th translate style='padding-left:6px;'>Height</th>
-                                        <th class="text-center" translate>Timestamp</th>
-                                        <th class="text-right"><span class="ellipsis" translate>Transactions</span></th>
-                                        <th class="text-center"><span class="ellipsis" translate>Validator</span></th>
-                                        <th class="text-right" translate>Size</th>
+                                        <th class="table-th" translate>Height</th>
+                                        <th class="text-center table-th" translate>Timestamp</th>
+                                        <th class="text-center table-th"><span class="ellipsis" translate>Transactions</span></th>
+                                        <th class="text-center table-th"><span class="ellipsis" translate>Validator</span></th>
+                                        <th class="text-right table-th" translate>Size</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr data-ng-show="!blocks.length" class="text-center text-muted"><td colspan="5" translate>Waiting for blocks...</td></tr>
                                     <tr class="fader" data-ng-repeat='b in blocks'>
-                                        <td style="vertical-align: middle;">
+                                        <td class="table-th" style="vertical-align: middle;">
                                             <a href="block/{{b.hash}}">{{b.height}}</a>
                                         </td>
-                                        <td class="table-time text-center">{{b.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-                                        <td style="vertical-align: middle;" class="text-center">{{b.txlength}}</td>
+                                        <td class="table-time text-center table-th">{{b.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                        <td style="vertical-align: middle;" class="table-th text-center">{{b.txlength}}</td>
                                         <!-- <td class="text-right"><a href="{{b.validator_url}}" title="{{b.validator_name}}" target="_blank" data-ng-show="b.validator">{{b.validator_name}}</a></td> -->
-                                        <td class="text-center" style="vertical-align: middle;">{{b.validator_name}}</td>
-                                        <td class="text-right" style="vertical-align: middle;">{{b.size}}</td>
+                                        <td class="text-center table-th" style="vertical-align: middle;">{{b.validator_name}}</td>
+                                        <td class="text-right table-th" style="vertical-align: middle;">{{b.size}}</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                             </div>
                     </div>
-                    <div class="col-md-6 mobile-index-table">
+                    <div class="mobile-index-table">
                         <div class="panel-default index-table">
                         <div class="panel-heading">
-                        <span class="" translate  style="font-size: 20px">Latest Transactions</span>
+                        <span class="index-table-title" translate>Latest Transactions</span>
                         </div>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th translate>Transaction ID</th>
-                                    <th class="text-right" translate>Value</th>
+                                    <th class="table-th" translate>Transaction ID</th>
+                                    <th class="table-th text-right" translate>Value</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr data-ng-show="!txs.length" class="text-center text-muted"><td colspan="3" translate>Waiting for transactions...</td></tr>
+                                <tr data-ng-show="!txs.length" class="text-center text-muted"><td class="table-th" colspan="3" translate>Waiting for transactions...</td></tr>
                                 <tr class="fader" data-ng-repeat='tx in txs'>
-                                    <td style="max-width:180px">
+                                    <td class="table-th" style="max-width:180px">
                                         <a class="ellipsis" href="tx/{{tx.txid}}">{{tx.txid}}</a>
                                     </td>
-                                    <td class="text-right"><span class="ellipsis">{{$root.currency.getConvertion(tx.valueOut) || tx.valueOut + ' NEW'}}</span></td>
+                                    <td class="table-th text-right"><span class="ellipsis">{{$root.currency.getConvertion(tx.valueOut) || tx.valueOut + ' NEW'}}</span></td>
                                 </tr>
                             </tbody>
                         </table>
