@@ -101,7 +101,7 @@ class Provider(object):
 
     def parse_transaction_receipt(self, response):
         final_result = {
-            'txid': response['hash'],
+            'txid': response['transactionHash'],
         }
         final_result['from_address'] = response['from']
         final_result['to_address'] = response['to']
