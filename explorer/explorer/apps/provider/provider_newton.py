@@ -99,11 +99,30 @@ class Provider(object):
         final_result['blockhash'] = response['blockHash']
         return final_result
 
+    def parse_transaction_receipt(self, response):
+        final_result = {
+            'txid': response['hash'],
+        }
+        final_result['from_address'] = response['from']
+        final_result['to_address'] = response['to']
+        final_result['blockhash'] = response['blockHash']
+        final_result['contract_address'] = response['contractAddress']
+        final_result['transaction_status'] = response['status']
+        final_result['height'] = long(response['blockNumber'], 0)
+        final_result['fees_used'] = long(response['gasUsed'], 0)
+        final_result['cumulative_fees_used'] = long(response['cumulativeGasUsed'], 0)
+        return final_result
+
     def get_transaction_by_hash(self, hash_key):
         response = self._post('eth_getTransactionByHash', [hash_key])
         result = response['result']
         # convert to uniform format
         return self.parse_transaction_response(result)
+
+    def get_transaction_receipt(self, hash_key):
+        response = self._post('eth_getTransactionReceipt', [hash_key])
+        result = response['result']
+        return self.parse_transaction_receipt(result)
 
     def get_balance_by_address(self, address):
         response = self._post('eth_getBalance', [address, "latest"])

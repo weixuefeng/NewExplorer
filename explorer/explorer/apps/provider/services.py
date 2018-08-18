@@ -202,6 +202,9 @@ def save_transaction_data(provider, block_info, is_cached=True):
             transaction_instance.blockheight = block_info['height']
             transaction_instance.time = block_info['time']
             transaction_instance._created = True
+            if not transaction_instance.to_address:
+                receipt = provider.get_transaction_receipt(txid)
+                transaction_instance.to_address = receipt['contract_address']
             transactions.append(transaction_instance)
             address_list.append(transaction_info['from_address'])
             address_list.append(transaction_info['to_address'])

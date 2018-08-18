@@ -183,7 +183,6 @@ def api_show_blocks(request, version):
         if block_date == datetime.datetime.today().date():
             is_today = True
         # add given timezone 
-
         if timezone < 0:
             timezone = 24 + timezone
         block_date = block_date + datetime.timedelta(hours=timezone)
@@ -295,7 +294,7 @@ def api_show_block_info(request, version, blockhash):
         logger.exception("fail to show block info by hash:%s" % str(inst))
         return http.HttpResponseServerError()
 
-def api_show_transcations(request, version):
+def api_show_transactions(request, version):
     """ show the transcations for uri: /txs
 
     response
@@ -394,7 +393,7 @@ def api_show_transcations(request, version):
         logger.exception("fail to show transactions:%s" % str(inst))
         return http.HttpResponseServerError()
 
-def api_show_transcation(request, version, txid):
+def api_show_transaction(request, version, txid):
     """ show the transcation for uri: /tx
 
     response
