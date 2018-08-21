@@ -76,5 +76,11 @@ class Address(Document):
     time = IntField()
     meta = { 'indexes': ['address', 'txid', 'time']}
 
+class Contract(Document):
+    contract_address = StringField(max_length=128, required=True, primary_key=True)
+    creator = StringField(max_length=128, required=True)
+    create_tx = StringField(max_length=128, required=True)
+    time = IntField()
+
 # init the connection
 connect(settings.BLOCK_CHAIN_DB_NAME, host=settings.MONGODB_HOST)

@@ -205,9 +205,12 @@ def save_transaction_data(provider, block_info, is_cached=True):
             if not transaction_instance.to_address:
                 receipt = provider.get_transaction_receipt(txid)
                 transaction_instance.to_address = receipt['contract_address']
+                sync_contract_data(receipt, block_info['time'])
+                address_list.append(transaction_instance.to_address)
+            else:
+                address_list.append(transaction_info['to_address'])
             transactions.append(transaction_instance)
             address_list.append(transaction_info['from_address'])
-            address_list.append(transaction_info['to_address'])
             sync_address_data(transaction_instance)
         if transactions:
             provider_models.Transaction.objects.insert(transactions)
@@ -221,6 +224,20 @@ def save_transaction_data(provider, block_info, is_cached=True):
         logger.exception("fail to save transaction data:%s" % (str(inst)))
         return False
 
+def sync_contract_data(receipt_data, time):
+    """Save the contract info
+    """
+    try:
+        contract_instance = provider_models.Contract()
+        contract_instance.contract_address = receipt_data['contract_address']
+        contract_instance.create_tx = receipt_data['txid']
+        contract_instance.creator = receipt_data['from_address']
+        contract_instance.time = time
+        contract_instance.save()
+    except Exception, inst:
+        print inst
+        logger.exception('fail to sync contract data:%s' % (str(inst)))
+        return False
 
 def sync_address_data(transaction_instance):
     """Save the address info
