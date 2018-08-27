@@ -407,7 +407,7 @@ def fill_missing_block(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.v
                     # delete wrong data
                     provider_models.Transaction.objects.filter(blockheight=tmp_height).delete()
                     if save_transaction_data(provider, data, is_cached=False):
-                        save_block_data(data)
+                        save_block_data(provider, data)
                         logger.info("sync missing block:%s" % tmp_height)
     except Exception, inst:
         print "fail to fill missing block", inst
