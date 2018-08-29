@@ -459,6 +459,16 @@ def api_show_transaction(request, version, txid):
             current_height = provider_services.get_current_height()
             result = __convert_transaction_to_json(obj)
             result['confirmations'] = current_height - obj.blockheight
+            from_contract = False
+            to_contract = False
+            from_contract_obj = provider_models.Contract.objects.filter(contract_address=result['from_address'])
+            to_contract_obj = provider_models.Contract.objects.filter(contract_address=result['to_address'])
+            if from_contract_obj:
+                from_contract = True
+            if to_contract_obj:
+                to_contract = True
+            result['from_contract'] = from_contract
+            result['to_contract'] = to_contract
             from_address = addr_translation.address_encode(result['from_address'])
             to_address = addr_translation.address_encode(result['to_address'])
             result['from_addr'] = from_address
