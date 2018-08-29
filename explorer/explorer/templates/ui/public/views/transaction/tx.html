@@ -10,7 +10,7 @@
         <a href="tx/{{tx.txid}}">{{tx.txid}}</a>
       </td>
     </tr>
-    <tr>
+    <tr data-ng-if="!tx.from_contract">
       <td class="key">
         <strong translate>From Address :</strong>
       </td>
@@ -18,12 +18,28 @@
         <span><a href="address/{{ tx.from_addr }}">{{ tx.from_addr }}</a></span>
       </td>
     </tr>
-    <tr>
+    <tr data-ng-if="tx.from_contract">
+      <td class="key">
+        <strong translate>From Contract Address :</strong>
+      </td>
+      <td class="value text-right ellipsis">
+        <span><a href="contract/{{ tx.from_addr }}">{{ tx.from_addr }}</a></span>
+      </td>
+    </tr>
+    <tr data-ng-if="!tx.to_contract">
       <td class="key">
         <strong translate>To Address :</strong>
       </td>
       <td class="value text-right ellipsis">
         <span><a href="address/{{ tx.to_addr }}">{{ tx.to_addr }}</a></span>
+      </td>
+    </tr>
+    <tr data-ng-if="tx.to_contract">
+      <td class="key">
+        <strong translate>To Contract Address :</strong>
+      </td>
+      <td class="value text-right ellipsis">
+        <span><a href="contract/{{ tx.to_addr }}">{{ tx.to_addr }}</a></span>
       </td>
     </tr>
     <tr>
@@ -37,7 +53,7 @@
     <tr>
       <div data-ng-show="tx.blocktime && !tx.firstSeenTs">
       <td class="key">
-        <strong translate>transaction time:</strong>
+        <strong translate>Transaction Time :</strong>
       </td>
       <td class="value text-right">
         <time>{{tx.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</time>
@@ -60,7 +76,7 @@
         <strong translate>Fee</strong>
       </td>
       <td class="value text-right">
-        <span data-ng-show="!tx.isCoinBase &&  !isNaN(parseFloat(tx.fees))">{{$root.currency.getConvertion(tx.fees) || tx.fees * 1000000000000000000 + 'WEI'}} </span>
+        <span data-ng-show="!tx.isCoinBase &&  !isNaN(parseFloat(tx.fees))">{{$root.currency.getConvertion(tx.fees) || tx.fees * 1000000000000000000 + ' WEI'}} </span>
       </td>
     </tr>
     <tr>

@@ -59,7 +59,8 @@ angular.module('insight',[
   'insight.rank',
   'insight.connection',
   'insight.currency',
-  'insight.messages'
+  'insight.messages',
+  'insight.contracts',
 ]);
 
 angular.module('insight.system', []);
@@ -74,3 +75,4 @@ angular.module('insight.connection', []);
 angular.module('insight.currency', []);
 angular.module('insight.messages', []);
 angular.module('insight.rank', []);
+angular.module('insight.contracts',[]);

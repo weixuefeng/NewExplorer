@@ -1,0 +1,52 @@
+<div data-ng-include src="'views/includes/connection.html'"></div>
+<section data-ng-controller="ContractsController" data-ng-init="findOne()">
+  <div class="secondary_navbar hidden-xs hidden-sm" data-ng-show="contract.contract_address">
+  </div>
+  <div data-ng-if="contract" class="container contract-page-upper">
+    <h1><span translate>Contract</span></h1>
+    <h2 class="summary-title" translate>Summary</h2>
+    <div class="ellipsis">
+        <div class="text-muted" data-ng-if="!contract.contract_address">
+          <span translate>Loading Contract Information</span> <span class="loader-gif"></span>
+        </div>
+      <span class="btn-copy" clip-copy="contract.contract_address"></span>
+    </div>
+    <div data-ng-hide="!contract.contract_address" class="row summary-table table-responsive">
+        <table class="table">
+          <tbody>
+          <tr>
+            <td class="key"><strong translate>Address</strong></td>
+            <td class="ellipsis value text-right"><span class="text-muted">{{contract.contract_address}}</span></td>
+          </tr>
+          <tr>
+            <td class="key"><strong translate>Balance</strong></td>
+            <td class="ellipsis value text-right">{{ contract.balance / 1000000000000000000 }} NEW</td>
+          </tr>
+          <tr>
+            <td class="key"><strong translate>Create Transaction</strong></td>
+            <td class="ellipsis value text-right">{{contract.create_tx}}</td>
+          </tr>
+          <tr>
+            <td class="key"><strong translate>Transactions Count</strong></td>
+            <td class="ellipsis value text-right"><span class="text-muted">{{contract.tx_counts}}</span></td>
+          </tr>
+          <tr>
+            <td class="key"><strong translate>Creator</strong></td>
+            <td class="ellipsis value text-right"><span class="text-muted">{{contract.creator}}</span></td>
+          </tr>
+          <tr>
+            <td class="key"><strong translate>Create Time</strong></td>
+            <td class="ellipsis value text-right"><span class="text-muted">{{contract.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</span></td>
+          </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+
+  <div data-ng-if="contract.contract_address" data-ng-controller="transactionsController" data-ng-init="load('contract')">
+    <div class="container mobile-lower-title" style="padding:unset;"><h2 translate>Transactions</h2></div>
+      <div data-ng-include src="'views/transaction/list.html'" when-scrolled="loadMore()"></div>
+  </div>
+
+</section>
+

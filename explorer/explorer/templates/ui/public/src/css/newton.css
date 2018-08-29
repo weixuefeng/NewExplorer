@@ -613,3 +613,60 @@ table tbody tr td.table-th {
         margin: 8% 2%;
     }
 }
+
+/*contract page*/
+.contract-page-upper {
+    box-shadow: 0 0 10px 2px #e2e2e2;
+    border-radius: 4px;
+    margin-top: 4%;
+    margin-bottom: 4%;
+}
+@media (max-width: 768px) {
+    .contract-page-upper {
+        margin: 8% 2%;
+    }
+}
+
+/*contract list page*/
+.contracts-page-title {
+    margin: 3%;
+}
+
+.contracts-page-title h1 {
+    font-size: 60px;
+}
+
+.contracts-page-lower {
+    padding: unset;
+    margin-top: 2%;
+}
+
+@media (max-width: 768px) {
+    .contracts-page-lower {
+        padding-left: 2%;
+        padding-right: 2%;
+    }
+    .contracts-page-title h1 {
+        font-size: 40px;
+    }
+}
+
+.contracts-table {
+    margin-bottom: 8px;
+    box-shadow: 0px 0px 10px 2px #e2e2e2;
+    border: unset;
+}
+
+.contracts-table-header {
+    line-height: 40px;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .contracts-table-header {
+        line-height: 40px;
+        font-size: 15px;
+        font-weight: 700;
+    }
+}

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('insight.transactions').controller('transactionsController',
-function($scope, $rootScope, $routeParams, $location, Global, Transaction, TransactionsByBlock, TransactionsByAddress) {
+function($scope, $rootScope, $routeParams, $location, Global, Transaction, TransactionsByBlock, TransactionsByAddress, TransactionsByContract) {
   $scope.global = Global;
   $scope.loading = false;
   $scope.loadedBy = null;
@@ -131,6 +131,15 @@ function($scope, $rootScope, $routeParams, $location, Global, Transaction, Trans
     });
   };
 
+  var _byContract = function() {
+    TransactionsByContract.get({
+      contract: $routeParams.contractAddr,
+      pageNum: pageNum
+    }, function(data) {
+      _paginate(data);
+    });
+  };
+
   var _findTx = function(txid) {
     Transaction.get({
       txId: txid
@@ -172,6 +181,9 @@ function($scope, $rootScope, $routeParams, $location, Global, Transaction, Trans
 
       if ($scope.loadedBy === 'address') {
         _byAddress();
+      }
+      else if ($scope.loadedBy === 'contract') {
+        _byContract();
       }
       else {
         _byBlock();

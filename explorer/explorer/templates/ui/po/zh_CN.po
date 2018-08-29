@@ -40,7 +40,7 @@ msgstr "节点状态"
 
 #: public/views/rank.html:7
 msgid "Balance"
-msgstr "New数量"
+msgstr "余额"
 
 #: public/views/messages_verify.html:72
 msgid "Bitcoin comes with a way of signing arbitrary messages."
@@ -326,8 +326,8 @@ msgid "The message is verifiably from {{verification.address}}."
 msgstr "消息已验证： {{verification.address}}。"
 
 #: public/views/transaction/list.html:1
-msgid "There are no transactions involving this address."
-msgstr "该地址无交易信息."
+msgid "There are no transactions."
+msgstr "无交易信息."
 
 #: public/views/transaction_sendraw.html:49
 msgid ""
@@ -426,8 +426,38 @@ msgid "Waiting for transactions..."
 msgstr "加载交易..."
 
 #: public/views/transaction/tx.html:40
-msgid "transaction time:"
+msgid "Transaction Time :"
 msgstr "交易时间"
+
+msgid "Contracts"
+msgstr "智能合约"
+
+msgid "TxCount"
+msgstr "交易数量"
+
+msgid "CreatTime"
+msgstr "创建时间"
+
+msgid "Contract"
+msgstr "智能合约"
+
+msgid "Create Transaction"
+msgstr "创始交易"
+
+msgid "Transactions Count"
+msgstr "交易数量"
+
+msgid "Creator"
+msgstr "创建者"
+
+msgid "Create Time"
+msgstr "创建时间"
+
+msgid "To Contract Address :"
+msgstr "智能合约接收地址"
+
+msgid "From Contract Address :"
+msgstr "智能合约发送地址"
 
 #~ msgid "Fee Rate"
 #~ msgstr "费率"

@@ -1,8 +1,8 @@
 	<h2 class="text-center search-title" translate>Newton Blockchain Explorer</h2>
-		<div class="search-form-outside"  style="background-color: #303948">
+		<div class="search-form-outside" style="background-color: #303948">
 		<form id="search-form" data-ng-controller="SearchController" role="search" data-ng-submit="search()">
 			  <div class="search-form-inside" data-ng-class="{'has-error': badQuery}">
-				<input type="text" class="form-control form-input" data-ng-model="q" data-ng-class="{'loading': loading}" placeholder="{{'Block,Transaction,Address'|translate}}" data-ng-submit="search()" focus="true">
+				<input type="text" class="form-control form-input" data-ng-model="q" data-ng-class="{'loading': loading}" placeholder="{{'Block,Transaction,Contract,Address'|translate}}" data-ng-submit="search()" focus="true" style="font-size: 12px;">
 					<button class="search-logo" type="submit"></button>
 			  </div>
 			  <div class="form-group">

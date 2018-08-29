@@ -14,7 +14,10 @@ angular.module('insight.system').controller('HeaderController',
     {
       'title': 'Blocks',
       'link': 'blocks'
-    }, {
+    },{
+      'title': 'Contracts',
+      'link': 'contracts'
+    },{
       'title': 'Status',
       'link': 'status'
     }];

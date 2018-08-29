@@ -11,7 +11,7 @@
             <ul class="nav navbar-nav">
                 <li data-ng-repeat="item in menu" ui-route="{{item.link}}" data-ng-class="{active: $uiRoute}">
                     <a class="color-font" href="{{item.link}}">{{item.title|translate}}</a>
-                </li>
+                </li>{{item.link}}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>

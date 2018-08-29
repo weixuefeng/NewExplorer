@@ -33,6 +33,12 @@ angular.module('insight.transactions')
       address: '@address'
     });
   })
+  .factory('TransactionsByContract',
+    function($resource, Api) {
+      return $resource(Api.apiPrefix + '/txs', {
+        contract: '@contract'
+      });
+  })
   .factory('Transactions',
     function($resource, Api) {
       return $resource(Api.apiPrefix + '/txs');

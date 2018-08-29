@@ -31,6 +31,8 @@ urlpatterns = patterns('api.apis',
                         # for mobile client
                         url(r'^transactions/$', 'api_show_client_transactions'),
                         url(r'^transaction/$', 'api_show_client_transaction'),
+                        url(r'^contracts_list/$', 'api_show_contracts_list'),
+                        url(r'^contract/(?P<contractAddr>[0-9a-zA-Z]+)/$', 'api_show_contract'),
             )
 
 

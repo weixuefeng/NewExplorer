@@ -65,6 +65,14 @@ def __convert_account_to_json(obj):
     result = json.loads(obj.to_json())
     return result
 
+def __convert_contract_to_json(obj):
+    result = json.loads(obj.to_json())
+    result['contract_address'] = obj.id
+    result['time'] = obj.time
+    result['creator'] = obj.creator
+    result['create_tx'] = obj.create_tx
+    return result
+
 def handle_validator(address):
     obj = provider_models.Validator.objects.filter(address=address).first()
     validator = json.loads(obj.to_json())
@@ -224,7 +232,7 @@ def api_show_blocks(request, version):
             'blocks': blocks,
             # 'number_of_transactions': number_of_transactions,
             'length': len(blocks),
-            'pagination': {
+            'pagination': { 
                 "next": next_date.strftime('%Y-%m-%d'),
                 "prev": previous_date.strftime('%Y-%m-%d'),
                 "currentTs": block_ts,
@@ -337,12 +345,16 @@ def api_show_transactions(request, version):
     try:
         blockhash = request.GET.get('block')
         addr = request.GET.get('addr')
+        contract = request.GET.get('contract')
         if not addr:
             addr = request.GET.get('address')
         if addr:
             addr = addr_translation.b58check_decode(addr)
         page_id = int(request.GET.get('pageNum', 1))
         limit = int(request.GET.get('limit', settings.PAGE_SIZE))
+        if not addr and contract:
+            contract = addr_translation.b58check_decode(contract)
+            addr = contract
         total_page = 0
         if blockhash:
             objs = provider_models.Transaction.objects.filter(blockhash=blockhash)
@@ -378,6 +390,16 @@ def api_show_transactions(request, version):
         for obj in objs:
             item = __convert_transaction_to_json(obj)
             item['confirmations'] = current_height - obj.blockheight
+            from_contract = False
+            to_contract = False
+            from_contract_obj = provider_models.Contract.objects.filter(contract_address=item['from_address'])
+            to_contract_obj = provider_models.Contract.objects.filter(contract_address=item['to_address'])
+            if from_contract_obj:
+                from_contract = True
+            if to_contract_obj:
+                to_contract = True
+            item['from_contract'] = from_contract
+            item['to_contract'] = to_contract
             from_address = addr_translation.address_encode(item['from_address'])
             to_address = addr_translation.address_encode(item['to_address'])
             item['from_addr'] = from_address
@@ -692,7 +714,6 @@ def api_show_client_transactions(request, version):
         logger.exception("fail to show client transactions:%s" % str(inst))
         return http.HttpResponseServerError()
 
-
 def api_show_client_transaction(request, version):
     try:
         txid = request.GET.get('txid')
@@ -713,3 +734,62 @@ def api_show_client_transaction(request, version):
     except Exception, inst:
         logger.exception("fail to show client transaction:%s" % str(inst))
         return http.HttpResponseServerError()
+
+def api_show_contracts_list(request, version):
+    try:
+        page_id = int(request.GET.get('pageNum', 1))
+        limit = int(request.GET.get('limit', settings.PAGE_SIZE))
+        contract_objs = provider_models.Contract.objects.order_by('-time')
+        cnt = contract_objs.count()
+        if cnt == 0:
+            total_page = 1
+        else:
+            if cnt % settings.PAGE_SIZE != 0:
+                total_page = (cnt / settings.PAGE_SIZE) + 1
+            else:
+                total_page = (cnt / settings.PAGE_SIZE)
+        more = False
+        if total_page > 1:
+            more = True
+        contract_objs = contract_objs.skip((page_id-1) * settings.PAGE_SIZE).limit(limit)
+        contract_list = []
+        for contract_obj in contract_objs:
+            contract = __convert_contract_to_json(contract_obj)
+            account_obj = provider_models.Account.objects.filter(address=contract['contract_address']).first()
+            contract['balance'] = account_obj.balance
+            tx_counts = provider_models.Address.objects.filter(address=contract['contract_address']).count()
+            contract['tx_counts'] = tx_counts
+            contract['contract_address'] = addr_translation.address_encode(contract['contract_address'])
+            contract_list.append(contract)
+        result = {
+            'contract_list': contract_list,
+            'pagination': total_page,
+            'is_more': more
+        }
+        return http.JsonResponse(result)
+    except Exception, inst:
+        logger.exception("fail to show contract list:%s" % str(inst))
+        return http.HttpResponseServerError()
+
+def api_show_contract(request, version, contractAddr):
+    try:
+        contractAddr = addr_translation.b58check_decode(contractAddr)
+        contract_obj = provider_models.Contract.objects.filter(contract_address=contractAddr).first()
+        if contract_obj:
+            contract = __convert_contract_to_json(contract_obj)
+        else:
+            raise Exception("contract does not exist!")
+        account_obj = provider_models.Account.objects.filter(address=contract['contract_address']).first()
+        contract['balance'] = account_obj.balance
+        tx_counts = provider_models.Address.objects.filter(address=contract['contract_address']).count()
+        contract['tx_counts'] = tx_counts
+        contract['contract_address'] = addr_translation.address_encode(contract['contract_address'])
+        contract['creator'] = addr_translation.address_encode(contract['creator'])
+        result = {
+            'contract': contract
+        }
+        return http.JsonResponse(result)
+    except Exception, inst:
+        logger.exception("fail to show contract:%s" % str(inst))
+        return http.HttpResponseServerError()
+

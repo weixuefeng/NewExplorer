@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('insight.search').controller('SearchController',
-  function($scope, $routeParams, $location, $timeout, Global, Block, Transaction, Address, BlockByHeight) {
+  function($scope, $routeParams, $location, $timeout, Global, Block, Transaction, Address, BlockByHeight, Contract) {
   $scope.global = Global;
   $scope.loading = false;
 
@@ -34,7 +34,13 @@ angular.module('insight.search').controller('SearchController',
       }, function() {
         _resetSearch();
         $location.path('tx/' + q);
-      }, function() { //tx not found, search on Address
+      },function() {  //tx not found, search on Contract
+        Contract.get({
+          contractAddr: q
+        }, function() {
+          _resetSearch();
+          $location.path('contract/' + q);
+        }, function(){  // contract not found, search on Address
         Address.get({
           addrStr: q
         }, function() {
@@ -57,6 +63,7 @@ angular.module('insight.search').controller('SearchController',
             _badQuery();
           }
         });
+      });
       });
     });
   };
