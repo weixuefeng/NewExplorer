@@ -7,7 +7,7 @@ angular.module('insight.blocks').controller('BlocksController',
   var a = new Date();
   var timezone = a.getTimezoneOffset() / 60;
   if(timezone < 0){
-    $scope.timezone = 24 + timezone;
+    $scope.timezone = -timezone;
   }else{
     $scope.timezone = timezone;
   }

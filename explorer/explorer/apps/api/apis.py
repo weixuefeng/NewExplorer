@@ -190,12 +190,14 @@ def api_show_blocks(request, version):
         is_today = False
         if block_date == datetime.datetime.today().date():
             is_today = True
-        # add given timezone 
-        if timezone < 0:
-            timezone = 24 + timezone
+        # add given timezone
+        # if timezone < 0:
+        #     timezone = 24+timezone
+        logger.info('block_date1%s' % block_date)
         block_date = block_date + datetime.timedelta(hours=timezone)
         next_date = block_date + datetime.timedelta(days=1)
         previous_date = block_date + datetime.timedelta(days=-1)
+        logger.info('block_date%s' % block_date)
         block_ts = block_date.timetuple()  
         block_ts = int(time.mktime(block_ts))
         next_date_ts = next_date.timetuple()  
