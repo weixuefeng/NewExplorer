@@ -6,8 +6,9 @@ angular.module('insight.blocks').controller('BlocksController',
   $scope.loading = false;
   var a = new Date();
   var timezone = a.getTimezoneOffset() / 60;
+  // $scope.timezone = -timezone;
   if(timezone < 0){
-    $scope.timezone = -timezone;
+    $scope.timezone = 24+timezone;
   }else{
     $scope.timezone = timezone;
   }
@@ -28,6 +29,14 @@ angular.module('insight.blocks').controller('BlocksController',
     var mm = (date.getUTCMonth() + 1).toString(); // getMonth() is zero-based
     var dd  = date.getUTCDate().toString();
     var res =  yyyy + '-' + (mm[1] ? mm : '0' + mm[0]) + '-' + (dd[1] ? dd : '0' + dd[0]); //padding
+    return res;
+  };
+
+  var _formatCurrentTimestamp = function (date) {
+    var yyyy = date.getFullYear().toString();
+    var mm = (date.getMonth() + 1).toString(); // getMonth() is zero-based
+    var dd  = date.getDate().toString();
+    var res =  yyyy + '-' + (mm[1] ? mm : mm[0]) + '-' + (dd[1] ? dd : '0' + dd[0]); //padding
     return res;
   };
 
@@ -53,7 +62,7 @@ angular.module('insight.blocks').controller('BlocksController',
 
   $scope.list = function() {
     $scope.loading = true;
-
+    $scope.is_today = true;
     if ($routeParams.blockDate) {
       $scope.detail = 'On ' + $routeParams.blockDate;
     }
@@ -66,7 +75,10 @@ angular.module('insight.blocks').controller('BlocksController',
     }
     if($routeParams.timezone){
       $scope.timezone = $routeParams.timezone;
-    }
+      $scope.is_today = false;
+    } else {
+      $scope.today_time = _formatCurrentTimestamp(a);
+    };
 
     $rootScope.titleDetail = $scope.detail;
 

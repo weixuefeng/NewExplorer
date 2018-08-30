@@ -9,8 +9,12 @@
         </div>
         <div class="row  block-calendar">
             <div class="col-md-12">
-                <p class="lead text-center calendar-date">
+                <p data-ng-if="!is_today" class="lead text-center calendar-date">
                     {{pagination.currentDate}}
+                    <a href="#" class="btn btn-primary btn-xs calendar-style phone-hidden" datepicker-popup show-button-bar="false" data-ng-click="openCalendar($event)" data-ng-model="dt" is-open="opened" data-ng-required="true"><span class="glyphicon glyphicon-calendar"></span></a>
+                </p>
+                <p data-ng-if="is_today" class="lead text-center calendar-date">
+                    {{today_time}}
                     <a href="#" class="btn btn-primary btn-xs calendar-style phone-hidden" datepicker-popup show-button-bar="false" data-ng-click="openCalendar($event)" data-ng-model="dt" is-open="opened" data-ng-required="true"><span class="glyphicon glyphicon-calendar"></span></a>
                 </p>
                 <div class="m20v text-center text-muted" data-ng-if="!pagination.current">
@@ -47,7 +51,7 @@
                     </tr>
                     <tr class="table-cell" data-ng-repeat='b in blocks'>
                         <td class="table-height ph-table table-del-border text-center"><a href="block/{{b.hash}}">{{b.height}}</a></td>
-                        <td class="table-time ph-table table-del-border text-center">{{b.time * 1000 | date:'yyyy-MM-dd HH:mm:ss' : -8}}</td>
+                        <td class="table-time ph-table table-del-border text-center">{{b.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                         <td class="table-time ph-table table-del-border text-center">{{b.txlength}}</td>
                         <!-- <td class="ph-table table-del-border"><a href="{{b.validator_url}}" title="{{b.validator_name}}" target="_blank" data-ng-show="b.validator">{{b.validator_name}}</a></td> -->
                         <td class="ph-table table-del-border text-center">{{b.validator_name}}</td>
@@ -56,9 +60,9 @@
                 </tbody>
             </table>
             </div>
-            <div data-ng-if="pagination.more" class="change-date-btn">
+            <div class="change-date-btn">
                 <div class="switching-blocks-btn">
-                    <a class="btn btn-primary order-blocks-btn calendar-style" href="blocks-date/{{pagination.current}}/{{timezone}}/{{pagination.moreTs}}" translate>Previous blocks from date</a>
+                    <a data-ng-if="pagination.more" class="btn btn-primary order-blocks-btn calendar-style" href="blocks-date/{{pagination.current}}/{{timezone}}/{{pagination.moreTs}}" translate>Previous blocks from date</a>
                     <a class="btn btn-primary latest-blocks-btn calendar-style" href="blocks-date/{{pagination.current}}/{{timezone}}" data-ng-show="{{before}}" translate>Next blocks from date</a>
                 </div>
             </div>
