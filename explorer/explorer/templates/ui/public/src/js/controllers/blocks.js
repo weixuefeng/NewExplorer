@@ -6,12 +6,12 @@ angular.module('insight.blocks').controller('BlocksController',
   $scope.loading = false;
   var a = new Date();
   var timezone = a.getTimezoneOffset() / 60;
-  // $scope.timezone = -timezone;
-  if(timezone < 0){
-    $scope.timezone = 24+timezone;
-  }else{
-    $scope.timezone = timezone;
-  }
+  $scope.timezone = timezone;
+  // if(timezone < 0){
+  //   $scope.timezone = 24+timezone;
+  // }else{
+  //   $scope.timezone = timezone;
+  // }
   if ($routeParams.blockHeight) {
     BlockByHeight.get({
       blockHeight: $routeParams.blockHeight

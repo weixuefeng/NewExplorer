@@ -176,7 +176,7 @@ def api_show_blocks(request, version):
         # handle the query parameters
         block_date = request.GET.get('blockDate')
         start_ts = request.GET.get('startTimestamp')
-        timezone = int(request.GET.get('timezone', 0))
+        timezone = int(request.GET.get('timezone', -8))
         logger.info('timezone:%s'%timezone)
         limit = int(request.GET.get('limit', settings.PAGE_SIZE))
         if block_date:
@@ -194,13 +194,14 @@ def api_show_blocks(request, version):
         # add given timezone
         # if timezone < 0:
         #     timezone = -timezone
-        block_date = block_date + datetime.timedelta(hours=timezone)
-        next_date = block_date + datetime.timedelta(days=1)
-        previous_date = block_date + datetime.timedelta(days=-1)
-        logger.info('block_date:%s' % block_date)
+        logger.info('block_date_before:%s'%block_date)
+        gmt_date = block_date + datetime.timedelta(hours=timezone)
+        next_date = gmt_date + datetime.timedelta(days=1)
+        previous_date = gmt_date + datetime.timedelta(days=-1)
+        logger.info('block_date:%s' % gmt_date)
         logger.info('next_date:%s'%next_date)
         logger.info('previous_date:%s'%previous_date)
-        block_ts = block_date.timetuple()
+        block_ts = gmt_date.timetuple()
         block_ts = int(time.mktime(block_ts))
         next_date_ts = next_date.timetuple()
         next_date_ts = int(time.mktime(next_date_ts))
@@ -237,7 +238,7 @@ def api_show_blocks(request, version):
             'blocks': blocks,
             # 'number_of_transactions': number_of_transactions,
             'length': len(blocks),
-            'pagination': { 
+            'pagination': {
                 "next": next_date.strftime('%Y-%m-%d'),
                 "prev": previous_date.strftime('%Y-%m-%d'),
                 "currentTs": block_ts,
