@@ -176,7 +176,7 @@ def api_show_blocks(request, version):
         # handle the query parameters
         block_date = request.GET.get('blockDate')
         start_ts = request.GET.get('startTimestamp')
-        timezone = int(request.GET.get('timezone', -8))
+        timezone = int(request.GET.get('timezone', 0))
         limit = int(request.GET.get('limit', settings.PAGE_SIZE))
         if block_date:
             block_date = datetime.datetime.strptime(block_date, '%Y-%m-%d')
