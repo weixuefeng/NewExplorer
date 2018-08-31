@@ -177,7 +177,6 @@ def api_show_blocks(request, version):
         block_date = request.GET.get('blockDate')
         start_ts = request.GET.get('startTimestamp')
         timezone = int(request.GET.get('timezone', -8))
-        logger.info('timezone:%s'%timezone)
         limit = int(request.GET.get('limit', settings.PAGE_SIZE))
         if block_date:
             block_date = datetime.datetime.strptime(block_date, '%Y-%m-%d')
@@ -194,18 +193,13 @@ def api_show_blocks(request, version):
         # add given timezone
         # if timezone < 0:
         #     timezone = -timezone
-        logger.info('block_date_before:%s'%block_date)
         gmt_date = block_date + datetime.timedelta(hours=timezone)
         next_date = gmt_date + datetime.timedelta(days=1)
         previous_date = gmt_date + datetime.timedelta(days=-1)
-        logger.info('block_date:%s' % gmt_date)
-        logger.info('next_date:%s'%next_date)
-        logger.info('previous_date:%s'%previous_date)
         block_ts = gmt_date.timetuple()
         block_ts = int(time.mktime(block_ts))
         next_date_ts = next_date.timetuple()
         next_date_ts = int(time.mktime(next_date_ts))
-        logger.info('least:%s'%block_ts)
         # query db
         if start_ts > 0:
             rs = provider_models.Block.objects.filter(time__gte=block_ts, time__lt=start_ts).order_by('-height')
