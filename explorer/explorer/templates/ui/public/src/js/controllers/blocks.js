@@ -25,18 +25,10 @@ angular.module('insight.blocks').controller('BlocksController',
 
   //Datepicker
   var _formatTimestamp = function (date) {
-    var yyyy = date.getUTCFullYear().toString();
-    var mm = (date.getUTCMonth() + 1).toString(); // getMonth() is zero-based
-    var dd  = date.getUTCDate().toString();
-    var res =  yyyy + '-' + (mm[1] ? mm : '0' + mm[0]) + '-' + (dd[1] ? dd : '0' + dd[0]); //padding
-    return res;
-  };
-
-  var _formatCurrentTimestamp = function (date) {
     var yyyy = date.getFullYear().toString();
     var mm = (date.getMonth() + 1).toString(); // getMonth() is zero-based
     var dd  = date.getDate().toString();
-    var res =  yyyy + '-' + (mm[1] ? mm : mm[0]) + '-' + (dd[1] ? dd : '0' + dd[0]); //padding
+    var res =  yyyy + '-' + (mm[1] ? mm : '0' + mm[0]) + '-' + (dd[1] ? dd : '0' + dd[0]); //padding
     return res;
   };
 
@@ -75,10 +67,7 @@ angular.module('insight.blocks').controller('BlocksController',
     }
     if($routeParams.timezone){
       $scope.timezone = $routeParams.timezone;
-      $scope.is_today = false;
-    } else {
-      $scope.today_time = _formatCurrentTimestamp(a);
-    };
+      }
 
     $rootScope.titleDetail = $scope.detail;
 

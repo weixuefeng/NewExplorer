@@ -51,8 +51,8 @@ msgid "Block"
 msgstr "区块"
 
 #: public/views/includes/search.html:5
-msgid "Block,Transaction,Address"
-msgstr "区块，交易，地址"
+msgid "Block,Transaction,Contract,Address"
+msgstr "区块，交易，智能合约，地址"
 
 #: public/views/block.html:41
 msgid "BlockHash"
@@ -204,8 +204,8 @@ msgid "Next Block"
 msgstr "下一区块"
 
 #: public/views/block_list.html:61
-msgid "Next blocks from date"
-msgstr "更晚"
+msgid "Latest blocks from date"
+msgstr "最新"
 
 #: public/views/rank.html:25
 msgid "No Rank yet."

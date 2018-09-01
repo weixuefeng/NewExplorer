@@ -43,7 +43,7 @@
                         <th class="table-title blocks-table-header text-center" translate>Timestamp</th>
                         <th class="table-title blocks-table-header text-center" translate>Transactions</th>
                         <th class="table-title blocks-table-header text-center" translate>Validator</th>
-                        <th class=" text-center table-title blocks-table-header" translate>Size</th>
+                        <th class="table-title blocks-table-header text-center" translate>Size</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,7 +64,7 @@
             <div class="change-date-btn">
                 <div class="switching-blocks-btn">
                     <a data-ng-if="pagination.more" class="btn btn-primary order-blocks-btn calendar-style" href="blocks-date/{{pagination.current}}/{{timezone}}/{{pagination.moreTs}}" translate>Previous blocks from date</a>
-                    <a class="btn btn-primary latest-blocks-btn calendar-style" href="blocks-date/{{pagination.current}}/{{timezone}}" data-ng-show="{{before}}" translate>Next blocks from date</a>
+                    <a class="btn btn-primary latest-blocks-btn calendar-style" href="blocks-date/{{pagination.current}}/{{timezone}}" data-ng-show="{{before}}" translate>Latest blocks from date</a>
                 </div>
             </div>
     <h2 class="text-center text-muted" data-ng-show="!blocks.length && !loading"
