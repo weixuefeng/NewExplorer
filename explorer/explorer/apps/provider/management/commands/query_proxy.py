@@ -28,7 +28,11 @@ def run():
             for i in range(qsize):
                 target_height = g_input_queue.get()
                 logger.info("retrieve height:%s" % target_height)
+<<<<<<< HEAD
                 for j in range(5): # retry 5 times if network occured
+=======
+                for j in range(10): # retry 10 times if network occured
+>>>>>>> ef02039f6a79f08c628c9c8bd3ea8b702847eb1b
                     data = g_provider.get_block_by_height(target_height)
                     if data:
                         g_output_queue.put(data)

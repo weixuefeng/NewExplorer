@@ -39,7 +39,7 @@ class BlockchainSyncManager(object):
         # Init the processes of indexing server
         self.query_output_queue = self.manager.Queue()
         # self.stats_output_queue = self.manager.Queue()
-        for i in range(5):
+        for i in range(1):
             # init the input Queue
             query_input_queue = self.manager.Queue()
             self.query_input_queues.append(query_input_queue)
