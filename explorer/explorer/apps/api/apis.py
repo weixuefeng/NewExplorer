@@ -404,6 +404,7 @@ def api_show_transactions(request, version):
             to_address = addr_translation.address_encode(item['to_address'])
             item['from_addr'] = from_address
             item['to_addr'] = to_address
+            logger.debug('value:%s' % item['value'])
             txs.append(item)
         result = {
             "pagesTotal": total_page,
@@ -473,6 +474,10 @@ def api_show_transaction(request, version, txid):
             to_address = addr_translation.address_encode(result['to_address'])
             result['from_addr'] = from_address
             result['to_addr'] = to_address
+            logger.debug('value:%s' % result['value'])
+            value_issac = result['value']
+            value = float(value_issac) / 1000000000000000000
+            logger.debug('value:%s' % value)
             return http.JsonResponse(result)
         else:
             return http.HttpResponseNotFound()

@@ -150,7 +150,10 @@ class Provider(object):
         blockJsonGoString = GoString(blockJson, len(blockJson))
         ret = validator_lib.GetSignerByBlockJSON(blockJsonGoString)
         logger.debug('validator_result:%s' % ret.p)
-        return ret.p
+        if len(ret.p) == 42:
+            return ret.p
+        else:
+            return ''
 
 if __name__ == '__main__':
     url = 'http://explorer.newtonproject.dev.diynova.com:8501'
