@@ -30,7 +30,7 @@ def __convert_transaction_to_json(obj):
     result = json.loads(obj.to_json())
     result['txid'] = obj.id
     result['blocktime'] = obj.time
-    result['fees'] = __convert_num_to_float(obj.fees)
+    result['fees'] = obj.fees
     result['fees_price'] = obj.fees_price
     # vouts = obj['vout']
     # for v in vouts:
