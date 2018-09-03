@@ -65,7 +65,7 @@ angular.module('insight.system').controller('IndexController',
         setInterval(function(){
             _getBlocks();
             _getTransactions();
-        }, 30 * 1000);
+        }, 20 * 1000);
       //_startSocket();
     };
 
