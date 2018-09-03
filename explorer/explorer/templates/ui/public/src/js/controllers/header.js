@@ -43,7 +43,7 @@ angular.module('insight.system').controller('HeaderController',
             }
         });
     };
-    setInterval(_getNewBlock, 10 * 1000);
+    setInterval(_getNewBlock, 20 * 1000);
     /*
     var socket = getSocket($scope);
     socket.on('connect', function() {

@@ -13,14 +13,6 @@ angular.module('insight.system').controller('IndexController',
           }, function(res) {
               $scope.blocks = res.blocks;
               $scope.blocksLength = res.length;
-              var numberOfTransactions = res.number_of_transactions;
-              // countup
-              if (!tradeNumberAnimation) {
-                  tradeNumberAnimation = new CountUp("transaction-number", numberOfTransactions, numberOfTransactions, 0, 10, {separator:' ', useGrouping:false});
-                  tradeNumberAnimation.start();
-              } else {
-                  tradeNumberAnimation.update(numberOfTransactions);
-              }
           });
       };
       var _getTransactions = function() {

@@ -9,7 +9,7 @@ from config import codes
 from config.common_settings import *
 from config.settings_label import *
 
-APPEND_SLASH = True
+APPEND_SLASH = False
 
 LOGGING_API_REQUEST = True
 
