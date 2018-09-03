@@ -27,6 +27,7 @@ def run():
                 if data:
                     if provider_services.save_transaction_data(g_provider, data):
                         provider_services.save_block_data(g_provider, data)
+                    del data
             time.sleep(0.1)
     except Exception, inst:
         logger.exception('fail to run:%s' % str(inst))

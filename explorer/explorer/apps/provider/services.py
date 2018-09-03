@@ -322,16 +322,13 @@ def sync_blockchain(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.valu
         if height <= current_height:
             logger.info("sync_blockchain:no new block")
             return
-        status = True
         for tmp_height in range(current_height+1, height+1):
             # get block info
             data = provider.get_block_by_height(tmp_height)
-            status = store_block_data(provider, data)
-            if not status:
-                break
+            if data:
+                if save_transaction_data(provider, data, is_cached=False):
+                    save_block_data(provider, data)
             logger.info("sync_blockchain:height:%s" % tmp_height)
-        if not status:
-            handle_block_fork(blockchain_type)
     except Exception, inst:
         print "fail to sync blockchain", inst
         logger.exception("fail to sync blockchain:%s" % str(inst))
