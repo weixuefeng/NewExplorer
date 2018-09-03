@@ -635,8 +635,6 @@ def api_show_newtx(request, version):
             value_issac = item['value']
             value = Decimal(value_issac) / 1000000000000000000
             item['value'] = value
-            logger.debug('value_issac:%s'%value_issac)
-            logger.debug('value:%s'%value)
             txs.append(item)
         return http.JsonResponse({'txs': txs})
     except Exception, inst:
