@@ -404,7 +404,9 @@ def api_show_transactions(request, version):
             to_address = addr_translation.address_encode(item['to_address'])
             item['from_addr'] = from_address
             item['to_addr'] = to_address
-            logger.debug('value:%s' % item['value'])
+            value_issac = item['value']
+            value = Decimal(value_issac) / 1000000000000000000
+            item['value'] = value
             txs.append(item)
         result = {
             "pagesTotal": total_page,
@@ -474,10 +476,9 @@ def api_show_transaction(request, version, txid):
             to_address = addr_translation.address_encode(result['to_address'])
             result['from_addr'] = from_address
             result['to_addr'] = to_address
-            logger.debug('value:%s' % result['value'])
             value_issac = result['value']
-            value = float(value_issac) / 1000000000000000000
-            logger.debug('value:%s' % value)
+            value = Decimal(value_issac) / 1000000000000000000
+            result['value'] = value
             return http.JsonResponse(result)
         else:
             return http.HttpResponseNotFound()
@@ -631,6 +632,11 @@ def api_show_newtx(request, version):
         for obj in objs:
             item = __convert_transaction_to_json(obj)
             item['confirmations'] = current_height - obj.blockheight
+            value_issac = item['value']
+            value = Decimal(value_issac) / 1000000000000000000
+            item['value'] = value
+            logger.debug('value_issac:%s'%value_issac)
+            logger.debug('value:%s'%value)
             txs.append(item)
         return http.JsonResponse({'txs': txs})
     except Exception, inst:
@@ -771,7 +777,9 @@ def api_show_contracts_list(request, version):
         for contract_obj in contract_objs:
             contract = __convert_contract_to_json(contract_obj)
             account_obj = provider_models.Account.objects.filter(address=contract['contract_address']).first()
-            contract['balance'] = account_obj.balance
+            balance_issac = account_obj.balance
+            balance = Decimal(balance_issac) / 1000000000000000000
+            contract['balance'] = balance
             tx_counts = provider_models.Address.objects.filter(address=contract['contract_address']).count()
             contract['tx_counts'] = tx_counts
             contract['contract_address'] = addr_translation.address_encode(contract['contract_address'])
@@ -795,7 +803,10 @@ def api_show_contract(request, version, contractAddr):
         else:
             raise Exception("contract does not exist!")
         account_obj = provider_models.Account.objects.filter(address=contract['contract_address']).first()
-        contract['balance'] = account_obj.balance
+        logger.debug('account balance:%s'%account_obj.balance)
+        balance_issac = account_obj.balance
+        balance = Decimal(balance_issac) / 1000000000000000000
+        contract['balance'] = balance
         tx_counts = provider_models.Address.objects.filter(address=contract['contract_address']).count()
         contract['tx_counts'] = tx_counts
         contract['contract_address'] = addr_translation.address_encode(contract['contract_address'])

@@ -142,18 +142,25 @@ class Provider(object):
         return validator_lib
 
     def get_validator(self, validator_lib, block_info):
-        blockJson = json.dumps(block_info)
-        class GoString(Structure):
-            _fields_ = [("p", c_char_p), ("n", c_longlong)]
-        validator_lib.GetSignerByBlockJSON.argtypes = [GoString]
-        validator_lib.GetSignerByBlockJSON.restype = GoString
-        blockJsonGoString = GoString(blockJson, len(blockJson))
-        ret = validator_lib.GetSignerByBlockJSON(blockJsonGoString)
-        logger.debug('validator_result:%s' % ret.p)
-        if len(ret.p) == 42:
-            return ret.p
-        else:
-            logger.debug('get validator error! block_info result:%s' % block_info)
+        try:
+            logger.error('get_validator:enter %s' % block_info['number'])
+            blockJson = json.dumps(block_info)
+            class GoString(Structure):
+                _fields_ = [("p", c_char_p), ("n", c_longlong)]
+            logger.error('get_validator:enter 1')
+            validator_lib.GetSignerByBlockJSON.argtypes = [GoString]
+            validator_lib.GetSignerByBlockJSON.restype = GoString
+            blockJsonGoString = GoString(blockJson, len(blockJson))
+            logger.error('get_validator:enter 2')
+            ret = validator_lib.GetSignerByBlockJSON(blockJsonGoString)
+            logger.error('get_validator:enter 3')
+            if len(ret.p) == 42:
+                return ret.p
+            else:
+                logger.error('get validator error! block_info result:%s' % block_info)
+                return ''
+        except Exception, inst:
+            logger.exception("fail to get validator:%s" % str(inst))
             return ''
 
 if __name__ == '__main__':
