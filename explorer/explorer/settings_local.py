@@ -13,7 +13,7 @@ APPEND_SLASH = False
 
 LOGGING_API_REQUEST = True
 
-STATIC_DEFAULT_VERSION = 57
+STATIC_DEFAULT_VERSION = 58
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.debug',
