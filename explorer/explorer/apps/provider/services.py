@@ -119,11 +119,9 @@ def save_block_data(provider, block_info):
     """
     try:
         block_instance = provider_models.Block()
-        logger.error('start save_block_data')
         for k, v in block_info.items():
             setattr(block_instance, k, v)
         sync_validator_data(provider, block_info)
-        logger.error('end save_block_data')
         block_instance.save()
         return True
     except Exception, inst:

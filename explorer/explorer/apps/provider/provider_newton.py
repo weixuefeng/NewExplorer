@@ -46,7 +46,6 @@ class Provider(object):
             if not result:
                 return None
             transactions = result['transactions']
-            logger.error('block result parentHash:%s'%result['parentHash'])
             final_result = {
                 'blockhash': result['hash'],
                 'previousblockhash': result['parentHash'],

@@ -31,6 +31,7 @@ def __convert_transaction_to_json(obj):
     result['txid'] = obj.id
     result['blocktime'] = obj.time
     result['fees'] = __convert_num_to_float(obj.fees)
+    result['fees_price'] = obj.fees_price
     # vouts = obj['vout']
     # for v in vouts:
     #     v['value'] = __convert_num_to_float(v['value'])
@@ -407,6 +408,8 @@ def api_show_transactions(request, version):
             value_issac = item['value']
             value = Decimal(value_issac) / 1000000000000000000
             item['value'] = value
+            final_fees = item['fees'] * item['fees_price']
+            item['fees'] = final_fees
             txs.append(item)
         result = {
             "pagesTotal": total_page,
@@ -479,6 +482,8 @@ def api_show_transaction(request, version, txid):
             value_issac = result['value']
             value = Decimal(value_issac) / 1000000000000000000
             result['value'] = value
+            final_fees = result['fees'] * result['fees_price']
+            result['fees'] = final_fees
             return http.JsonResponse(result)
         else:
             return http.HttpResponseNotFound()
@@ -801,7 +806,6 @@ def api_show_contract(request, version, contractAddr):
         else:
             raise Exception("contract does not exist!")
         account_obj = provider_models.Account.objects.filter(address=contract['contract_address']).first()
-        logger.debug('account balance:%s'%account_obj.balance)
         balance_issac = account_obj.balance
         balance = Decimal(balance_issac) / 1000000000000000000
         contract['balance'] = balance
