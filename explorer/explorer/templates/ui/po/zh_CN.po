@@ -86,8 +86,8 @@ msgid "Complete"
 msgstr "完成"
 
 #: public/views/transaction.html:14 public/views/transaction/tx.html:68
-msgid "Confirmations"
-msgstr "确认数"
+msgid "Confirmations :"
+msgstr "确认数 :"
 
 #: public/views/status.html:101
 msgid "Connections to other nodes"
@@ -110,8 +110,8 @@ msgid "Error!"
 msgstr "错误！"
 
 #: public/views/transaction/tx.html:60
-msgid "Fee"
-msgstr "交易费"
+msgid "Fee :"
+msgstr "交易费 :"
 
 #: public/views/address.html:10 public/views/address.html:38
 msgid "Final Balance"
@@ -139,8 +139,8 @@ msgid "Height"
 msgstr "高度"
 
 #: public/views/transaction.html:68 public/views/transaction/tx.html:50
-msgid "Included in Block"
-msgstr "所在区块"
+msgid "Included in Block :"
+msgstr "所在区块 :"
 
 #: public/views/status.html:43
 msgid "Initial Block Chain Height"
@@ -260,8 +260,8 @@ msgid "Raw transaction data must be a valid hexadecimal string."
 msgstr "交易数据必须是有效的十六进制字符串."
 
 #: public/views/transaction.html:63
-msgid "Received Time"
-msgstr "交易时间"
+msgid "Received Time :"
+msgstr "交易时间 :"
 
 #: public/views/redirect.html:1
 msgid "Redirecting..."
@@ -364,8 +364,8 @@ msgid "Transaction"
 msgstr "交易"
 
 #: public/views/index.html:56 public/views/transaction/tx.html:7
-msgid "Transaction ID"
-msgstr "交易编号"
+msgid "Transaction ID :"
+msgstr "交易编号 :"
 
 #: public/views/transaction_sendraw.html:39
 msgid "Transaction succesfully broadcast.<br>Transaction id: {{txid}}"

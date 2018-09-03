@@ -4,7 +4,7 @@
     <tbody>
     <tr>
       <td class="key" style="border-top:unset">
-        <strong translate>Transaction ID</strong>
+        <strong translate>Transaction ID :</strong>
       </td>
       <td class="value text-right ellipsis" style="border-top:unset">
         <a href="tx/{{tx.txid}}">{{tx.txid}}</a>
@@ -63,7 +63,7 @@
     <tr>
       <div class="well well-sm ellipsis transaction-block" data-ng-if="itemsExpanded && !block.hash && tx.blockhash">
       <td class="key">
-        <strong translate>Included in Block</strong>
+        <strong translate>Included in Block :</strong>
       </td>
       <td class="value text-right ellipsis">
           <a href="block/{{tx.blockhash}}">{{tx.blockhash}}</a>
@@ -73,7 +73,7 @@
     </tr>
     <tr>
       <td class="key">
-        <strong translate>Fee</strong>
+        <strong translate>Fee :</strong>
       </td>
       <td class="value text-right">
         <span data-ng-show="!tx.isCoinBase &&  !isNaN(parseFloat(tx.fees))">{{$root.currency.getConvertion(tx.fees) || tx.fees * 1000000000000000000 + ' ISSAC'}} </span>
@@ -81,7 +81,7 @@
     </tr>
     <tr>
       <td class="key">
-        <strong translate>Confirmations</strong>
+        <strong translate>Confirmations :</strong>
       </td>
       <td class="value text-right">
         <span data-ng-show="tx.confirmations">{{tx.confirmations}}</span>

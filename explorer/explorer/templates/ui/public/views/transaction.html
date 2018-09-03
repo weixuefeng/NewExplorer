@@ -60,12 +60,12 @@
           <!--<td class="value text-muted text-right">{{$root.currency.getConvertion((tx.fees * 1000) / tx.size) + ' per kB' || ((tx.fees * 1000) / tx.size) + 'New per kB'}}</td>-->
         <!--</tr>-->
         <tr>
-          <td class="key"><strong translate>Received Time</strong></td>
+          <td class="key"><strong translate>Received Time :</strong></td>
           <td data-ng-show="tx.time" class="value text-muted text-right">{{tx.time * 1000|date:'yyyy-MM-dd HH:mm:ss'}}</td>
           <td data-ng-show="!tx.time" class="value text-muted text-right">N/A</td>
         </tr>
         <tr>
-          <td class="key"><strong translate>Included in Block</strong></td>
+          <td class="key"><strong translate>Included in Block :</strong></td>
           <td data-ng-show="tx.blockhash" class="value text-muted text-right"> 
             <div class="ellipsis">
               <a href="block/{{tx.blockhash}}">{{tx.blockhash}}</a>
