@@ -153,6 +153,7 @@ class Provider(object):
         if len(ret.p) == 42:
             return ret.p
         else:
+            logger.debug('get validator error! block_info result:%s' % block_info)
             return ''
 
 if __name__ == '__main__':
