@@ -33,8 +33,10 @@ class Provider(object):
         payload['method'] = method
         payload['params'] = params
         response = requests.post(self.url, data=json.dumps(payload), headers=self.headers)
-        response = response.json()
-        return response
+        content = response.json()
+        response.close()
+        del response
+        return content
 
     def get_block_height(self):
         response = self._post('eth_blockNumber', [])
