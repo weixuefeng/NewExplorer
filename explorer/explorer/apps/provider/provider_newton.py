@@ -42,23 +42,28 @@ class Provider(object):
 
     def parse_block_info(self, result):
         # convert to uniform format
-        if not result:
-            return None
-        transactions = result['transactions']
-        final_result = {
-            'blockhash': result['hash'],
-            'previousblockhash': result['parentHash'],
-            'height': long(result['number'], 0),
-            'time': long(result['timestamp'], 0),
-            'size': long(result['size'], 0),
-            'nonce': result['nonce'],
-            'tx': [],
-            'transactions': transactions,
-        }
-        for item in transactions:
-            final_result['tx'].append(item['hash'])
-        final_result['txlength'] = len(final_result['tx'])
-        return final_result
+        try:
+            if not result:
+                return None
+            transactions = result['transactions']
+            logger.error('block result parentHash:%s'%result['parentHash'])
+            final_result = {
+                'blockhash': result['hash'],
+                'previousblockhash': result['parentHash'],
+                'height': long(result['number'], 0),
+                'time': long(result['timestamp'], 0),
+                'size': long(result['size'], 0),
+                'nonce': result['nonce'],
+                'tx': [],
+                'transactions': transactions,
+            }
+            for item in transactions:
+                final_result['tx'].append(item['hash'])
+            final_result['txlength'] = len(final_result['tx'])
+            return final_result
+        except Exception, inst:
+            logger.exception("fail to parse_block_info:%s" % str(inst))
+            return ''
 
     def get_block_by_height(self, height):
         response = self._post('eth_getBlockByNumber', ['0x%x' % height, True])
