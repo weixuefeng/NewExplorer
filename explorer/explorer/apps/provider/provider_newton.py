@@ -69,11 +69,11 @@ class Provider(object):
     def get_block_by_height(self, height):
         response = self._post('eth_getBlockByNumber', ['0x%x' % height, True])
         result = response.get('result')
-        # validator_lib = self.load_validator_lib()
-        # validator_address = self.get_validator(validator_lib, result)
+        validator_lib = self.load_validator_lib()
+        validator_address = self.get_validator(validator_lib, result)
         final_result = self.parse_block_info(result)
-        # final_result['validator'] = validator_address
-        final_result['validator'] = ''
+        final_result['validator'] = validator_address
+        # final_result['validator'] = ''
         return final_result
 
     def get_block_by_hash(self, hash_key):
@@ -150,17 +150,13 @@ class Provider(object):
 
     def get_validator(self, validator_lib, block_info):
         try:
-            logger.error('get_validator:enter %s' % block_info['number'])
             blockJson = json.dumps(block_info)
             class GoString(Structure):
                 _fields_ = [("p", c_char_p), ("n", c_longlong)]
-            logger.error('get_validator:enter 1')
             validator_lib.GetSignerByBlockJSON.argtypes = [GoString]
             validator_lib.GetSignerByBlockJSON.restype = GoString
             blockJsonGoString = GoString(blockJson, len(blockJson))
-            logger.error('get_validator:enter 2')
             ret = validator_lib.GetSignerByBlockJSON(blockJsonGoString)
-            logger.error('get_validator:enter 3')
             if len(ret.p) == 42:
                 return ret.p
             else:
