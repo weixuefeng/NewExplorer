@@ -55,7 +55,7 @@ def __convert_transaction_to_client_json(obj):
     result['gasPrice'] = str(obj.fees_price)
     result['_id'] = obj.id
     result['error'] = ""
-    result['gasUsed'] = str(obj.fees / obj.fees_price)
+    result['gasUsed'] = str(obj.fees)
     return result
 
 def __convert_num_to_float(num):

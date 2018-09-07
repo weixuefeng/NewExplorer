@@ -23,7 +23,7 @@
 	                    </tr>
 	                    <tr class="table-cell" data-ng-repeat='c in contract_list'>
 	                        <td class="table-height ph-table table-del-border text-center"><a href="contract/{{c.contract_address}}">{{ c.contract_address }}</a></td>
-	                        <td class="table-time ph-table table-del-border text-center">{{ c.balance / 1000000000000000000 }} NEW</td>
+	                        <td class="table-time ph-table table-del-border text-center">{{ c.balance }} NEW</td>
 	                        <td class="table-time ph-table table-del-border text-center">{{ c.tx_counts }}</td>
 	                        <td class="table-time ph-table table-del-border text-center">{{ c.time * 1000 | date:'yyyy-MM-dd HH:mm:ss' }}</td>
 	                    </tr>
