@@ -114,7 +114,7 @@ class Provider(object):
         final_result['to_address'] = response['to']
         final_result['blockhash'] = response['blockHash']
         final_result['contract_address'] = response['contractAddress']
-        final_result['transaction_status'] = response['status']
+        final_result['status'] = response['status']
         final_result['height'] = long(response['blockNumber'], 0)
         final_result['fees_used'] = long(response['gasUsed'], 0)
         final_result['cumulative_fees_used'] = long(response['cumulativeGasUsed'], 0)

@@ -43,7 +43,9 @@ class Transaction(Document):
     data = StringField(required=False)
     transaction_index = IntField(default=0)
     locktime = IntField(default=0)
-    meta = { 'indexes': ['blockhash', 'blockheight', 'time', 'from_address', 'to_address']}
+    fees_used = LongField(default=0)
+    status = IntField(default=2)
+    meta = { 'indexes': ['blockhash', 'blockheight', 'time', 'from_address', 'to_address', 'status']}
 
 
 class CappedTransaction(Document):
