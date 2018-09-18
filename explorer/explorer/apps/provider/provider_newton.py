@@ -61,6 +61,8 @@ class Provider(object):
             for item in transactions:
                 final_result['tx'].append(item['hash'])
             final_result['txlength'] = len(final_result['tx'])
+            # empty the tx field
+            final_result['tx'] = []
             return final_result
         except Exception, inst:
             logger.exception("fail to parse_block_info:%s" % str(inst))
