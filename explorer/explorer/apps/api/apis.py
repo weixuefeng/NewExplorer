@@ -631,6 +631,9 @@ def api_show_newtx(request, version):
     -------
     """
     try:
+        new_tx = cache.get('new_tx')
+        if new_tx:
+            return http.JsonResponse({'txs': new_tx})
         objs = provider_models.Transaction.objects.order_by("-time")[0: 10]
         current_height = provider_services.get_current_height()
         txs = []
@@ -641,6 +644,7 @@ def api_show_newtx(request, version):
             value = Decimal(value_issac) / 1000000000000000000
             item['value'] = value
             txs.append(item)
+        cache.set('new_tx', txs, 20)
         return http.JsonResponse({'txs': txs})
     except Exception, inst:
         print inst
@@ -654,6 +658,9 @@ def api_show_newblock(request, version):
     -------
     """
     try:
+        new_blocks = cache.get('new_blocks')
+        if new_blocks:
+            return http.JsonResponse(new_blocks)
         result = {}
         height = int(request.GET.get('height', 0))
         new_height = provider_services.get_current_height()
@@ -664,6 +671,7 @@ def api_show_newblock(request, version):
             if newblock_hash:
                 result['hash'] = newblock_hash
                 result['height'] = height
+                cache.set('new_blocks', result, 20)
                 return http.JsonResponse(result)
         return http.HttpResponseNotFound()
     except Exception, inst:
