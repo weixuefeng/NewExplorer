@@ -287,6 +287,9 @@ def api_show_block_info(request, version, blockhash):
     }
     """
     try:
+        cache_info = cache.get(blockhash)
+        if cache_info:
+            return http.JsonResponse(cache_info)
         current_height = provider_services.get_current_height()
         obj = provider_models.Block.objects.get(blockhash=blockhash)
         result = json.loads(obj.to_json())
@@ -297,6 +300,7 @@ def api_show_block_info(request, version, blockhash):
         validator_name, validator_url = handle_validator(result['validator'])
         result['validator_name'] = validator_name
         result['validator_url'] = validator_url
+        cache.set(blockhash, result, 7200)
         return http.JsonResponse(result)
     except Exception, inst:
         print inst
@@ -460,6 +464,9 @@ def api_show_transaction(request, version, txid):
     }
     """
     try:
+        cache_info = cache.get(txid)
+        if cache_info:
+            return http.JsonResponse(cache_info)
         obj = provider_models.Transaction.objects.filter(txid=txid).first()
         if obj:
             current_height = provider_services.get_current_height()
@@ -484,6 +491,7 @@ def api_show_transaction(request, version, txid):
             result['value'] = value
             final_fees = result['fees'] * result['fees_price']
             result['fees'] = final_fees
+            cache.set(txid, result, 7200)
             return http.JsonResponse(result)
         else:
             return http.HttpResponseNotFound()
