@@ -15,6 +15,7 @@ urlpatterns = patterns('',
                        url(r'^contracts', 'welcome.views.home'),
                        url(r'^contract', 'welcome.views.home'),
                        url(r'^api/v(?P<version>[0-9]+)/', include('api.urls')),
+                       url(r'^dashboard', 'api.apis.api_for_dashboard'),
 )
 
 if settings.DEBUG:

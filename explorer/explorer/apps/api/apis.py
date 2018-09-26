@@ -837,3 +837,22 @@ def api_show_contract(request, version, contractAddr):
         logger.exception("fail to show contract:%s" % str(inst))
         return http.HttpResponseServerError()
 
+def api_for_dashboard(request):
+    try:
+        current_height = provider_services.get_current_height()
+        total_transactions = provider_models.Transaction.objects.filter().count()
+        tps = int(total_transactions) / 3
+        blocks = provider_models.Block.objects.order_by('-time')[0:20]
+        txs = []
+        for block in blocks:
+            txs.append(block.txlength)
+        result = {
+            'current_height': current_height,
+            'total_transactions': total_transactions,
+            'tps': tps,
+            'txs': txs
+        }
+        return http.JsonResponse(result)
+    except Exception, inst:
+        logger.exception("fail to show dashboard data:%s" % str(inst))
+        return http.HttpResponseServerError()
