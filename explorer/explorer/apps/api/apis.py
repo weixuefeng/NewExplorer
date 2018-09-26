@@ -843,9 +843,10 @@ def api_for_dashboard(request):
         total_transactions = provider_models.Transaction.objects.filter().count()
         tps = int(total_transactions) / 3
         blocks = provider_models.Block.objects.order_by('-time')[0:20]
-        txs = []
+        txs = {}
         for block in blocks:
-            txs.append(block.txlength)
+            height = block.height
+            txs[height] = block.txlength
         result = {
             'current_height': current_height,
             'total_transactions': total_transactions,
