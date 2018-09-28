@@ -4,7 +4,7 @@ var TRANSACTION_DISPLAYED = 10;
 var BLOCKS_DISPLAYED = 10;
 
 angular.module('insight.system').controller('IndexController',
-  function($scope, Global, getSocket, Blocks, NewTransactions) {
+  function($scope, Global, getSocket, Blocks, NewTransactions, Brief) {
       $scope.global = Global;
       var tradeNumberAnimation = null;
       var _getBlocks = function() {
@@ -20,6 +20,11 @@ angular.module('insight.system').controller('IndexController',
               limit: TRANSACTION_DISPLAYED
           }, function(res) {
               $scope.txs = res.txs
+          })
+      };
+      var _getBrief = function(){
+          Brief.get({},function(res) {
+            $scope.brief = res;
           })
       };
 
@@ -54,9 +59,11 @@ angular.module('insight.system').controller('IndexController',
     $scope.index = function() {
         _getBlocks();
         _getTransactions();
+        _getBrief();
         setInterval(function(){
             _getBlocks();
             _getTransactions();
+            _getBrief();
         }, 20 * 1000);
       //_startSocket();
     };

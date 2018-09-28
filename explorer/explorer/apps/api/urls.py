@@ -34,6 +34,7 @@ urlpatterns = patterns('api.apis',
 
                         url(r'^contracts_list', 'api_show_contracts_list'),
                         url(r'^contract/(?P<contractAddr>[0-9a-zA-Z]+)', 'api_show_contract'),
+                        url(r'^brief', 'api_home_brief'),
             )
 
 

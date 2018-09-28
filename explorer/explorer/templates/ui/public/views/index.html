@@ -6,52 +6,100 @@
     <div class="page">
         <div id="home" class="home">
             <section class="section-search">
-            <div id="search-form-mobile" class="container" data-ng-include src="'views/includes/search.html'"></div>
+                <div id="search-form-mobile" class="container" data-ng-include src="'views/includes/search.html'"></div>
             </section>
 
-                <div class="row latest-list container">
-                    <div class="mobile-index-table" style="margin-bottom: 5%">
-                        <div class="index-table panel-default">
-                        <div class="panel-heading">
-                            <span class="index-table-title" translate>Latest Blocks</span>
-                            <a href="blocks" class="link see-all-blocks">
-                                <span class="pull-right see-all-blocks-btn" translate>
-                                See all blocks
-                                </span>
-                            </a>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table" >
-                                <thead>
-                                    <tr>
-                                        <th class="table-th" translate>Height</th>
-                                        <th class="text-center table-th" translate>Timestamp</th>
-                                        <th class="text-center table-th"><span class="ellipsis" translate>Transactions</span></th>
-                                        <th class="text-center table-th"><span class="ellipsis" translate>Validator</span></th>
-                                        <th class="text-right table-th" translate>Size</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr data-ng-show="!blocks.length" class="text-center text-muted"><td colspan="5" translate>Waiting for blocks...</td></tr>
-                                    <tr class="fader" data-ng-repeat='b in blocks'>
-                                        <td class="table-th" style="vertical-align: middle;">
-                                            <a href="block/{{b.hash}}">{{b.height}}</a>
-                                        </td>
-                                        <td class="table-time text-center table-th">{{b.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-                                        <td style="vertical-align: middle;" class="table-th text-center">{{b.txlength}}</td>
-                                        <!-- <td class="text-right"><a href="{{b.validator_url}}" title="{{b.validator_name}}" target="_blank" data-ng-show="b.validator">{{b.validator_name}}</a></td> -->
-                                        <td class="text-center table-th" style="vertical-align: middle;">{{b.validator_name}}</td>
-                                        <td class="text-right table-th" style="vertical-align: middle;">{{b.size}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+            <div class="brief container">
+                <div class="col-md-4 col-xs-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="brief_title">
+                                <span class="brief_icon"></span>
+                                <span translate>Block Height</span>
                             </div>
+                            <div class="brief_content">
+                                {{brief.blocks}}
+                            </div>
+                        </div>
+                        <!-- <div class="panel-footer text-center brief_detail"><a href="/blocks/"><span>View Details</span></a></div> -->
                     </div>
-                    <div class="mobile-index-table">
-                        <div class="panel-default index-table">
+                </div>
+
+                <div class="col-md-4 col-xs-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="brief_title">
+                                <span class="brief_icon"></span>
+                                <span translate>Transactions</span>
+                            </div>
+                            <div class="brief_content">
+                                {{brief.transactions}}
+                            </div>
+                        </div>
+                        <!-- div class="panel-footer text-center brief_detail"><a href=""><span>View Details</span></a></div> -->
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-xs-4">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="brief_title">
+                                <span class="brief_icon"></span>
+                                <span translate>Contracts</span>
+                            </div>
+                            <div class="brief_content">
+                                {{brief.contracts}}
+                            </div>
+                        </div>
+                        <!-- <div class="panel-footer text-center brief_detail"><a href="/contracts/"><span>View Details</span></a></div> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="row latest-list container">
+                <div class="col-md-12">
+                <div class="mobile-index-table" style="margin-bottom: 5%">
+                    <div class="index-table panel-default">
+                    <div class="panel-heading">
+                        <span class="index-table-title" translate>Latest Blocks</span>
+                        <a href="blocks" class="link see-all-blocks">
+                            <span class="pull-right see-all-blocks-btn" translate>
+                            See all blocks
+                            </span>
+                        </a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table" >
+                            <thead>
+                                <tr>
+                                    <th class="table-th" translate>Height</th>
+                                    <th class="text-center table-th" translate>Timestamp</th>
+                                    <th class="text-center table-th"><span class="ellipsis" translate>Transactions</span></th>
+                                    <th class="text-center table-th"><span class="ellipsis" translate>Validator</span></th>
+                                    <th class="text-right table-th" translate>Size</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-ng-show="!blocks.length" class="text-center text-muted"><td colspan="5" translate>Waiting for blocks...</td></tr>
+                                <tr class="fader" data-ng-repeat='b in blocks'>
+                                    <td class="table-th" style="vertical-align: middle;">
+                                        <a href="block/{{b.hash}}">{{b.height}}</a>
+                                    </td>
+                                    <td class="table-time text-center table-th">{{b.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                    <td style="vertical-align: middle;" class="table-th text-center">{{b.txlength}}</td>
+                                    <!-- <td class="text-right"><a href="{{b.validator_url}}" title="{{b.validator_name}}" target="_blank" data-ng-show="b.validator">{{b.validator_name}}</a></td> -->
+                                    <td class="text-center table-th" style="vertical-align: middle;">{{b.validator_name}}</td>
+                                    <td class="text-right table-th" style="vertical-align: middle;">{{b.size}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                        </div>
+                </div>
+                <div class="mobile-index-table">
+                    <div class="panel-default index-table">
                         <div class="panel-heading">
-                        <span class="index-table-title" translate>Latest Transactions</span>
+                            <span class="index-table-title" translate>Latest Transactions</span>
                         </div>
                         <div class="table-responsive">
                             <table class="table">
@@ -73,8 +121,9 @@
                             </table>
                         </div>
                     </div>
-                    </div>
                 </div>
+                </div>
+            </div>
 
             <!--<section class="section-stats">-->
                 <!--<div class="container">-->

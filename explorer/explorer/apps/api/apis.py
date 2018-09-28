@@ -856,3 +856,18 @@ def api_for_dashboard(request):
     except Exception, inst:
         logger.exception("fail to show dashboard data:%s" % str(inst))
         return http.HttpResponseServerError()
+
+def api_home_brief(request, version):
+    try:
+        current_height = provider_services.get_current_height()
+        total_transactions = provider_models.Transaction.objects.filter().count()
+        contracts = provider_models.Contract.objects.filter().count()
+        result = {
+            'blocks': current_height,
+            'transactions': total_transactions,
+            'contracts': contracts
+        }
+        return http.JsonResponse(result)
+    except Exception, inst:
+        logger.exception("fail to get home page brief:%s" % str(inst))
+        return http.HttpResponseServerError()
