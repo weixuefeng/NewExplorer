@@ -179,6 +179,10 @@ def api_show_blocks(request, version):
         start_ts = request.GET.get('startTimestamp')
         timezone = int(request.GET.get('timezone', 0))
         limit = int(request.GET.get('limit', settings.PAGE_SIZE))
+        if limit == 10:
+            cache_info = cache.get('newblocks')
+            if cache_info:
+                return http.JsonResponse(cache_info)
         if block_date:
             block_date = datetime.datetime.strptime(block_date, '%Y-%m-%d')
         else:
@@ -243,6 +247,8 @@ def api_show_blocks(request, version):
                 "moreTs": more_ts,
             }
         }
+        if limit == 10:
+            cache.set('newblocks', result, 20)
         return http.JsonResponse(result)
     except Exception, inst:
         print inst
@@ -668,7 +674,6 @@ def api_show_newblock(request, version):
     try:
         new_blocks = cache.get('new_blocks')
         if new_blocks:
-            logger.info('new_blocks:%s' % new_blocks)
             return http.JsonResponse(new_blocks)
         result = {}
         height = int(request.GET.get('height', 0))
@@ -862,7 +867,6 @@ def api_home_brief(request, version):
     try:
         cache_info = cache.get('brief_data')
         if cache_info:
-            logger.info('brief_data:%s' % cache_info)
             return http.JsonResponse(cache_info)
         current_height = provider_services.get_current_height()
         total_transactions = provider_models.Transaction.objects.filter().count()
