@@ -668,6 +668,7 @@ def api_show_newblock(request, version):
     try:
         new_blocks = cache.get('new_blocks')
         if new_blocks:
+            logger.info('new_blocks:%s' % new_blocks)
             return http.JsonResponse(new_blocks)
         result = {}
         height = int(request.GET.get('height', 0))
@@ -859,6 +860,10 @@ def api_for_dashboard(request):
 
 def api_home_brief(request, version):
     try:
+        cache_info = cache.get('brief_data')
+        if cache_info:
+            logger.info('brief_data:%s' % cache_info)
+            return http.JsonResponse(cache_info)
         current_height = provider_services.get_current_height()
         total_transactions = provider_models.Transaction.objects.filter().count()
         contracts = provider_models.Contract.objects.filter().count()
@@ -867,6 +872,7 @@ def api_home_brief(request, version):
             'transactions': total_transactions,
             'contracts': contracts
         }
+        cache.set('brief_data', result, 20)
         return http.JsonResponse(result)
     except Exception, inst:
         logger.exception("fail to get home page brief:%s" % str(inst))
