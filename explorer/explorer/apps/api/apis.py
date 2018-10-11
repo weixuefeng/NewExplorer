@@ -295,7 +295,6 @@ def api_show_block_info(request, version, blockhash):
     try:
         cache_info = cache.get('block' + blockhash)
         if cache_info:
-            logger.info('block_cache_info:%s' % cache_info)
             return http.JsonResponse(cache_info)
         current_height = provider_services.get_current_height()
         obj = provider_models.Block.objects.get(blockhash=blockhash)
@@ -473,7 +472,6 @@ def api_show_transaction(request, version, txid):
     try:
         cache_info = cache.get('tx' + txid)
         if cache_info:
-            logger.info('tx_cache_info:%s' % cache_info)
             return http.JsonResponse(cache_info)
         obj = provider_models.Transaction.objects.filter(txid=txid).first()
         if obj:
