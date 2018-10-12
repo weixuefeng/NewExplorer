@@ -179,7 +179,7 @@ def api_show_blocks(request, version):
         start_ts = request.GET.get('startTimestamp')
         timezone = int(request.GET.get('timezone', 0))
         limit = int(request.GET.get('limit', settings.PAGE_SIZE))
-        if limit > 50:
+        if limit > settings.PAGE_SIZE:
             limit = settings.PAGE_SIZE
         if limit == 10:
             cache_info = cache.get('newblocks')
@@ -364,17 +364,17 @@ def api_show_transactions(request, version):
         if addr:
             addr = addr_translation.b58check_decode(addr)
         page_id = int(request.GET.get('pageNum', 1))
-        if page_id > 10:
+        if page_id > settings.MAX_PAGE_NUM:
             page_id = settings.MAX_PAGE_NUM
         limit = int(request.GET.get('limit', settings.PAGE_SIZE))
-        if limit > 50:
+        if limit > settings.PAGE_SIZE:
             limit = settings.PAGE_SIZE
         if not addr and contract:
             contract = addr_translation.b58check_decode(contract)
             addr = contract
         total_page = 0
         if blockhash:
-            objs = provider_models.Transaction.objects.filter(blockhash=blockhash).max_time_ms(5000)
+            objs = provider_models.Transaction.objects.filter(blockhash=blockhash).max_time_ms(settings.MAX_SELERY_TIME)
             cnt = objs.count()
             if cnt == 0:
                 total_page = 1
@@ -385,7 +385,7 @@ def api_show_transactions(request, version):
                     total_page = (cnt / settings.PAGE_SIZE)
             objs = objs.skip(page_id * settings.PAGE_SIZE).limit(limit)
         elif addr:
-            addr_objs = provider_models.Address.objects.filter(address=addr).order_by('-time').max_time_ms(5000)
+            addr_objs = provider_models.Address.objects.filter(address=addr).order_by('-time').max_time_ms(settings.MAX_SELERY_TIME)
             cnt = addr_objs.count()
             if cnt == 0:
                 total_page = 1
@@ -399,7 +399,7 @@ def api_show_transactions(request, version):
             for addr_obj in addr_objs:
                 txid = addr_obj.txid
                 txid_list.append(txid)
-            objs = provider_models.Transaction.objects.filter(txid__in=txid_list).order_by('-time')
+            objs = provider_models.Transaction.objects.filter(txid__in=txid_list).order_by('-time').max_time_ms(settings.MAX_SELERY_TIME)
         else:
             raise Exception("invalid parameter")
         txs = []
@@ -726,15 +726,15 @@ def api_show_client_transactions(request, version):
         if not addr:
             addr = request.GET.get('address')
         page_id = int(request.GET.get('pageNum', 1))
-        if page_id > 10:
+        if page_id > settings.MAX_PAGE_NUM:
             page_id = settings.MAX_PAGE_NUM
         limit = int(request.GET.get('limit', settings.PAGE_SIZE))
-        if limit > 50:
+        if limit > settings.PAGE_SIZE:
             limit = settings.PAGE_SIZE
         total_page = 0
         if addr:
             addr = addr.lower()
-            rs = provider_models.Address.objects.filter(address=addr).order_by('-time').max_time_ms(5000)
+            rs = provider_models.Address.objects.filter(address=addr).order_by('-time').max_time_ms(settings.MAX_SELERY_TIME)
             cnt = rs.count()
             if cnt == 0:
                 total_page = 1
@@ -748,7 +748,7 @@ def api_show_client_transactions(request, version):
             for addr_obj in addr_objs:
                 txid = addr_obj.txid
                 txid_list.append(txid)
-            objs = provider_models.Transaction.objects.filter(txid__in=txid_list).order_by('-time')
+            objs = provider_models.Transaction.objects.filter(txid__in=txid_list).order_by('-time').max_time_ms(settings.MAX_SELERY_TIME)
         else:
             raise Exception("invalid parameter")
         txs = []
@@ -795,7 +795,7 @@ def api_show_contracts_list(request, version):
     try:
         page_id = int(request.GET.get('pageNum', 1))
         limit = int(request.GET.get('limit', settings.PAGE_SIZE))
-        if limit > 50:
+        if limit > settings.PAGE_SIZE:
             limit = settings.PAGE_SIZE
         contract_objs = provider_models.Contract.objects.order_by('-time')
         cnt = contract_objs.count()
@@ -814,9 +814,6 @@ def api_show_contracts_list(request, version):
         for contract_obj in contract_objs:
             contract = __convert_contract_to_json(contract_obj)
             account_obj = provider_models.Account.objects.filter(address=contract['contract_address']).first()
-            if not account_obj:
-                logger.info('%s does not have account' % contract['contract_address'])
-                continue
             balance_issac = account_obj.balance
             balance = Decimal(balance_issac) / 1000000000000000000
             contract['balance'] = balance
