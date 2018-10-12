@@ -399,7 +399,7 @@ def api_show_transactions(request, version):
             for addr_obj in addr_objs:
                 txid = addr_obj.txid
                 txid_list.append(txid)
-            objs = provider_models.Transaction.objects.filter(txid__in=txid_list).order_by('-time').max_time_ms(settings.MAX_SELERY_TIME)
+            objs = provider_models.Transaction.objects.filter(txid__in=txid_list[:settings.PAGE_SIZE]).order_by('-time')
         else:
             raise Exception("invalid parameter")
         txs = []
@@ -748,7 +748,7 @@ def api_show_client_transactions(request, version):
             for addr_obj in addr_objs:
                 txid = addr_obj.txid
                 txid_list.append(txid)
-            objs = provider_models.Transaction.objects.filter(txid__in=txid_list).order_by('-time').max_time_ms(settings.MAX_SELERY_TIME)
+            objs = provider_models.Transaction.objects.filter(txid__in=txid_list[:settings.PAGE_SIZE]).order_by('-time')
         else:
             raise Exception("invalid parameter")
         txs = []
