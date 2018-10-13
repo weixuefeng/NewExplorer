@@ -375,7 +375,8 @@ def api_show_transactions(request, version):
         total_page = 0
         if blockhash:
             objs = provider_models.Transaction.objects.filter(blockhash=blockhash).max_time_ms(settings.MAX_SELERY_TIME)
-            cnt = objs.count()
+            block_obj = provider_models.Block.objects.filter(blockhash=blockhash).first()
+            cnt = block_obj.txlength
             if cnt == 0:
                 total_page = 1
             else:
@@ -385,8 +386,12 @@ def api_show_transactions(request, version):
                     total_page = (cnt / settings.PAGE_SIZE)
             objs = objs.skip(page_id * settings.PAGE_SIZE).limit(limit)
         elif addr:
-            addr_objs = provider_models.Address.objects.filter(address=addr).order_by('-time').max_time_ms(settings.MAX_SELERY_TIME)
-            cnt = addr_objs.count()
+            tx_objs = provider_models.Transaction.objects.filter(Q(from_address=addr) | Q(to_address=addr)).order_by('-time').max_time_ms(settings.MAX_SELERY_TIME)
+            account = provider_models.Account.objects.filter(address=addr).first()
+            if account.transactions_number:
+                cnt = account.transactions_number
+            else:
+                cnt = tx_objs.count()
             if cnt == 0:
                 total_page = 1
             else:
@@ -394,12 +399,7 @@ def api_show_transactions(request, version):
                     total_page = (cnt / settings.PAGE_SIZE) + 1
                 else:
                     total_page = (cnt / settings.PAGE_SIZE)
-            addr_objs = addr_objs.skip(page_id * settings.PAGE_SIZE).limit(limit)
-            txid_list = []
-            for addr_obj in addr_objs:
-                txid = addr_obj.txid
-                txid_list.append(txid)
-            objs = provider_models.Transaction.objects.filter(txid__in=txid_list[:settings.PAGE_SIZE]).order_by('-time')
+            objs = tx_objs.skip(page_id * settings.PAGE_SIZE).limit(limit)
         else:
             raise Exception("invalid parameter")
         txs = []
@@ -533,12 +533,15 @@ def api_show_addr_summary(request, version, addr):
     """
     try:
         eth_addr = addr_translation.b58check_decode(addr)
-        obj = provider_models.Account.objects.filter(address=eth_addr)
-        if obj:
-            res = __convert_account_to_json(obj)
+        account = provider_models.Account.objects.filter(address=eth_addr).first()
+        if account:
             # caculate the txlength
-            txlength = provider_models.Address.objects.filter(address=eth_addr).count()
-            balance = res[0]['balance']
+            if account.transactions_number:
+                txlength = account.transactions_number
+            else:
+                tx_objs = provider_models.Transaction.objects.filter(Q(from_address=eth_addr) | Q(to_address=eth_addr)).max_time_ms(settings.MAX_SELERY_TIME)
+                txlength = tx_objs.count()
+            balance = account.balance
             balanceSat = int(balance) / DECIMAL_SATOSHI
             result = {
                 "addrStr": addr,
@@ -683,6 +686,11 @@ def api_show_newblock(request, version):
             return http.JsonResponse(new_blocks)
         result = {}
         height = int(request.GET.get('height', 0))
+        # stats = provider_models.Statistics.objects.filter().first()
+        # if stats.block_hight:
+        #     new_height = stats.block_hight
+        # else:
+        #     new_height = provider_services.get_current_height()
         new_height = provider_services.get_current_height()
         if height == 0:
             height = new_height
@@ -691,7 +699,6 @@ def api_show_newblock(request, version):
             if newblock_hash:
                 result['hash'] = newblock_hash
                 result['height'] = height
-                cache.set('new_blocks', result, 20)
                 return http.JsonResponse(result)
         return http.HttpResponseNotFound()
     except Exception, inst:
@@ -734,8 +741,12 @@ def api_show_client_transactions(request, version):
         total_page = 0
         if addr:
             addr = addr.lower()
-            rs = provider_models.Address.objects.filter(address=addr).order_by('-time').max_time_ms(settings.MAX_SELERY_TIME)
-            cnt = rs.count()
+            tx_objs = provider_models.Transaction.objects.filter(Q(from_address=addr) | Q(to_address=addr)).order_by('-time').max_time_ms(settings.MAX_SELERY_TIME)
+            account = provider_models.Account.objects.filter(address=addr).first()
+            if account.transactions_number:
+                cnt = account.transactions_number
+            else:
+                cnt = tx_objs.count()
             if cnt == 0:
                 total_page = 1
             else:
@@ -743,12 +754,7 @@ def api_show_client_transactions(request, version):
                     total_page = (cnt / limit) + 1
                 else:
                     total_page = (cnt / limit)
-            addr_objs = rs.skip((page_id - 1) * limit).limit(limit)
-            txid_list = []
-            for addr_obj in addr_objs:
-                txid = addr_obj.txid
-                txid_list.append(txid)
-            objs = provider_models.Transaction.objects.filter(txid__in=txid_list[:settings.PAGE_SIZE]).order_by('-time')
+            objs = tx_objs.skip((page_id - 1) * limit).limit(limit)
         else:
             raise Exception("invalid parameter")
         txs = []
@@ -798,7 +804,11 @@ def api_show_contracts_list(request, version):
         if limit > settings.PAGE_SIZE:
             limit = settings.PAGE_SIZE
         contract_objs = provider_models.Contract.objects.order_by('-time')
-        cnt = contract_objs.count()
+        stats = provider_models.Statistics.objects.filter().first()
+        if stats.contracts_number:
+            cnt = stats.contracts_number
+        else:
+            cnt = contract_objs.count()
         if cnt == 0:
             total_page = 1
         else:
@@ -817,7 +827,11 @@ def api_show_contracts_list(request, version):
             balance_issac = account_obj.balance
             balance = Decimal(balance_issac) / 1000000000000000000
             contract['balance'] = balance
-            tx_counts = provider_models.Address.objects.filter(address=contract['contract_address']).count()
+            if account_obj.transactions_number:
+                tx_counts = account_obj.transactions_number
+            else:
+                tx_objs = provider_models.Transaction.objects.filter(Q(from_address=contract['contract_address']) | Q(to_address=contract['contract_address'])).max_time_ms(settings.MAX_SELERY_TIME)
+                tx_counts = tx_objs.count()
             contract['tx_counts'] = tx_counts
             contract['contract_address'] = addr_translation.address_encode(contract['contract_address'])
             contract_list.append(contract)
@@ -843,7 +857,12 @@ def api_show_contract(request, version, contractAddr):
         balance_issac = account_obj.balance
         balance = Decimal(balance_issac) / 1000000000000000000
         contract['balance'] = balance
-        tx_counts = provider_models.Address.objects.filter(address=contract['contract_address']).count()
+
+        if account_obj.transactions_number:
+            tx_counts = account_obj.transactions_number
+        else:
+            txs = provider_models.Transaction.objects.filter(Q(from_address=contract['contract_address']) | Q(to_address=contract['contract_address'])).max_time_ms(settings.MAX_SELERY_TIME)
+            tx_counts = txs.count()
         contract['tx_counts'] = tx_counts
         contract['contract_address'] = addr_translation.address_encode(contract['contract_address'])
         contract['creator'] = addr_translation.address_encode(contract['creator'])
@@ -857,8 +876,15 @@ def api_show_contract(request, version, contractAddr):
 
 def api_for_dashboard(request):
     try:
-        current_height = provider_services.get_current_height()
-        total_transactions = provider_models.Transaction.objects.filter().count()
+        stats = provider_models.Statistics.objects.filter().first()
+        if stats.block_hight:
+            current_height = stats.block_hight
+        else:
+            current_height = provider_services.get_current_height()
+        if stats.transactions_number:
+            total_transactions = stats.transactions_number
+        else:
+            total_transactions = provider_models.Transaction.objects.filter().count()
         current_block = provider_models.Block.objects.order_by('-time')[0]
         tps = int(current_block.txlength) / 3
         tx = {}
@@ -880,9 +906,19 @@ def api_home_brief(request, version):
         cache_info = cache.get('brief_data')
         if cache_info:
             return http.JsonResponse(cache_info)
-        current_height = provider_services.get_current_height()
-        total_transactions = provider_models.Transaction.objects.filter().count()
-        contracts = provider_models.Contract.objects.filter().count()
+        stats = provider_models.Statistics.objects.filter().first()
+        if stats.block_hight:
+            current_height = stats.block_hight
+        else:
+            current_height = provider_services.get_current_height()
+        if stats.transactions_number:
+            total_transactions = stats.transactions_number
+        else:
+            total_transactions = provider_models.Transaction.objects.filter().count()
+        if stats.contracts_number:
+            contracts = stats.contracts_number
+        else:
+            contracts = provider_models.Contract.objects.filter().count()
         result = {
             'blocks': current_height,
             'transactions': total_transactions,

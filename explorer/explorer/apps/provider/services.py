@@ -19,6 +19,7 @@ from provider import models as provider_models
 from decimal import *
 import job
 import binascii
+from mongoengine.queryset.visitor import Q
 
 
 DECIMAL_SATOSHI = Decimal("100000000")
@@ -123,6 +124,12 @@ def save_block_data(provider, block_info):
             setattr(block_instance, k, v)
         sync_validator_data(provider, block_info)
         block_instance.save()
+        # save block height
+        stats = provider_models.Statistics.objects.filter().first()
+        if not stats:
+            stats = provider_models.Statistics()
+        stats.block_hight = block_info['height']
+        stats.save()
         return True
     except Exception, inst:
         print inst
@@ -166,7 +173,7 @@ def insert_transactions_to_cache(transactions):
         return False
 
 
-def sync_account_data(provider, address_list):
+def sync_account_data(provider, address_list, address_dict):
     """Sync the data of account
     """
     try:
@@ -180,6 +187,11 @@ def sync_account_data(provider, address_list):
                 instance = provider_models.Account()
                 instance.address = address
             instance.balance = balance
+            if not instance.transactions_number:
+                tx_num = provider_models.Transaction.objects.filter(Q(from_address=address) | Q(to_address=address)).count()
+            else:
+                tx_num = instance.transactions_number
+            instance.transactions_number = tx_num + address_dict[address]
             instance.save()
     except Exception, inst:
         logger.exception("fail to sync account data:%s" % str(inst))
@@ -191,6 +203,15 @@ def save_transaction_data(provider, block_info, is_cached=True):
     try:
         transactions = []
         address_list = []
+        stats = provider_models.Statistics.objects.filter().first()
+        if not stats:
+            stats = provider_models.Statistics()
+        # save transactions number
+        if not stats.transactions_number:
+            tx_num = provider_models.Transaction.objects.filter().count()
+        else:
+            tx_num = stats.transactions_number
+        stats.transactions_number = tx_num + block_info['txlength']
         for item in block_info['transactions']:
             tx_item = provider.parse_transaction_response(item)
             transaction_info = tx_item
@@ -207,17 +228,28 @@ def save_transaction_data(provider, block_info, is_cached=True):
                 transaction_instance.to_address = receipt['contract_address']
                 sync_contract_data(receipt, block_info['time'])
                 address_list.append(transaction_instance.to_address)
+                if not stats.contracts_number:
+                    contracts_num = provider_models.Contract.objects.filter().count()
+                else:
+                    contracts_num = stats.contracts_number
+                contracts_num += 1
+                stats.contracts_number = contracts_num
             else:
                 address_list.append(transaction_info['to_address'])
             transactions.append(transaction_instance)
-            address_list.append(transaction_info['from_address'])
+            if not transaction_info['to_address'] == transaction_info['from_address']:
+                address_list.append(transaction_info['from_address'])
             sync_address_data(transaction_instance)
         if transactions:
             provider_models.Transaction.objects.insert(transactions)
+            stats.save()
             # cache transaction
             if is_cached:
                 insert_transactions_to_cache(transactions)
-            sync_account_data(provider, list(set(address_list)))
+            address_dict = {}
+            for address in set(address_list):
+                address_dict[address] = address_list.count(address)
+            sync_account_data(provider, list(set(address_list)), address_dict)
         return True
     except Exception, inst:
         print inst

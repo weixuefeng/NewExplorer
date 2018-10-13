@@ -63,6 +63,7 @@ class CappedTransaction(Document):
 class Account(Document):
     address = StringField(max_length=128, required=True, primary_key=True)
     balance = StringField()
+    transactions_number = LongField()
 
 
 class Validator(Document):
@@ -85,6 +86,11 @@ class Contract(Document):
     time = IntField()
     meta = { 'indexes': ['creator']}
 
+
+class Statistics(Document):
+    contracts_number = LongField()
+    transactions_number = LongField()
+    block_hight = LongField()
 
 # init the connection
 connect(settings.BLOCK_CHAIN_DB_NAME, host=settings.MONGODB_HOST)
