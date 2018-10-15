@@ -29,17 +29,18 @@ angular.module('insight.system').controller('HeaderController',
       });
     };
 
-    var _getBlock = function(hash) {
-      Block.get({
-        blockHash: hash
-      }, function(res) {
-        $scope.totalBlocks = res.height;
-      });
-    };
+    // var _getBlock = function(hash) {
+    //   Block.get({
+    //     blockHash: hash
+    //   }, function(res) {
+    //     $scope.totalBlocks = res.height;
+    //   });
+    // };
     var _getNewBlock = function() {
         NewBlock.get({}, function(res) {
             if (res) {
-                _getBlock(res.hash.toString());
+                // _getBlock(res.hash.toString());
+                $scope.totalBlocks = res.height;
             }
         });
     };

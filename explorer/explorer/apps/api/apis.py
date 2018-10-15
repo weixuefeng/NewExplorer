@@ -685,21 +685,15 @@ def api_show_newblock(request, version):
         if new_blocks:
             return http.JsonResponse(new_blocks)
         result = {}
-        height = int(request.GET.get('height', 0))
-        # stats = provider_models.Statistics.objects.filter().first()
-        # if stats.block_hight:
-        #     new_height = stats.block_hight
-        # else:
-        #     new_height = provider_services.get_current_height()
-        new_height = provider_services.get_current_height()
-        if height == 0:
-            height = new_height
-        if new_height >= height:
-            newblock_hash = provider_services.get_block_hash_by_height(height)
-            if newblock_hash:
-                result['hash'] = newblock_hash
-                result['height'] = height
-                return http.JsonResponse(result)
+        stats = provider_models.Statistics.objects.filter().first()
+        if stats.block_hight:
+            new_height = stats.block_hight
+        else:
+            new_height = provider_services.get_current_height()
+        if new_height:
+            result['height'] = new_height
+            cache.set('new_blocks', result, 20)
+            return http.JsonResponse(result)
         return http.HttpResponseNotFound()
     except Exception, inst:
         print inst

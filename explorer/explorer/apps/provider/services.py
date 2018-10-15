@@ -189,9 +189,10 @@ def sync_account_data(provider, address_list, address_dict):
             instance.balance = balance
             if not instance.transactions_number:
                 tx_num = provider_models.Transaction.objects.filter(Q(from_address=address) | Q(to_address=address)).count()
+                instance.transactions_number = tx_num
             else:
                 tx_num = instance.transactions_number
-            instance.transactions_number = tx_num + address_dict[address]
+                instance.transactions_number = tx_num + address_dict[address]
             instance.save()
     except Exception, inst:
         logger.exception("fail to sync account data:%s" % str(inst))
@@ -224,22 +225,21 @@ def save_transaction_data(provider, block_info, is_cached=True):
             transaction_instance.time = block_info['time']
             transaction_instance._created = True
             if not transaction_instance.to_address:
-                receipt = provider.get_transaction_receipt(txid)
-                transaction_instance.to_address = receipt['contract_address']
-                sync_contract_data(receipt, block_info['time'])
-                address_list.append(transaction_instance.to_address)
                 if not stats.contracts_number:
                     contracts_num = provider_models.Contract.objects.filter().count()
                 else:
                     contracts_num = stats.contracts_number
                 contracts_num += 1
                 stats.contracts_number = contracts_num
+                receipt = provider.get_transaction_receipt(txid)
+                transaction_instance.to_address = receipt['contract_address']
+                sync_contract_data(receipt, block_info['time'])
+                address_list.append(transaction_instance.to_address)
             else:
                 address_list.append(transaction_info['to_address'])
             transactions.append(transaction_instance)
             if not transaction_info['to_address'] == transaction_info['from_address']:
                 address_list.append(transaction_info['from_address'])
-            sync_address_data(transaction_instance)
         if transactions:
             provider_models.Transaction.objects.insert(transactions)
             stats.save()
