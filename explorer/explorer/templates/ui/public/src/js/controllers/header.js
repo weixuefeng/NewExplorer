@@ -39,7 +39,6 @@ angular.module('insight.system').controller('HeaderController',
     var _getNewBlock = function() {
         NewBlock.get({}, function(res) {
             if (res) {
-                // _getBlock(res.hash.toString());
                 $scope.totalBlocks = res.height;
             }
         });
