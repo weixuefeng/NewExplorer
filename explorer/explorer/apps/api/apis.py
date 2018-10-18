@@ -685,7 +685,7 @@ def api_show_newblock(request, version):
         if new_blocks:
             return http.JsonResponse(new_blocks)
         result = {}
-        stats = provider_models.Statistics.objects.filter().first()
+        stats = provider_models.Statistics.objects.filter(identification=settings.SYNC_PROGRAM).first()
         if stats.block_hight:
             new_height = stats.block_hight
         else:
@@ -798,10 +798,12 @@ def api_show_contracts_list(request, version):
         if limit > settings.PAGE_SIZE:
             limit = settings.PAGE_SIZE
         contract_objs = provider_models.Contract.objects.order_by('-time')
-        stats = provider_models.Statistics.objects.filter().first()
-        if stats.contracts_number:
-            cnt = stats.contracts_number
-        else:
+        statses = provider_models.Statistics.objects.filter()
+        cnt = 0
+        for stats in statses:
+            if stats.contracts_number:
+                cnt += stats.contracts_number
+        if not cnt:
             cnt = contract_objs.count()
         if cnt == 0:
             total_page = 1
@@ -870,14 +872,17 @@ def api_show_contract(request, version, contractAddr):
 
 def api_for_dashboard(request):
     try:
-        stats = provider_models.Statistics.objects.filter().first()
-        if stats.block_hight:
-            current_height = stats.block_hight
+        sync_stats = provider_models.Statistics.objects.filter(identification=settings.SYNC_PROGRAM).first()
+        if sync_stats.block_hight:
+            current_height = sync_stats.block_hight
         else:
             current_height = provider_services.get_current_height()
-        if stats.transactions_number:
-            total_transactions = stats.transactions_number
+        fill_stats = provider_models.Statistics.objects.filter(identification=settings.FILL_MISSING_PROGRAM).first()
+        if fill_stats.transactions_number:
+            total_transactions = sync_stats.transactions_number + fill_stats.transactions_number
         else:
+            total_transactions = sync_stats.transactions_number
+        if not total_transactions:
             total_transactions = provider_models.Transaction.objects.filter().count()
         current_block = provider_models.Block.objects.order_by('-time')[0]
         tps = int(current_block.txlength) / 3
@@ -900,18 +905,23 @@ def api_home_brief(request, version):
         cache_info = cache.get('brief_data')
         if cache_info:
             return http.JsonResponse(cache_info)
-        stats = provider_models.Statistics.objects.filter().first()
-        if stats.block_hight:
-            current_height = stats.block_hight
+        fill_stats = provider_models.Statistics.objects.filter(identification=settings.FILL_MISSING_PROGRAM).first()
+        sync_stats = provider_models.Statistics.objects.filter(identification=settings.SYNC_PROGRAM).first()
+        if sync_stats.block_hight:
+            current_height = sync_stats.block_hight
         else:
             current_height = provider_services.get_current_height()
-        if stats.transactions_number:
-            total_transactions = stats.transactions_number
+        if fill_stats.transactions_number:
+            total_transactions = sync_stats.transactions_number + fill_stats.transactions_number
         else:
+            total_transactions = sync_stats.transactions_number
+        if not total_transactions:
             total_transactions = provider_models.Transaction.objects.filter().count()
-        if stats.contracts_number:
-            contracts = stats.contracts_number
+        if fill_stats.contracts_number:
+            contracts = sync_stats.contracts_number + fill_stats.contracts_number
         else:
+            contracts = sync_stats.contracts_number
+        if not contracts:
             contracts = provider_models.Contract.objects.filter().count()
         result = {
             'blocks': current_height,

@@ -91,6 +91,7 @@ class Statistics(Document):
     contracts_number = LongField()
     transactions_number = LongField()
     block_hight = LongField()
+    identification = IntField()
 
 # init the connection
 connect(settings.BLOCK_CHAIN_DB_NAME, host=settings.MONGODB_HOST)

@@ -115,7 +115,7 @@ def sync_validator_data(provider, block_info, name="", url=""):
         logger.exception("fail to sync validator data:%s" % str(inst))
 
 
-def save_block_data(provider, block_info):
+def save_block_data(provider, block_info, identification_num):
     """Save the block info
     """
     try:
@@ -125,9 +125,10 @@ def save_block_data(provider, block_info):
         sync_validator_data(provider, block_info)
         block_instance.save()
         # save block height
-        stats = provider_models.Statistics.objects.filter().first()
+        stats = provider_models.Statistics.objects.filter(identification=identification_num).first()
         if not stats:
             stats = provider_models.Statistics()
+            stats.identification = identification_num
         stats.block_hight = block_info['height']
         stats.save()
         return True
@@ -198,18 +199,22 @@ def sync_account_data(provider, address_list, address_dict):
         logger.exception("fail to sync account data:%s" % str(inst))
 
 
-def save_transaction_data(provider, block_info, is_cached=True):
+def save_transaction_data(provider, block_info, identification_num, is_cached=True):
     """Save the transaction info
     """
     try:
         transactions = []
         address_list = []
-        stats = provider_models.Statistics.objects.filter().first()
+        stats = provider_models.Statistics.objects.filter(identification=identification_num).first()
         if not stats:
             stats = provider_models.Statistics()
+            stats.identification = identification_num
         # save transactions number
         if not stats.transactions_number:
-            tx_num = provider_models.Transaction.objects.filter().count()
+            if identification_num == settings.SYNC_PROGRAM:
+                tx_num = provider_models.Transaction.objects.filter().count()
+            else:
+                tx_num = 0
         else:
             tx_num = stats.transactions_number
         stats.transactions_number = tx_num + block_info['txlength']
@@ -226,7 +231,10 @@ def save_transaction_data(provider, block_info, is_cached=True):
             transaction_instance._created = True
             if not transaction_instance.to_address:
                 if not stats.contracts_number:
-                    contracts_num = provider_models.Contract.objects.filter().count()
+                    if identification_num == settings.SYNC_PROGRAM:
+                        contracts_num = provider_models.Contract.objects.filter().count()
+                    else:
+                        contracts_num = 0
                 else:
                     contracts_num = stats.contracts_number
                 contracts_num += 1
@@ -435,8 +443,8 @@ def fill_missing_block(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.v
                 if data:
                     # delete wrong data
                     provider_models.Transaction.objects.filter(blockheight=tmp_height).delete()
-                    if save_transaction_data(provider, data, is_cached=False):
-                        save_block_data(provider, data)
+                    if save_transaction_data(provider, data, settings.FILL_MISSING_PROGRAM, is_cached=False):
+                        save_block_data(provider, data, settings.FILL_MISSING_PROGRAM)
                         logger.info("sync missing block:%s" % tmp_height)
     except Exception, inst:
         print "fail to fill missing block", inst

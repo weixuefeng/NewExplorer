@@ -37,3 +37,7 @@ UNIT_TO_SATOSHI = 1000000000000000000
 
 # cache
 CACHE_KEY_NEWBLOCK = 'newblock'
+
+# Identification synchronization program
+SYNC_PROGRAM = 0
+FILL_MISSING_PROGRAM = 1
