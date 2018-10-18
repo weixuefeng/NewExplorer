@@ -878,8 +878,11 @@ def api_for_dashboard(request):
         else:
             current_height = provider_services.get_current_height()
         fill_stats = provider_models.Statistics.objects.filter(identification=settings.FILL_MISSING_PROGRAM).first()
-        if fill_stats.transactions_number:
-            total_transactions = sync_stats.transactions_number + fill_stats.transactions_number
+        if fill_stats:
+            if fill_stats.transactions_number:
+                total_transactions = sync_stats.transactions_number + fill_stats.transactions_number
+            else:
+                total_transactions = sync_stats.transactions_number
         else:
             total_transactions = sync_stats.transactions_number
         if not total_transactions:
@@ -911,16 +914,20 @@ def api_home_brief(request, version):
             current_height = sync_stats.block_hight
         else:
             current_height = provider_services.get_current_height()
-        if fill_stats.transactions_number:
-            total_transactions = sync_stats.transactions_number + fill_stats.transactions_number
+        if fill_stats:
+            if fill_stats.transactions_number:
+                total_transactions = sync_stats.transactions_number + fill_stats.transactions_number
+            else:
+                total_transactions = sync_stats.transactions_number
+            if fill_stats.contracts_number:
+                contracts = sync_stats.contracts_number + fill_stats.contracts_number
+            else:
+                contracts = sync_stats.contracts_number
         else:
             total_transactions = sync_stats.transactions_number
+            contracts = sync_stats.contracts_number
         if not total_transactions:
             total_transactions = provider_models.Transaction.objects.filter().count()
-        if fill_stats.contracts_number:
-            contracts = sync_stats.contracts_number + fill_stats.contracts_number
-        else:
-            contracts = sync_stats.contracts_number
         if not contracts:
             contracts = provider_models.Contract.objects.filter().count()
         result = {
