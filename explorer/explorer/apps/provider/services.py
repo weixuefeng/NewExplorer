@@ -366,8 +366,8 @@ def sync_blockchain(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.valu
             # get block info
             data = provider.get_block_by_height(tmp_height)
             if data:
-                if save_transaction_data(provider, data, is_cached=False):
-                    save_block_data(provider, data)
+                if save_transaction_data(provider, data, settings.SYNC_PROGRAM, is_cached=False):
+                    save_block_data(provider, data, settings.SYNC_PROGRAM)
             logger.info("sync_blockchain:height:%s" % tmp_height)
     except Exception, inst:
         print "fail to sync blockchain", inst
