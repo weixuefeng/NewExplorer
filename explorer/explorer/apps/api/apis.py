@@ -737,6 +737,15 @@ def api_show_client_transactions(request, version):
             addr = addr.lower()
             tx_objs = provider_models.Transaction.objects.filter(Q(from_address=addr) | Q(to_address=addr)).order_by('-time').max_time_ms(settings.MAX_SELERY_TIME)
             account = provider_models.Account.objects.filter(address=addr).first()
+            if not account:
+                result = {
+                    "total": 0,
+                    "limit": limit,
+                    "page": page_id,
+                    "pages": 1,
+                    "docs": []
+                }
+                return http.JsonResponse(result)
             if account.transactions_number:
                 cnt = account.transactions_number
             else:
