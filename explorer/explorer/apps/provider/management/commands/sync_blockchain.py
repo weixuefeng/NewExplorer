@@ -38,9 +38,14 @@ class Command(BaseCommand):
             blockchain_type=codes.BlockChainType.NEWTON.value
             url_prefix = settings.FULL_NODES['new']['rest_url']
             provider_services.fill_missing_block(url_prefix, start_height=start_height, end_height=end_height)
+        elif action == 'totalize_account_transactions':
+            blockchain_type=codes.BlockChainType.NEWTON.value
+            url_prefix = settings.FULL_NODES['new']['rest_url']
+            provider_services.totalize_account_transactions()
         else:
-            print "error action, choices:[fast_sync|fill_missing]"
+            print "error action, choices:[fast_sync|fill_missing|totalize_account_transactions]"
 
     def print_usage(self):
         print "python manage.py sync_blockchain fast_sync"
         print "python manage.py sync_blockchain fill_missing [start height] [end height]"
+        print "python manage.py sync_blockchain totalize_account_transactions"

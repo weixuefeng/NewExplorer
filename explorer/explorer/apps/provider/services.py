@@ -489,3 +489,19 @@ def parse_transaction_message(data, blockchain_type=codes.BlockChainType.NEWTON.
         logger.exception("fail to parse transaction message:%s" % str(inst))
         return None
 
+def totalize_account_transactions():
+    """First stop syncing data, then calculate the total number of transactions for all accounts.
+
+    """
+    try:
+        account_objs = provider_models.Account.objects.filter()
+        for account in account_objs:
+            if account.transactions_number:
+                continue
+            tx_num = provider_models.Transaction.objects.filter(Q(from_address=account.address) | Q(to_address=account.address)).count()
+            account.transactions_number = tx_num
+            account.save()
+    except Exception, inst:
+        print inst
+        logger.exception("fail to totalize account transactions:%s" % str(inst))
+        return None
