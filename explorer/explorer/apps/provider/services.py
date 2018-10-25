@@ -31,7 +31,7 @@ blockchain_providers = {
 def get_current_height(blockchain_type=codes.BlockChainType.NEWTON.value):
     try:
         stats = provider_models.Statistics.objects.filter(sync_type=codes.SyncType.SYNC_PROGRAM.value).first()
-        if stats:
+        if stats and stats.block_height:
             return stats.block_height
         obj = provider_models.Block._get_collection().aggregate([{ "$group": {
             "_id": None,
