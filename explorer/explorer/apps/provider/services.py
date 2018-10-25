@@ -115,7 +115,7 @@ def sync_validator_data(provider, block_info, name="", url=""):
         logger.exception("fail to sync validator data:%s" % str(inst))
 
 
-def save_block_data(provider, block_info, identification_num):
+def save_block_data(provider, block_info, sync_type):
     """Save the block info
     """
     try:
@@ -125,10 +125,10 @@ def save_block_data(provider, block_info, identification_num):
         sync_validator_data(provider, block_info)
         block_instance.save()
         # save block height
-        stats = provider_models.Statistics.objects.filter(identification=identification_num).first()
+        stats = provider_models.Statistics.objects.filter(sync_type=sync_type).first()
         if not stats:
             stats = provider_models.Statistics()
-            stats.identification = identification_num
+            stats.sync_type = sync_type
         stats.block_hight = block_info['height']
         stats.save()
         return True
@@ -174,7 +174,7 @@ def insert_transactions_to_cache(transactions):
         return False
 
 
-def sync_account_data(provider, address_list, address_dict, identification_num):
+def sync_account_data(provider, address_list, address_dict, sync_type):
     """Sync the data of account
     """
     try:
@@ -188,30 +188,30 @@ def sync_account_data(provider, address_list, address_dict, identification_num):
                 instance = provider_models.Account()
                 instance.address = address
             instance.balance = balance
-            if identification_num == codes.SyncType.SYNC_PROGRAM.value:
-                tx_num = instance.transactions_number
-                instance.transactions_number = tx_num + address_dict[address]
+            if sync_type == codes.SyncType.SYNC_PROGRAM.value:
+                tx_number = instance.transactions_number
+                instance.transactions_number = tx_number + address_dict[address]
             else:
-                tx_num = instance.missing_transactions_number
-                instance.missing_transactions_number = tx_num + address_dict[address]
+                tx_number = instance.missing_transactions_number
+                instance.missing_transactions_number = tx_number + address_dict[address]
             instance.save()
     except Exception, inst:
         logger.exception("fail to sync account data:%s" % str(inst))
 
 
-def save_transaction_data(provider, block_info, identification_num, is_cached=True):
+def save_transaction_data(provider, block_info, sync_type, is_cached=True):
     """Save the transaction info
     """
     try:
         transactions = []
         address_list = []
-        stats = provider_models.Statistics.objects.filter(identification=identification_num).first()
+        stats = provider_models.Statistics.objects.filter(sync_type=sync_type).first()
         if not stats:
             stats = provider_models.Statistics()
-            stats.identification = identification_num
+            stats.sync_type = sync_type
         # save transactions number
-        tx_num = stats.transactions_number
-        stats.transactions_number = tx_num + block_info['txlength']
+        tx_number = stats.transactions_number
+        stats.transactions_number = tx_number + block_info['txlength']
         for item in block_info['transactions']:
             tx_item = provider.parse_transaction_response(item)
             transaction_info = tx_item
@@ -224,8 +224,8 @@ def save_transaction_data(provider, block_info, identification_num, is_cached=Tr
             transaction_instance.time = block_info['time']
             transaction_instance._created = True
             if not transaction_instance.to_address:
-                contracts_num = stats.contracts_number + 1
-                stats.contracts_number = contracts_num
+                contracts_number = stats.contracts_number + 1
+                stats.contracts_number = contracts_number
                 receipt = provider.get_transaction_receipt(txid)
                 transaction_instance.to_address = receipt['contract_address']
                 sync_contract_data(receipt, block_info['time'])
@@ -244,7 +244,7 @@ def save_transaction_data(provider, block_info, identification_num, is_cached=Tr
             address_dict = {}
             for address in set(address_list):
                 address_dict[address] = address_list.count(address)
-            sync_account_data(provider, list(set(address_list)), address_dict, identification_num)
+            sync_account_data(provider, list(set(address_list)), address_dict, sync_type)
         return True
     except Exception, inst:
         print inst
@@ -485,17 +485,17 @@ def totalize_account_transactions():
         for account in account_objs:
             if account.transactions_number:
                 continue
-            tx_num = provider_models.Transaction.objects.filter(Q(from_address=account.address) | Q(to_address=account.address)).count()
-            account.transactions_number = tx_num
+            tx_number = provider_models.Transaction.objects.filter(Q(from_address=account.address) | Q(to_address=account.address)).count()
+            account.transactions_number = tx_number
             account.save()
-        stats = provider_models.Statistics.objects.filter(identification=codes.SyncType.SYNC_PROGRAM.value).first()
+        stats = provider_models.Statistics.objects.filter(sync_type=codes.SyncType.SYNC_PROGRAM.value).first()
         if not stats:
             stats = provider_models.Statistics()
-            stats.identification = codes.SyncType.SYNC_PROGRAM.value
-        txs_num = provider_models.Transaction.objects.filter().count()
-        contracts_num = provider_models.Contract.objects.filter().count()
-        stats.transactions_number = txs_num
-        stats.contracts_number = contracts_num
+            stats.sync_type = codes.SyncType.SYNC_PROGRAM.value
+        txs_number = provider_models.Transaction.objects.filter().count()
+        contracts_number = provider_models.Contract.objects.filter().count()
+        stats.transactions_number = txs_number
+        stats.contracts_number = contracts_number
         stats.save()
     except Exception, inst:
         print inst
