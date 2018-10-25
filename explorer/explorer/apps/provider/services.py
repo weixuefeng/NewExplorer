@@ -497,6 +497,7 @@ def totalize_account_transactions():
     try:
         account_objs = provider_models.Account.objects.filter()
         for account in account_objs:
+            print "caculate address:", account.address
             if account.transactions_number:
                 continue
             tx_number = provider_models.Transaction.objects.filter(Q(from_address=account.address) | Q(to_address=account.address)).count()
