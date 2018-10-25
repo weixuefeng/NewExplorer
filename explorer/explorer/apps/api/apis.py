@@ -675,7 +675,7 @@ def api_show_newblock(request, version):
         if new_blocks:
             return http.JsonResponse(new_blocks)
         result = {}
-        stats = provider_models.Statistics.objects.filter(identification=codes.SyncType.SYNC_PROGRAM.value).first()
+        stats = provider_models.Statistics.objects.filter(sync_type=codes.SyncType.SYNC_PROGRAM.value).first()
         if stats.block_hight:
             new_height = stats.block_hight
         else:
@@ -856,9 +856,9 @@ def api_show_contract(request, version, contractAddr):
 
 def api_for_dashboard(request):
     try:
-        sync_stats = provider_models.Statistics.objects.filter(identification=codes.SyncType.SYNC_PROGRAM.value).first()
+        sync_stats = provider_models.Statistics.objects.filter(sync_type=codes.SyncType.SYNC_PROGRAM.value).first()
         current_height = sync_stats.block_hight
-        fill_stats = provider_models.Statistics.objects.filter(identification=codes.SyncType.FILL_MISSING_PROGRAM.value).first()
+        fill_stats = provider_models.Statistics.objects.filter(sync_type=codes.SyncType.FILL_MISSING_PROGRAM.value).first()
         if fill_stats:
             total_transactions = sync_stats.transactions_number + fill_stats.transactions_number
         else:
@@ -884,8 +884,8 @@ def api_home_brief(request, version):
         cache_info = cache.get('brief_data')
         if cache_info:
             return http.JsonResponse(cache_info)
-        fill_stats = provider_models.Statistics.objects.filter(identification=codes.SyncType.FILL_MISSING_PROGRAM.value).first()
-        sync_stats = provider_models.Statistics.objects.filter(identification=codes.SyncType.SYNC_PROGRAM.value).first()
+        fill_stats = provider_models.Statistics.objects.filter(sync_type=codes.SyncType.FILL_MISSING_PROGRAM.value).first()
+        sync_stats = provider_models.Statistics.objects.filter(sync_type=codes.SyncType.SYNC_PROGRAM.value).first()
         current_height = sync_stats.block_hight
         if fill_stats:
             total_transactions = sync_stats.transactions_number + fill_stats.transactions_number
