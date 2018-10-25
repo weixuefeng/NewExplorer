@@ -71,9 +71,12 @@ class Provider(object):
     def get_block_by_height(self, height):
         response = self._post('eth_getBlockByNumber', ['0x%x' % height, True])
         result = response.get('result')
+        final_result = self.parse_block_info(result)
+        if final_result['height'] == 0:
+            final_result['validator'] = ''
+            return final_result
         validator_lib = self.load_validator_lib()
         validator_address = self.get_validator(validator_lib, result)
-        final_result = self.parse_block_info(result)
         final_result['validator'] = validator_address
         # final_result['validator'] = ''
         return final_result

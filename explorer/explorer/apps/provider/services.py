@@ -124,7 +124,10 @@ def save_block_data(provider, block_info, sync_type=codes.SyncType.SYNC_PROGRAM.
         block_instance = provider_models.Block()
         for k, v in block_info.items():
             setattr(block_instance, k, v)
-        sync_validator_data(provider, block_info)
+        if block_info['height'] == 0:
+            pass
+        else:
+            sync_validator_data(provider, block_info)
         block_instance.save()
 
         # update stats
