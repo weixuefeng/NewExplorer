@@ -8,10 +8,11 @@ __author__ = 'yanhang@diynova.com'
 
 
 import base58
+from django.conf import settings
 
 class NewChainAddress(object):
     def __init__(self):
-        self.chainID = 16888
+        self.chainID = settings.CHAIN_ID
         self.PREFIX = 'NEW'
 
     def address_encode(self, address_data):
