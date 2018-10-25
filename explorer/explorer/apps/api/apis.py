@@ -181,10 +181,6 @@ def api_show_blocks(request, version):
         limit = int(request.GET.get('limit', settings.PAGE_SIZE))
         if limit > settings.PAGE_SIZE:
             limit = settings.PAGE_SIZE
-        if limit == 10:
-            cache_info = cache.get('newblocks')
-            if cache_info:
-                return http.JsonResponse(cache_info)
         if block_date:
             block_date = datetime.datetime.strptime(block_date, '%Y-%m-%d')
         else:
@@ -246,8 +242,6 @@ def api_show_blocks(request, version):
                 "moreTs": more_ts,
             }
         }
-        if limit == 10:
-            cache.set('newblocks', result, 20)
         return http.JsonResponse(result)
     except Exception, inst:
         print inst
@@ -292,9 +286,6 @@ def api_show_block_info(request, version, blockhash):
     }
     """
     try:
-        cache_info = cache.get('block' + blockhash)
-        if cache_info:
-            return http.JsonResponse(cache_info)
         current_height = provider_services.get_current_height()
         obj = provider_models.Block.objects.get(blockhash=blockhash)
         result = json.loads(obj.to_json())
@@ -305,7 +296,6 @@ def api_show_block_info(request, version, blockhash):
         validator_name, validator_url = handle_validator(result['validator'])
         result['validator_name'] = validator_name
         result['validator_url'] = validator_url
-        cache.set('block' + blockhash, result, 7200)
         return http.JsonResponse(result)
     except Exception, inst:
         print inst
@@ -470,9 +460,6 @@ def api_show_transaction(request, version, txid):
     }
     """
     try:
-        cache_info = cache.get('tx' + txid)
-        if cache_info:
-            return http.JsonResponse(cache_info)
         obj = provider_models.Transaction.objects.filter(txid=txid).first()
         if obj:
             current_height = provider_services.get_current_height()
@@ -497,7 +484,6 @@ def api_show_transaction(request, version, txid):
             result['value'] = value
             final_fees = result['fees'] * result['fees_price']
             result['fees'] = final_fees
-            cache.set('tx' + txid, result, 7200)
             return http.JsonResponse(result)
         else:
             return http.HttpResponseNotFound()
@@ -644,9 +630,6 @@ def api_show_newtx(request, version):
     -------
     """
     try:
-        new_tx = cache.get('new_tx')
-        if new_tx:
-            return http.JsonResponse({'txs': new_tx})
         objs = provider_models.Transaction.objects.order_by("-time")[0: 10]
         current_height = provider_services.get_current_height()
         txs = []
@@ -657,7 +640,6 @@ def api_show_newtx(request, version):
             value = Decimal(value_issac) / 1000000000000000000
             item['value'] = value
             txs.append(item)
-        cache.set('new_tx', txs, 20)
         return http.JsonResponse({'txs': txs})
     except Exception, inst:
         print inst
@@ -671,18 +653,14 @@ def api_show_newblock(request, version):
     -------
     """
     try:
-        new_blocks = cache.get('new_blocks')
-        if new_blocks:
-            return http.JsonResponse(new_blocks)
         result = {}
         stats = provider_models.Statistics.objects.filter(sync_type=codes.SyncType.SYNC_PROGRAM.value).first()
-        if stats.block_hight:
-            new_height = stats.block_hight
+        if stats.block_height:
+            new_height = stats.block_height
         else:
             new_height = provider_services.get_current_height()
         if new_height:
             result['height'] = new_height
-            cache.set('new_blocks', result, 20)
             return http.JsonResponse(result)
         return http.HttpResponseNotFound()
     except Exception, inst:
@@ -857,7 +835,7 @@ def api_show_contract(request, version, contractAddr):
 def api_for_dashboard(request):
     try:
         sync_stats = provider_models.Statistics.objects.filter(sync_type=codes.SyncType.SYNC_PROGRAM.value).first()
-        current_height = sync_stats.block_hight
+        current_height = sync_stats.block_height
         fill_stats = provider_models.Statistics.objects.filter(sync_type=codes.SyncType.FILL_MISSING_PROGRAM.value).first()
         if fill_stats:
             total_transactions = sync_stats.transactions_number + fill_stats.transactions_number
@@ -881,12 +859,9 @@ def api_for_dashboard(request):
 
 def api_home_brief(request, version):
     try:
-        cache_info = cache.get('brief_data')
-        if cache_info:
-            return http.JsonResponse(cache_info)
         fill_stats = provider_models.Statistics.objects.filter(sync_type=codes.SyncType.FILL_MISSING_PROGRAM.value).first()
         sync_stats = provider_models.Statistics.objects.filter(sync_type=codes.SyncType.SYNC_PROGRAM.value).first()
-        current_height = sync_stats.block_hight
+        current_height = sync_stats.block_height
         if fill_stats:
             total_transactions = sync_stats.transactions_number + fill_stats.transactions_number
             contracts = sync_stats.contracts_number + fill_stats.contracts_number
@@ -898,7 +873,6 @@ def api_home_brief(request, version):
             'transactions': total_transactions,
             'contracts': contracts
         }
-        cache.set('brief_data', result, 20)
         return http.JsonResponse(result)
     except Exception, inst:
         logger.exception("fail to get home page brief:%s" % str(inst))
