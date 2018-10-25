@@ -91,7 +91,7 @@ class Contract(Document):
 class Statistics(Document):
     contracts_number = LongField(default=0)
     transactions_number = LongField(default=0)
-    block_hight = LongField()
+    block_height = LongField()
     sync_type = IntField()
 
 # init the connection
