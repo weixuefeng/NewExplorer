@@ -174,7 +174,7 @@ def insert_transactions_to_cache(transactions):
         return False
 
 
-def sync_account_data(provider, address_list, address_dict):
+def sync_account_data(provider, address_list, address_dict, identification_num):
     """Sync the data of account
     """
     try:
@@ -188,12 +188,12 @@ def sync_account_data(provider, address_list, address_dict):
                 instance = provider_models.Account()
                 instance.address = address
             instance.balance = balance
-            if not instance.transactions_number:
-                tx_num = provider_models.Transaction.objects.filter(Q(from_address=address) | Q(to_address=address)).count()
-                instance.transactions_number = tx_num
-            else:
+            if identification_num == codes.SyncType.SYNC_PROGRAM.value:
                 tx_num = instance.transactions_number
                 instance.transactions_number = tx_num + address_dict[address]
+            else:
+                tx_num = instance.missing_transactions_number
+                instance.missing_transactions_number = tx_num + address_dict[address]
             instance.save()
     except Exception, inst:
         logger.exception("fail to sync account data:%s" % str(inst))
@@ -210,13 +210,7 @@ def save_transaction_data(provider, block_info, identification_num, is_cached=Tr
             stats = provider_models.Statistics()
             stats.identification = identification_num
         # save transactions number
-        if not stats.transactions_number:
-            if identification_num == settings.SYNC_PROGRAM:
-                tx_num = provider_models.Transaction.objects.filter().count()
-            else:
-                tx_num = 0
-        else:
-            tx_num = stats.transactions_number
+        tx_num = stats.transactions_number
         stats.transactions_number = tx_num + block_info['txlength']
         for item in block_info['transactions']:
             tx_item = provider.parse_transaction_response(item)
@@ -230,14 +224,7 @@ def save_transaction_data(provider, block_info, identification_num, is_cached=Tr
             transaction_instance.time = block_info['time']
             transaction_instance._created = True
             if not transaction_instance.to_address:
-                if not stats.contracts_number:
-                    if identification_num == settings.SYNC_PROGRAM:
-                        contracts_num = provider_models.Contract.objects.filter().count()
-                    else:
-                        contracts_num = 0
-                else:
-                    contracts_num = stats.contracts_number
-                contracts_num += 1
+                contracts_num = stats.contracts_number + 1
                 stats.contracts_number = contracts_num
                 receipt = provider.get_transaction_receipt(txid)
                 transaction_instance.to_address = receipt['contract_address']
@@ -257,7 +244,7 @@ def save_transaction_data(provider, block_info, identification_num, is_cached=Tr
             address_dict = {}
             for address in set(address_list):
                 address_dict[address] = address_list.count(address)
-            sync_account_data(provider, list(set(address_list)), address_dict)
+            sync_account_data(provider, list(set(address_list)), address_dict, identification_num)
         return True
     except Exception, inst:
         print inst
@@ -366,8 +353,8 @@ def sync_blockchain(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.valu
             # get block info
             data = provider.get_block_by_height(tmp_height)
             if data:
-                if save_transaction_data(provider, data, settings.SYNC_PROGRAM, is_cached=False):
-                    save_block_data(provider, data, settings.SYNC_PROGRAM)
+                if save_transaction_data(provider, data, codes.SyncType.SYNC_PROGRAM.value, is_cached=False):
+                    save_block_data(provider, data, codes.SyncType.SYNC_PROGRAM.value)
             logger.info("sync_blockchain:height:%s" % tmp_height)
     except Exception, inst:
         print "fail to sync blockchain", inst
@@ -443,8 +430,8 @@ def fill_missing_block(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.v
                 if data:
                     # delete wrong data
                     provider_models.Transaction.objects.filter(blockheight=tmp_height).delete()
-                    if save_transaction_data(provider, data, settings.FILL_MISSING_PROGRAM, is_cached=False):
-                        save_block_data(provider, data, settings.FILL_MISSING_PROGRAM)
+                    if save_transaction_data(provider, data, codes.SyncType.FILL_MISSING_PROGRAM.value, is_cached=False):
+                        save_block_data(provider, data, codes.SyncType.FILL_MISSING_PROGRAM.value)
                         logger.info("sync missing block:%s" % tmp_height)
     except Exception, inst:
         print "fail to fill missing block", inst
@@ -501,6 +488,15 @@ def totalize_account_transactions():
             tx_num = provider_models.Transaction.objects.filter(Q(from_address=account.address) | Q(to_address=account.address)).count()
             account.transactions_number = tx_num
             account.save()
+        stats = provider_models.Statistics.objects.filter(identification=codes.SyncType.SYNC_PROGRAM.value).first()
+        if not stats:
+            stats = provider_models.Statistics()
+            stats.identification = codes.SyncType.SYNC_PROGRAM.value
+        txs_num = provider_models.Transaction.objects.filter().count()
+        contracts_num = provider_models.Contract.objects.filter().count()
+        stats.transactions_number = txs_num
+        stats.contracts_number = contracts_num
+        stats.save()
     except Exception, inst:
         print inst
         logger.exception("fail to totalize account transactions:%s" % str(inst))

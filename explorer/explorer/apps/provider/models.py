@@ -63,7 +63,8 @@ class CappedTransaction(Document):
 class Account(Document):
     address = StringField(max_length=128, required=True, primary_key=True)
     balance = StringField()
-    transactions_number = LongField()
+    transactions_number = LongField(default=0)
+    missing_transactions_number = LongField(default=0)
 
 
 class Validator(Document):
@@ -88,8 +89,8 @@ class Contract(Document):
 
 
 class Statistics(Document):
-    contracts_number = LongField()
-    transactions_number = LongField()
+    contracts_number = LongField(default=0)
+    transactions_number = LongField(default=0)
     block_hight = LongField()
     identification = IntField()
 

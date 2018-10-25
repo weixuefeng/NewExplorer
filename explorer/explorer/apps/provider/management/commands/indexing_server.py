@@ -11,6 +11,7 @@ import time
 
 from provider import services as provider_services
 from django.conf import settings
+from config import codes
 
 logger = logging.getLogger(__name__)
 g_queue = None
@@ -26,8 +27,8 @@ def run():
             for i in range(qsize):
                 data = g_queue.get()
                 if data:
-                    if provider_services.save_transaction_data(g_provider, data, settings.SYNC_PROGRAM):
-                        provider_services.save_block_data(g_provider, data, settings.SYNC_PROGRAM)
+                    if provider_services.save_transaction_data(g_provider, data, codes.SyncType.SYNC_PROGRAM.value):
+                        provider_services.save_block_data(g_provider, data, codes.SyncType.SYNC_PROGRAM.value)
                     del data
             time.sleep(0.1)
     except Exception, inst:

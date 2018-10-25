@@ -35,3 +35,8 @@ class BlockChainType(Enum):
 class ValueType(Enum):
     RECEIVE = 1
     SEND = 2
+
+# Identification synchronization program
+class SyncType(Enum):
+    SYNC_PROGRAM = 1
+    FILL_MISSING_PROGRAM = 2

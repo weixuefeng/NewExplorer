@@ -233,11 +233,8 @@ def api_show_blocks(request, version):
         if blocks:
             # get the last timestamp
             more_ts = blocks[-1]['time']
-        # add the total number of transactions
-        # number_of_transactions = provider_models.Transaction.objects.filter().count()
         result = {
             'blocks': blocks,
-            # 'number_of_transactions': number_of_transactions,
             'length': len(blocks),
             'pagination': {
                 "next": next_date.strftime('%Y-%m-%d'),
@@ -388,10 +385,7 @@ def api_show_transactions(request, version):
         elif addr:
             tx_objs = provider_models.Transaction.objects.filter(Q(from_address=addr) | Q(to_address=addr)).order_by('-time').max_time_ms(settings.MAX_SELERY_TIME)
             account = provider_models.Account.objects.filter(address=addr).first()
-            if account.transactions_number:
-                cnt = account.transactions_number
-            else:
-                cnt = tx_objs.count()
+            cnt = account.missing_transactions_number + account.transactions_number
             if cnt == 0:
                 total_page = 1
             else:
@@ -536,11 +530,7 @@ def api_show_addr_summary(request, version, addr):
         account = provider_models.Account.objects.filter(address=eth_addr).first()
         if account:
             # caculate the txlength
-            if account.transactions_number:
-                txlength = account.transactions_number
-            else:
-                tx_objs = provider_models.Transaction.objects.filter(Q(from_address=eth_addr) | Q(to_address=eth_addr)).max_time_ms(settings.MAX_SELERY_TIME)
-                txlength = tx_objs.count()
+            txlength = account.transactions_number + account.missing_transactions_number
             balance = account.balance
             balanceSat = int(balance) / DECIMAL_SATOSHI
             result = {
@@ -685,7 +675,7 @@ def api_show_newblock(request, version):
         if new_blocks:
             return http.JsonResponse(new_blocks)
         result = {}
-        stats = provider_models.Statistics.objects.filter(identification=settings.SYNC_PROGRAM).first()
+        stats = provider_models.Statistics.objects.filter(identification=codes.SyncType.SYNC_PROGRAM.value).first()
         if stats.block_hight:
             new_height = stats.block_hight
         else:
@@ -746,10 +736,7 @@ def api_show_client_transactions(request, version):
                     "docs": []
                 }
                 return http.JsonResponse(result)
-            if account.transactions_number:
-                cnt = account.transactions_number
-            else:
-                cnt = tx_objs.count()
+            cnt = account.transactions_number + account.missing_transactions_number
             if cnt == 0:
                 total_page = 1
             else:
@@ -810,10 +797,7 @@ def api_show_contracts_list(request, version):
         statses = provider_models.Statistics.objects.filter()
         cnt = 0
         for stats in statses:
-            if stats.contracts_number:
-                cnt += stats.contracts_number
-        if not cnt:
-            cnt = contract_objs.count()
+            cnt += stats.contracts_number
         if cnt == 0:
             total_page = 1
         else:
@@ -832,11 +816,7 @@ def api_show_contracts_list(request, version):
             balance_issac = account_obj.balance
             balance = Decimal(balance_issac) / 1000000000000000000
             contract['balance'] = balance
-            if account_obj.transactions_number:
-                tx_counts = account_obj.transactions_number
-            else:
-                tx_objs = provider_models.Transaction.objects.filter(Q(from_address=contract['contract_address']) | Q(to_address=contract['contract_address'])).max_time_ms(settings.MAX_SELERY_TIME)
-                tx_counts = tx_objs.count()
+            tx_counts = account_obj.transactions_number + account_obj.missing_transactions_number
             contract['tx_counts'] = tx_counts
             contract['contract_address'] = addr_translation.address_encode(contract['contract_address'])
             contract_list.append(contract)
@@ -862,12 +842,7 @@ def api_show_contract(request, version, contractAddr):
         balance_issac = account_obj.balance
         balance = Decimal(balance_issac) / 1000000000000000000
         contract['balance'] = balance
-
-        if account_obj.transactions_number:
-            tx_counts = account_obj.transactions_number
-        else:
-            txs = provider_models.Transaction.objects.filter(Q(from_address=contract['contract_address']) | Q(to_address=contract['contract_address'])).max_time_ms(settings.MAX_SELERY_TIME)
-            tx_counts = txs.count()
+        tx_counts = account_obj.transactions_number + account_obj.missing_transactions_number
         contract['tx_counts'] = tx_counts
         contract['contract_address'] = addr_translation.address_encode(contract['contract_address'])
         contract['creator'] = addr_translation.address_encode(contract['creator'])
@@ -881,21 +856,13 @@ def api_show_contract(request, version, contractAddr):
 
 def api_for_dashboard(request):
     try:
-        sync_stats = provider_models.Statistics.objects.filter(identification=settings.SYNC_PROGRAM).first()
-        if sync_stats.block_hight:
-            current_height = sync_stats.block_hight
-        else:
-            current_height = provider_services.get_current_height()
-        fill_stats = provider_models.Statistics.objects.filter(identification=settings.FILL_MISSING_PROGRAM).first()
+        sync_stats = provider_models.Statistics.objects.filter(identification=codes.SyncType.SYNC_PROGRAM.value).first()
+        current_height = sync_stats.block_hight
+        fill_stats = provider_models.Statistics.objects.filter(identification=codes.SyncType.FILL_MISSING_PROGRAM.value).first()
         if fill_stats:
-            if fill_stats.transactions_number:
-                total_transactions = sync_stats.transactions_number + fill_stats.transactions_number
-            else:
-                total_transactions = sync_stats.transactions_number
+            total_transactions = sync_stats.transactions_number + fill_stats.transactions_number
         else:
             total_transactions = sync_stats.transactions_number
-        if not total_transactions:
-            total_transactions = provider_models.Transaction.objects.filter().count()
         current_block = provider_models.Block.objects.order_by('-time')[0]
         tps = int(current_block.txlength) / 3
         tx = {}
@@ -917,28 +884,15 @@ def api_home_brief(request, version):
         cache_info = cache.get('brief_data')
         if cache_info:
             return http.JsonResponse(cache_info)
-        fill_stats = provider_models.Statistics.objects.filter(identification=settings.FILL_MISSING_PROGRAM).first()
-        sync_stats = provider_models.Statistics.objects.filter(identification=settings.SYNC_PROGRAM).first()
-        if sync_stats.block_hight:
-            current_height = sync_stats.block_hight
-        else:
-            current_height = provider_services.get_current_height()
+        fill_stats = provider_models.Statistics.objects.filter(identification=codes.SyncType.FILL_MISSING_PROGRAM.value).first()
+        sync_stats = provider_models.Statistics.objects.filter(identification=codes.SyncType.SYNC_PROGRAM.value).first()
+        current_height = sync_stats.block_hight
         if fill_stats:
-            if fill_stats.transactions_number:
-                total_transactions = sync_stats.transactions_number + fill_stats.transactions_number
-            else:
-                total_transactions = sync_stats.transactions_number
-            if fill_stats.contracts_number:
-                contracts = sync_stats.contracts_number + fill_stats.contracts_number
-            else:
-                contracts = sync_stats.contracts_number
+            total_transactions = sync_stats.transactions_number + fill_stats.transactions_number
+            contracts = sync_stats.contracts_number + fill_stats.contracts_number
         else:
             total_transactions = sync_stats.transactions_number
             contracts = sync_stats.contracts_number
-        if not total_transactions:
-            total_transactions = provider_models.Transaction.objects.filter().count()
-        if not contracts:
-            contracts = provider_models.Contract.objects.filter().count()
         result = {
             'blocks': current_height,
             'transactions': total_transactions,
