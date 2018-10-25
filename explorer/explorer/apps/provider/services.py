@@ -30,16 +30,10 @@ blockchain_providers = {
 
 def get_current_height(blockchain_type=codes.BlockChainType.NEWTON.value):
     try:
-        obj = provider_models.Block._get_collection().aggregate([
-            { "$group": {
-                "_id": None,
-                "height": { "$max": "$height" }
-            }}
-        ])
-        result = obj['result']
-        if not result:
+        stats = provider_models.Statistics.objects.filter(sync_type=codes.SyncType.SYNC_PROGRAM.value).first()
+        if not stats:
             return -1
-        return result[0]['height']
+        return stats.block_height
     except Exception, inst:
         print inst
         return -1
@@ -115,7 +109,7 @@ def sync_validator_data(provider, block_info, name="", url=""):
         logger.exception("fail to sync validator data:%s" % str(inst))
 
 
-def save_block_data(provider, block_info, sync_type):
+def save_block_data(provider, block_info, sync_type=codes.SyncType.SYNC_PROGRAM.value, contracts_number=0):
     """Save the block info
     """
     try:
@@ -124,12 +118,23 @@ def save_block_data(provider, block_info, sync_type):
             setattr(block_instance, k, v)
         sync_validator_data(provider, block_info)
         block_instance.save()
-        # save block height
+
+        # update stats
+        block_height = block_info['height']
+        transactions_number = block_info['txlength']
         stats = provider_models.Statistics.objects.filter(sync_type=sync_type).first()
         if not stats:
             stats = provider_models.Statistics()
             stats.sync_type = sync_type
-        stats.block_hight = block_info['height']
+        if sync_type == codes.SyncType.SYNC_PROGRAM.value:
+            stats.block_height = block_height
+        elif sync_type == codes.SyncType.FILL_MISSING_PROGRAM.value:
+            pass
+        else:
+            logger.error("unsupported sync type")
+            return False
+        stats.transactions_number += transactions_number
+        stats.contracts_number += contracts_number
         stats.save()
         return True
     except Exception, inst:
@@ -174,7 +179,7 @@ def insert_transactions_to_cache(transactions):
         return False
 
 
-def sync_account_data(provider, address_list, address_dict, sync_type):
+def sync_account_data(provider, address_list, address_dict, sync_type=codes.SyncType.SYNC_PROGRAM.value):
     """Sync the data of account
     """
     try:
@@ -189,29 +194,22 @@ def sync_account_data(provider, address_list, address_dict, sync_type):
                 instance.address = address
             instance.balance = balance
             if sync_type == codes.SyncType.SYNC_PROGRAM.value:
-                tx_number = instance.transactions_number
-                instance.transactions_number = tx_number + address_dict[address]
+                instance.transactions_number += address_dict[address]
             else:
-                tx_number = instance.missing_transactions_number
-                instance.missing_transactions_number = tx_number + address_dict[address]
+                instance.missing_transactions_number += address_dict[address]
             instance.save()
     except Exception, inst:
         logger.exception("fail to sync account data:%s" % str(inst))
 
 
-def save_transaction_data(provider, block_info, sync_type, is_cached=True):
+def save_transaction_data(provider, block_info, sync_type=codes.SyncType.SYNC_PROGRAM.value, is_cached=True):
     """Save the transaction info
     """
     try:
         transactions = []
         address_list = []
-        stats = provider_models.Statistics.objects.filter(sync_type=sync_type).first()
-        if not stats:
-            stats = provider_models.Statistics()
-            stats.sync_type = sync_type
-        # save transactions number
-        tx_number = stats.transactions_number
-        stats.transactions_number = tx_number + block_info['txlength']
+        contracts_number = 0
+
         for item in block_info['transactions']:
             tx_item = provider.parse_transaction_response(item)
             transaction_info = tx_item
@@ -224,8 +222,7 @@ def save_transaction_data(provider, block_info, sync_type, is_cached=True):
             transaction_instance.time = block_info['time']
             transaction_instance._created = True
             if not transaction_instance.to_address:
-                contracts_number = stats.contracts_number + 1
-                stats.contracts_number = contracts_number
+                contracts_number += 1
                 receipt = provider.get_transaction_receipt(txid)
                 transaction_instance.to_address = receipt['contract_address']
                 sync_contract_data(receipt, block_info['time'])
@@ -235,9 +232,9 @@ def save_transaction_data(provider, block_info, sync_type, is_cached=True):
             transactions.append(transaction_instance)
             if not transaction_info['to_address'] == transaction_info['from_address']:
                 address_list.append(transaction_info['from_address'])
+        # save transactions
         if transactions:
             provider_models.Transaction.objects.insert(transactions)
-            stats.save()
             # cache transaction
             if is_cached:
                 insert_transactions_to_cache(transactions)
@@ -245,11 +242,11 @@ def save_transaction_data(provider, block_info, sync_type, is_cached=True):
             for address in set(address_list):
                 address_dict[address] = address_list.count(address)
             sync_account_data(provider, list(set(address_list)), address_dict, sync_type)
-        return True
+        return True, contracts_number
     except Exception, inst:
         print inst
         logger.exception("fail to save transaction data:%s" % (str(inst)))
-        return False
+        return False, 0
 
 def sync_contract_data(receipt_data, time):
     """Save the contract info
@@ -337,6 +334,7 @@ def sync_blockchain(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.valu
     """Sync the blockchain info from full node to database
     """
     try:
+        sync_type = codes.SyncType.SYNC_PROGRAM.value
         provider = blockchain_providers[blockchain_type].Provider(url_prefix)
         if not from_height:
             # query the current height
@@ -353,8 +351,10 @@ def sync_blockchain(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.valu
             # get block info
             data = provider.get_block_by_height(tmp_height)
             if data:
-                if save_transaction_data(provider, data, codes.SyncType.SYNC_PROGRAM.value, is_cached=False):
-                    save_block_data(provider, data, codes.SyncType.SYNC_PROGRAM.value)
+                status = save_transaction_data(provider, data, sync_type=sync_type, is_cached=False):
+                if status[0]:
+                    contracts_number = status[1]
+                    save_block_data(provider, data, sync_type=sync_type, contracts_number=contracts_number)
             logger.info("sync_blockchain:height:%s" % tmp_height)
     except Exception, inst:
         print "fail to sync blockchain", inst
@@ -410,6 +410,7 @@ def fill_missing_block(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.v
     """Retrieve the missing blocks according to current block database
     """
     try:
+        sync_type = codes.SyncType.FILL_MISSING_PROGRAM.value
         provider = blockchain_providers[blockchain_type].Provider(url_prefix)
         # query the current height
         current_height = get_current_height(blockchain_type)
@@ -430,8 +431,10 @@ def fill_missing_block(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.v
                 if data:
                     # delete wrong data
                     provider_models.Transaction.objects.filter(blockheight=tmp_height).delete()
-                    if save_transaction_data(provider, data, codes.SyncType.FILL_MISSING_PROGRAM.value, is_cached=False):
-                        save_block_data(provider, data, codes.SyncType.FILL_MISSING_PROGRAM.value)
+                    status = save_transaction_data(provider, data, sync_type=sync_type, is_cached=False)
+                    if status[0]:
+                        contracts_number = status[1]
+                        save_block_data(provider, data, sync_type=sync_type, contracts_number=contracts_number)
                         logger.info("sync missing block:%s" % tmp_height)
     except Exception, inst:
         print "fail to fill missing block", inst
