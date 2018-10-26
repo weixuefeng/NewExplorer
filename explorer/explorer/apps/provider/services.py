@@ -500,7 +500,7 @@ def totalize_account_transactions():
             print "caculate address:", account.address
             if account.transactions_number:
                 continue
-            tx_number = provider_models.Transaction.objects.filter(Q(from_address=account.address) | Q(to_address=account.address)).count()
+            tx_number = provider_models.Address.objects.filter(address=account.address).count()
             account.transactions_number = tx_number
             account.save()
         stats = provider_models.Statistics.objects.filter(sync_type=codes.SyncType.SYNC_PROGRAM.value).first()
