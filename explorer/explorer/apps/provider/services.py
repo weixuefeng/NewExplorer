@@ -362,7 +362,7 @@ def sync_blockchain(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.valu
             # get block info
             data = provider.get_block_by_height(tmp_height)
             if data:
-                status = save_transaction_data(provider, data, sync_type=sync_type, is_cached=False)
+                status = save_transaction_data(provider, data, sync_type=sync_type)
                 if status[0]:
                     contracts_number = status[1]
                     save_block_data(provider, data, sync_type=sync_type, contracts_number=contracts_number)
