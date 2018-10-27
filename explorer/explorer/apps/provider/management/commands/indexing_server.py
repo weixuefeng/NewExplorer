@@ -28,7 +28,7 @@ def run():
             for i in range(qsize):
                 data = g_queue.get()
                 if data:
-                    status = provider_services.save_transaction_data(g_provider, data, sync_type=sync_type, is_cached=False)
+                    status = provider_services.save_transaction_data(g_provider, data, sync_type=sync_type, is_cached=True)
                     if status[0]:
                         contracts_number = status[1]
                         provider_services.save_block_data(g_provider, data, sync_type=sync_type, contracts_number=contracts_number)

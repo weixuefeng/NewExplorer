@@ -84,7 +84,7 @@ LOGGING = {
             'level': LOGGING_LEVEL,
         },
         'celery.task': {
-            'handlers': ['console', ],
+            'handlers': ['syslog', ],
             'propagate': True,
             'level': LOGGING_LEVEL,
         }
@@ -129,7 +129,7 @@ BLOCK_CHAIN_DB_NAME = 'blockchain'
 FULL_NODES = {
     'new': {
         'node_type': 3,
-        'rest_url': 'http://explorer.newtonproject.dev.diynova.com:8501',
+        'rest_url': 'https://explorer.newtonproject.org:8501',
         'ws_url': 'http://explorer.newtonproject.dev.diynova.com:8501',
     }
 }
@@ -138,3 +138,21 @@ DEFAULT_MONITOR_PORT = 8090
 CURRENT_NET = 'TestNet'
 
 CHAIN_ID = 26888
+
+# use celery save rich list data
+import djcelery
+djcelery.setup_loader()
+BROKER_URL = '%s/%s' % (REDIS_WORKER_URL, WORKER_CACHE_DB)
+CELERY_RESULT_BACKEND = '%s/%s' % (REDIS_WORKER_URL, WORKER_CACHE_DB)
+CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
+CELERYD_HIJACK_ROOT_LOGGER = False
+CELERY_IMPORTS = ('tasks.task_report',)
+
+# from celery.schedules import crontab
+# from datetime import timedelta
+# CELERYBEAT_SCHEDULE = {
+#     "execute_sync_blockchain": {
+#         "task": "tasks.task_report.execute_sync_blockchain",
+#         "schedule": crontab(minute=0, hour=16),
+#     },
+# }
