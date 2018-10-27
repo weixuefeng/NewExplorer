@@ -186,6 +186,11 @@ def insert_transactions_to_cache(transactions):
         provider_models.CappedTransaction.objects.insert(items)
         return True
     except Exception, inst:
+        # reset the capped collection
+        try:
+            init_transaction_cache()
+        except:
+            pass
         logger.exception("fail to insert transaction to cache:%s" % str(inst))
         return False
 
