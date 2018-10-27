@@ -794,6 +794,8 @@ def api_show_contracts_list(request, version):
         for contract_obj in contract_objs:
             contract = __convert_contract_to_json(contract_obj)
             account_obj = provider_models.Account.objects.filter(address=contract['contract_address']).first()
+            if not account_obj:
+                continue
             balance_issac = account_obj.balance
             balance = Decimal(balance_issac) / 1000000000000000000
             contract['balance'] = balance

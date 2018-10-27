@@ -129,7 +129,7 @@ BLOCK_CHAIN_DB_NAME = 'blockchain'
 FULL_NODES = {
     'new': {
         'node_type': 3,
-        'rest_url': 'https://explorer.newtonproject.org:8501',
+        'rest_url': 'https://us.rpc.mainnet.newtonproject.org/',
         'ws_url': 'http://explorer.newtonproject.dev.diynova.com:8501',
     }
 }
@@ -148,11 +148,11 @@ CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
 CELERYD_HIJACK_ROOT_LOGGER = False
 CELERY_IMPORTS = ('tasks.task_report',)
 
-# from celery.schedules import crontab
-# from datetime import timedelta
-# CELERYBEAT_SCHEDULE = {
-#     "execute_sync_blockchain": {
-#         "task": "tasks.task_report.execute_sync_blockchain",
-#         "schedule": crontab(minute=0, hour=16),
-#     },
-# }
+from celery.schedules import crontab
+from datetime import timedelta
+CELERYBEAT_SCHEDULE = {
+    "execute_sync_blockchain": {
+        "task": "tasks.task_report.execute_sync_blockchain",
+        'schedule': crontab(minute='*/1'),
+    },
+}
