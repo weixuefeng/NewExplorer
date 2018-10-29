@@ -137,9 +137,8 @@ DEFAULT_MONITOR_PORT = 8090
 
 CURRENT_NET = 'TestNet'
 
-CHAIN_ID = 26888
+CHAIN_ID = 16888
 
-# use celery save rich list data
 import djcelery
 djcelery.setup_loader()
 BROKER_URL = '%s/%s' % (REDIS_WORKER_URL, WORKER_CACHE_DB)
@@ -156,3 +155,5 @@ CELERYBEAT_SCHEDULE = {
         'schedule': crontab(minute='*/1'),
     },
 }
+
+COPYRIGHT_TIME = 2018

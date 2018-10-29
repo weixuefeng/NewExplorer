@@ -13,4 +13,5 @@ from django.http import HttpResponse
 from django.core.cache import cache
 
 def home(request):
-    return render(request, 'ui/public/index-template.html')
+	Copyright_time = settings.COPYRIGHT_TIME
+	return render(request, 'ui/public/index-template.html', locals())
