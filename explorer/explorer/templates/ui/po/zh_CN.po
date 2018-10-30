@@ -462,6 +462,9 @@ msgstr "智能合约发送地址"
 msgid "Block Height"
 msgstr "区块高度"
 
+msgid "Language"
+msgstr "语言"
+
 #~ msgid "Fee Rate"
 #~ msgstr "费率"
 

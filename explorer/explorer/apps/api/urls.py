@@ -21,7 +21,7 @@ urlpatterns = patterns('api.apis',
                         url(r'^addrs/(?P<addrs>[0-9a-zA-Z,]+)/txs',          'api_show_transactions_by_addresses'),
                         # new tx, block
                         url(r'^newtx',          'api_show_newtx'),
-                        url(r'^newblock',          'api_show_newblock'),
+                        # url(r'^newblock',          'api_show_newblock'),
                         # misc
                         url(r'^sync',                            'api_get_sync'),
                         url(r'^status',                          'api_get_status'),

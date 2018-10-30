@@ -39,7 +39,7 @@
 .dropdown-menu>li>a {
     color: #ffffff;
 }
-.dropdown-menu>li>a:hover {
+.dropdown-menu>li>a:Fhover {
     color: #aaa;
     background-color: transparent;
 }
@@ -720,3 +720,32 @@ table tbody tr td.table-th {
     }
 }
 
+
+.navbar-inverse .language-menu button{
+    float: right;
+    margin-top: 15px;
+    margin-right: 35px;
+}
+.navbar-inverse .language-menu .dropdown-menu{
+    float:right;
+    right: 0;
+    top: 50px;
+    left: unset;
+    margin: unset;
+    padding: unset;
+}
+.navbar-inverse .language-menu .dropdown-menu li a{
+    color: #333;
+}
+.mobile_language label{
+    font-size: 18px;
+    font-weight: unset;
+    line-height: 25px;
+    padding: 10px 15px;
+}
+.mobile_language select{
+    height: 30px;
+}
+.mobile_language span{
+    margin-right: 15px;
+}

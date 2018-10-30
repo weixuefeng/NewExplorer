@@ -28,24 +28,25 @@ angular.module('insight.system').controller('FooterController',
         name: '简体中文',
         isoCode: 'zh_CN',
     }];
-    $scope.setLanguage = function(isoCode) {
-      gettextCatalog.currentLanguage = $scope.defaultLanguage = defaultLanguage = isoCode;
-      amMoment.changeLocale(isoCode);
-      localStorage.setItem('insight-language', isoCode);
-      var expires = "";
-      var days = 365;
-      var name = 'language';
-      var value = isoCode;
-      if (days) {
-          var date = new Date();
-          date.setTime(date.getTime() + (days*24*60*60*1000));
-          expires = "; expires=" + date.toUTCString();
-      }
-      document.cookie = name + "=" + value + expires + "; path=/";
-      location.reload();  
+
+    // $scope.setLanguage = function(isoCode) {
+    //   gettextCatalog.currentLanguage = $scope.defaultLanguage = defaultLanguage = isoCode;
+    //   amMoment.changeLocale(isoCode);
+    //   localStorage.setItem('insight-language', isoCode);
+    //   var expires = "";
+    //   var days = 365;
+    //   var name = 'language';
+    //   var value = isoCode;
+    //   if (days) {
+    //       var date = new Date();
+    //       date.setTime(date.getTime() + (days*24*60*60*1000));
+    //       expires = "; expires=" + date.toUTCString();
+    //   }
+    //   document.cookie = name + "=" + value + expires + "; path=/";
+    //   location.reload();
       //var currentPageTemplate = $route.current.templateUrl;
       //$templateCache.remove(currentPageTemplate);
       //$route.reload();
-    };
+    // };
 
   });

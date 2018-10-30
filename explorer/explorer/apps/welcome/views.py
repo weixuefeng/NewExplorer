@@ -11,7 +11,18 @@ import random
 from django.conf import settings
 from django.http import HttpResponse
 from django.core.cache import cache
+from django.utils import translation
 
 def home(request):
+	language = translation.get_language()
+	for k,v in settings.SUPPORT_LANGUAGES:
+		if language == k:
+			current_language = v
+	if not current_language:
+		current_language = 'English'
+	if language.startswith('zh'):
+		is_zh = 'selected="selected"'
+	else:
+		is_en = 'selected="selected"'
 	Copyright_time = settings.COPYRIGHT_TIME
 	return render(request, 'ui/public/index-template.html', locals())

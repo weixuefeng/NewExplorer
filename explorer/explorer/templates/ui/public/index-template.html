@@ -12,8 +12,10 @@
 	    <meta name="keywords" content="newton, transactions, blocks, address, block chain, best block, mining difficulty, hash serialized" />
 	    <meta name="description" content="Newstos browser." />
 {% endverbatim %}
+        <link rel="stylesheet" href="css/bootstrap.min.css{% version %}" />
 	    <link rel="shortcut icon" href="img/icons/favicon.ico{% version %}" type="image/x-icon" />
 	    <link rel="stylesheet" href="css/main.min.css{% version %}" />
+
 {% verbatim %}
     </head>
     <body ng-cloak class="ng-cloak">
@@ -43,17 +45,68 @@
             </script>
         </div>
 	    <div id="wrap">
-		    <header class="navbar-inverse" data-ng-include="'views/includes/header.html'" role="navigation"></header>
+		    <header class="navbar-inverse" role="navigation">
+                <div class="container">
+                    <div data-ng-controller="HeaderController">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle header-menu-logo" data-toggle="collapse" data-target=".navbar-collapse" ng-click="navbarCollapsed = !navbarCollapsed; $root.fsn=!$root.fsn;$root.isCollapsed = !$root.isCollapsed">
+                                <span class="sr-only">Toggle navigation</span>
+                                <i class="iconfont toggle-nav"></i>
+                            </button>
+                            <a class="navbar-brand" href="/"></a>
+                        </div>
+                        <nav class="collapse navbar-collapse" collapse="$root.isCollapsed" style="overflow:unset;">
+                            <ul class="nav navbar-nav">
+                                <li data-ng-repeat="item in menu" ui-route="{{item.link}}" data-ng-class="{active: $uiRoute}">
+                                    <a class="color-font" href="{{item.link}}">{{item.title|translate}}</a>
+                                </li>{{item.link}}
+                                <li class="visible-sm-block visible-xs-block mobile_language">
+                                    <label for="select-input" class='select-label'>
+                                        <span translate>Language</span>
+                                        <select id="id_select_language" ng-change="changeLanguage(dateValue)" ng-model="dateValue" data-role="none">
+{% endverbatim %}
+                                            <option value="en" {{is_en}}>
+{% verbatim %}
+                                                English
+                                            </option>
+{% endverbatim %}
+                                            <option value="zh_CN" {{is_zh}}>
+{% verbatim %}
+                                                简体中文
+                                            </option>
+                                        </select>
+                                    </label>
+                                </li>
+                            </ul>
+
+                        <div class="dropdown language-drop-down hidden-xs hidden-sm language-menu">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownLanguage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+{% endverbatim %}
+                                <span>{{current_language}}</span>
+{% verbatim %}
+                                <span class="caret"></span>
+                            </button>
+
+                           <ul class="dropdown-menu" aria-labelledby="dropdownLanguage">
+                                <li>
+                                    <a href="" class="footer-language" data-ng-click="setLanguage('zh_CN');"><img src="../../img/icon-ch.svg" style="width:15px;margin-right:12px;">简体中文</a >
+                                </li>
+                                <li>
+                                    <a href="" class="footer-language" data-ng-click="setLanguage('en');"><img src="../../img/icon-English.svg" style="width:15px;margin-right:12px;">English</a >
+                                </li>
+                            </ul>
+                        </div>
+
+                        </nav>
+                    </div>
+                </div>
+            </header>
 		    <section data-ng-view></section>
         </div>
 
         <footer class="footer">
                 <div class="container" id="nav-footer" data-ng-controller="FooterController">
                     <div class="pc-line">
-                        <span class="pc-left">
-                                <a href="" class="footer-language" data-ng-click="setLanguage('zh_CN');" style="margin-right: 20px;"><img src="../../img/icon-ch.svg">简体中文</a >
-                                <a href="" class="footer-language" data-ng-click="setLanguage('en');"><img src="../../img/icon-English.svg">English</a >
-                        </span>
 {% endverbatim %}
                         <div class="pc-align-right">
                             Copyright &copy; {{ Copyright_time }} Newton Foundation. All Rights Reserved.
@@ -70,6 +123,8 @@
         <script src="js/highcharts.js{% version %}"></script>
         <script src="js/countUp.js{% version %}"></script>
 	    <script src="js/main.min.js{% version %}"></script>
+        <!-- <script src="js/bootstrap.min.js{% version %}"></script> -->
+        <!-- <script src="js/jquery-2.1.4.min.js{% version %}"></script> -->
 {% verbatim %}
     </body>
 </html>

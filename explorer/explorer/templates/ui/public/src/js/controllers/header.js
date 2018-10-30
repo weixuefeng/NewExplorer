@@ -1,7 +1,8 @@
 'use strict';
 
+
 angular.module('insight.system').controller('HeaderController',
-    function($scope, $rootScope, $modal, getSocket, Global, Block, NewBlock) {
+    function($scope, $rootScope, $modal, getSocket, gettextCatalog, amMoment, Global, Block, NewBlock) {
     $scope.global = Global;
 
     $rootScope.currency = {
@@ -36,14 +37,14 @@ angular.module('insight.system').controller('HeaderController',
     //     $scope.totalBlocks = res.height;
     //   });
     // };
-    var _getNewBlock = function() {
-        NewBlock.get({}, function(res) {
-            if (res) {
-                $scope.totalBlocks = res.height;
-            }
-        });
-    };
-    setInterval(_getNewBlock, 20 * 1000);
+    // var _getNewBlock = function() {
+    //     NewBlock.get({}, function(res) {
+    //         if (res) {
+    //             $scope.totalBlocks = res.height;
+    //         }
+    //     });
+    // };
+    // setInterval(_getNewBlock, 20 * 1000);
     /*
     var socket = getSocket($scope);
     socket.on('connect', function() {
@@ -55,5 +56,55 @@ angular.module('insight.system').controller('HeaderController',
       });
     });
     */
+    $scope.setLanguage = function(isoCode) {
+      gettextCatalog.currentLanguage = $scope.defaultLanguage = defaultLanguage = isoCode;
+      amMoment.changeLocale(isoCode);
+      localStorage.setItem('insight-language', isoCode);
+      var expires = "";
+      var days = 365;
+      var name = 'language';
+      var value = isoCode;
+      if (days) {
+          var date = new Date();
+          date.setTime(date.getTime() + (days*24*60*60*1000));
+          expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + value + expires + "; path=/";
+      location.reload();
+    };
+
+    function readCookie (name)
+    {
+        var cookieValue = "";
+        var search = name + "=";
+        if (document.cookie.length > 0)
+        {
+            offset = document.cookie.indexOf (search);
+            if (offset != -1)
+            {
+                offset += search.length;
+                end = document.cookie.indexOf (";", offset);
+                if (end == -1)
+                    end = document.cookie.length;
+                cookieValue = unescape (document.cookie.substring (offset, end))
+            }
+        }
+        else{
+          cookieValue = navigator.language;
+          if (cookieValue == 'zh-CN'){
+            return 'zh_CN';
+          }
+          else{
+            return cookieValue;
+          };
+        }
+        return cookieValue;
+    };
+    
+    $scope.dateValue = readCookie('language');
+    $scope.changeLanguage = function(language_code){
+              $scope.setLanguage(language_code);
+            };
+
     $rootScope.isCollapsed = true;
   });

@@ -91,3 +91,9 @@ angular.module('insight')
       $anchorScroll();
     });
   });
+
+
+// angular.module('insight').config(function($interpolateProvider) {
+//     $interpolateProvider.startSymbol('[[');
+//     $interpolateProvider.endSymbol(']]');
+// });
