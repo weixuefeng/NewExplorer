@@ -725,6 +725,8 @@ table tbody tr td.table-th {
     float: right;
     margin-top: 15px;
     margin-right: 35px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
 }
 .navbar-inverse .language-menu .dropdown-menu{
     float:right;
