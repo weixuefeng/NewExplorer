@@ -155,5 +155,3 @@ CELERYBEAT_SCHEDULE = {
         'schedule': crontab(minute='*/1'),
     },
 }
-
-COPYRIGHT_TIME = 2018
