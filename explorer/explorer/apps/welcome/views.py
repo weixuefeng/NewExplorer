@@ -24,5 +24,4 @@ def home(request):
 		is_zh = 'selected="selected"'
 	else:
 		is_en = 'selected="selected"'
-	Copyright_time = settings.COPYRIGHT_TIME
 	return render(request, 'ui/public/index-template.html', locals())
