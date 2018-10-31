@@ -28,8 +28,4 @@ angular.module('insight.blocks')
   .factory('BlockByHeight',
     function($resource, Api) {
       return $resource(Api.apiPrefix + '/block-index/:blockHeight');
-  })
-  .factory('NewBlock',
-    function($resource, Api) {
-      return $resource(Api.apiPrefix + '/newblock');
   });

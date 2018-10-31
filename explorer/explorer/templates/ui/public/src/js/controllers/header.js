@@ -2,7 +2,7 @@
 
 
 angular.module('insight.system').controller('HeaderController',
-    function($scope, $rootScope, $modal, getSocket, gettextCatalog, amMoment, Global, Block, NewBlock) {
+    function($scope, $rootScope, $modal, getSocket, gettextCatalog, amMoment, Global, Block) {
     $scope.global = Global;
 
     $rootScope.currency = {
