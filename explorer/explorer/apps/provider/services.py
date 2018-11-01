@@ -175,8 +175,8 @@ def insert_transactions_to_cache(transactions):
     :return: the execution status, True is success, False is fail
     :rtype: bool
     """
+    items = []
     try:
-        items = []
         for item in transactions:
             capped_instance = provider_models.CappedTransaction()
             for k in item:
@@ -189,6 +189,7 @@ def insert_transactions_to_cache(transactions):
         # reset the capped collection
         try:
             init_transaction_cache()
+            insert_transactions_to_cache(transactions)
         except:
             pass
         logger.exception("fail to insert transaction to cache:%s" % str(inst))
