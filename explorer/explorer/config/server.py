@@ -147,11 +147,10 @@ CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
 CELERYD_HIJACK_ROOT_LOGGER = False
 CELERY_IMPORTS = ('tasks.task_report',)
 
-from celery.schedules import crontab
 from datetime import timedelta
 CELERYBEAT_SCHEDULE = {
-    "execute_sync_blockchain": {
-        "task": "tasks.task_report.execute_sync_blockchain",
-        'schedule': crontab(minute='*/1'),
+    'sync-blockchain-data': {
+        'task': 'tasks.task_report.execute_sync_blockchain',
+        'schedule': timedelta(seconds=3),        
     },
 }
