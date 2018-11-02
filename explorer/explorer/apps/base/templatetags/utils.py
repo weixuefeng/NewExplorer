@@ -221,3 +221,14 @@ def show_apply_status(status):
         if k == status:
             return v
     return ''
+
+
+def show_copy_right_time():
+    try:
+        n = datetime.datetime.now()
+        return n.strftime('%Y')
+    except Exception, inst:
+        logger.exception("fail to show_copy_right_time:%s" % str(inst))
+        return ""
+
+register.simple_tag(show_copy_right_time)
