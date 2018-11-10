@@ -88,6 +88,10 @@
 }
 .navbar-inverse {
     background-color: #f5f5f5;
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 1;
 }
 .navbar-nav>li>a {
     color: #333;
@@ -113,10 +117,19 @@
         left: 0;
         margin: 3%;
     }
+    .navbar-collapse{
+        position: absolute;
+        background: #f5f5f5;
+        z-index: 1;
+        left: 0;
+        right: 0;
+        margin-top: 5%;
+        transition: all 0.1s cubic-bezier(0, -0.01, 1, 0.99) 0s;
+    }
     .navbar-collapse.in {
         height: 2000px !important;
         max-height: 2000px;
-        margin-top: 5%;
+        /*margin-top: 5%;*/
     }
 
     .fsn .toggle-nav {
@@ -397,6 +410,7 @@ table tbody tr td.table-th {
 .section-search {
     background-color: #303948;
     margin-bottom: 30px;
+    margin-top: 63px;
 }
 @media (max-width: 768px) {
     .section-search {

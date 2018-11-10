@@ -55,11 +55,11 @@
                             </button>
                             <a class="navbar-brand" href="/"></a>
                         </div>
-                        <nav class="collapse navbar-collapse" collapse="$root.isCollapsed" style="overflow:unset;">
+                        <nav class="collapse navbar-collapse" collapse="$root.isCollapsed">
                             <ul class="nav navbar-nav">
                                 <li data-ng-repeat="item in menu" ui-route="{{item.link}}" data-ng-class="{active: $uiRoute}">
                                     <a class="color-font" href="{{item.link}}">{{item.title|translate}}</a>
-                                </li>{{item.link}}
+                                </li>
                                 <li class="visible-sm-block visible-xs-block mobile_language">
                                     <label for="select-input" class='select-label'>
                                         <span translate>Language</span>
@@ -79,23 +79,23 @@
                                 </li>
                             </ul>
 
-                        <div class="dropdown language-drop-down hidden-xs hidden-sm language-menu">
-                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownLanguage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <div class="dropdown language-drop-down hidden-xs hidden-sm language-menu">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownLanguage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 {% endverbatim %}
-                                <span>{{current_language}}</span>
+                                    <span>{{current_language}}</span>
 {% verbatim %}
-                                <span class="caret"></span>
-                            </button>
+                                    <span class="caret"></span>
+                                </button>
 
-                           <ul class="dropdown-menu" aria-labelledby="dropdownLanguage">
-                                <li>
-                                    <a href="" class="header-language" data-ng-click="setLanguage('zh_CN');"><img src="../../img/icon-ch.svg" style="width:15px;margin-right:12px;">简体中文</a >
-                                </li>
-                                <li>
-                                    <a href="" class="header-language" data-ng-click="setLanguage('en');"><img src="../../img/icon-English.svg" style="width:15px;margin-right:12px;">English</a >
-                                </li>
-                            </ul>
-                        </div>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownLanguage">
+                                    <li>
+                                        <a href="" class="header-language" data-ng-click="setLanguage('zh_CN');"><img src="../../img/icon-ch.svg" style="width:15px;margin-right:12px;">简体中文</a >
+                                    </li>
+                                    <li>
+                                        <a href="" class="header-language" data-ng-click="setLanguage('en');"><img src="../../img/icon-English.svg" style="width:15px;margin-right:12px;">English</a >
+                                    </li>
+                                </ul>
+                            </div>
 
                         </nav>
                     </div>

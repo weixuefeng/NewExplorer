@@ -181,12 +181,6 @@ margin-left: 0;
 .navbar-default .navbar-brand{
     width: 100px;
     margin-right: 34px;
-    background: url(../../img/logo.svg) no-repeat center;   
-    background-size: 100px 34px;
-}
-.navbar-default .navbar-brand{
-    width: 100px;
-    margin-right: 34px;
     background:url(../../img/logo.svg) no-repeat center;
     background-size: 100px 34px;
     margin-top: 7px;
