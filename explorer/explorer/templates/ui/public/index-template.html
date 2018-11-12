@@ -19,6 +19,8 @@
 {% verbatim %}
     </head>
     <body ng-cloak class="ng-cloak">
+{% endverbatim %}
+    {% comment %}
         <div>
             <script type="text/ng-template" id="scannerModal.html">
                 <div class="modal-header">
@@ -44,6 +46,8 @@
                 </div>
             </script>
         </div>
+    {% endcomment %}
+{% verbatim %}
 	    <div id="wrap">
 		    <header class="navbar-inverse" role="navigation">
                 <div class="container">
@@ -105,15 +109,15 @@
         </div>
 
         <footer class="footer">
-                <div class="container" id="nav-footer" data-ng-controller="FooterController">
-                    <div class="pc-line">
+            <div class="container" id="nav-footer" data-ng-controller="FooterController">
+                <div class="pc-line">
 {% endverbatim %}
-                        <div class="pc-align-right">
-                            Copyright &copy; {% show_copy_right_time %} Newton Foundation. All Rights Reserved.
-                        </div>
-{% verbatim %}
+                    <div class="pc-align-right">
+                        Copyright &copy; {% show_copy_right_time %} Newton Foundation. All Rights Reserved.
                     </div>
+{% verbatim %}
                 </div>
+            </div>
         </footer>
         
 {% endverbatim %}
