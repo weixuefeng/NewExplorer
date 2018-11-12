@@ -30,6 +30,10 @@
     color: #333 !important;
 }
 
+.page-content {
+    padding-top: 63px;
+}
+
 /* dropdown */
 .dropdown-menu {
     border: 0;
@@ -127,9 +131,9 @@
         transition: all 0.1s cubic-bezier(0, -0.01, 1, 0.99) 0s;
     }
     .navbar-collapse.in {
-        height: 2000px !important;
-        max-height: 2000px;
-        /*margin-top: 5%;*/
+        height: 100% !important;
+        max-height: 1000px;
+        position: fixed;
     }
 
     .fsn .toggle-nav {
@@ -410,7 +414,6 @@ table tbody tr td.table-th {
 .section-search {
     background-color: #303948;
     margin-bottom: 30px;
-    margin-top: 63px;
 }
 @media (max-width: 768px) {
     .section-search {
