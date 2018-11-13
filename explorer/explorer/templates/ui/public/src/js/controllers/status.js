@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('insight.status').controller('StatusController',
-  function($scope, $routeParams, $location, Global, Status, Sync, getSocket) {
+  function($scope, $rootScope, $routeParams, $location, Global, Status, Sync) {
     $scope.global = Global;
+    $rootScope.fsn = false;
 
     $scope.getStatus = function(q) {
       Status.get({

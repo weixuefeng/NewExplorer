@@ -5,6 +5,7 @@ function($scope, $rootScope, $routeParams, $location, Global, Transaction, Trans
   $scope.global = Global;
   $scope.loading = false;
   $scope.loadedBy = null;
+  $rootScope.fsn = false;
 
   var pageNum = 0;
   var pagesTotal = 1;

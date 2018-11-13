@@ -4,7 +4,7 @@ var TRANSACTION_DISPLAYED = 10;
 var BLOCKS_DISPLAYED = 10;
 
 angular.module('insight.system').controller('IndexController',
-  function($scope, Global, getSocket, Blocks, NewTransactions, Brief) {
+  function($scope, $rootScope, Global, getSocket, Blocks, NewTransactions, Brief) {
       $scope.global = Global;
       var tradeNumberAnimation = null;
       var _getBlocks = function() {
@@ -70,7 +70,7 @@ angular.module('insight.system').controller('IndexController',
 
     $scope.txs = [];
     $scope.blocks = [];
-
+    $rootScope.fsn = false;
     // function createChart(response) {
     //     var data = [];
     //     var values = response.values;
@@ -130,4 +130,5 @@ angular.module('insight.system').controller('IndexController',
         ]
     };
     //createChart(data);
+
   });

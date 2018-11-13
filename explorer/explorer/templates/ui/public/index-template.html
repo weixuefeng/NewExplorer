@@ -53,7 +53,7 @@
                 <div class="container">
                     <div data-ng-controller="HeaderController">
                         <div class="navbar-header">
-                            <button type="button" class="navbar-toggle header-menu-logo" data-toggle="collapse" data-target=".navbar-collapse" ng-click="navbarCollapsed = !navbarCollapsed; $root.fsn=!$root.fsn;$root.isCollapsed = !$root.isCollapsed">
+                            <button type="button" class="navbar-toggle header-menu-logo" data-toggle="collapse" data-target=".navbar-collapse" ng-click="navbarCollapsed = !navbarCollapsed; $root.fsn=!$root.fsn; $root.isCollapsed = !$root.isCollapsed;">
                                 <span class="sr-only">Toggle navigation</span>
                                 <i class="iconfont toggle-nav"></i>
                             </button>
@@ -67,6 +67,7 @@
                                 <li class="visible-sm-block visible-xs-block mobile_language">
                                     <label for="select-input" class='select-label'>
                                         <span translate>Language</span>
+                                        <div class="mobile-language-select">
                                         <select id="id_select_language" ng-change="changeLanguage(dateValue)" ng-model="dateValue" data-role="none">
 {% endverbatim %}
                                             <option value="en" {{is_en}}>
@@ -79,6 +80,8 @@
                                                 简体中文
                                             </option>
                                         </select>
+                                        <img src="../../img/arrow-down.jpg" alt="" style="width:14px;margin-right:6px;">
+                                        </div>
                                     </label>
                                 </li>
                             </ul>
@@ -127,8 +130,18 @@
         <script src="js/highcharts.js{% version %}"></script>
         <script src="js/countUp.js{% version %}"></script>
 	    <script src="js/main.min.js{% version %}"></script>
+        <script src="js/jquery-2.1.4.min.js{% version %}"></script>
+        <script type="text/javascript">
+            // $(document).ready(
+                // alert('12312313')
+                // function remove_fsn () {
+                //     if ($('html').hasClass('fsn')) {
+                //         $('html').removeClass('fsn');
+                //     }
+                // }
+            // );
+        </script>
         <!-- <script src="js/bootstrap.min.js{% version %}"></script> -->
-        <!-- <script src="js/jquery-2.1.4.min.js{% version %}"></script> -->
 {% verbatim %}
     </body>
 </html>

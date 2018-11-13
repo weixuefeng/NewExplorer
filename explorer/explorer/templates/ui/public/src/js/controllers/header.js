@@ -107,4 +107,8 @@ angular.module('insight.system').controller('HeaderController',
             };
 
     $rootScope.isCollapsed = true;
+
+    $scope.$on('$viewContentLoaded', function() {
+            alert('1');
+    });
   });

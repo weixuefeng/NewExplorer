@@ -117,4 +117,5 @@ angular.module('insight.blocks').controller('BlocksController',
 
   $scope.params = $routeParams;
 
+  $rootScope.fsn = false;
 });

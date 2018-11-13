@@ -27,4 +27,5 @@ angular.module('insight.contracts').controller('ContractsController',
                 $scope.contract = res.contract;
             })
         };
+        $rootScope.fsn = false;
     });

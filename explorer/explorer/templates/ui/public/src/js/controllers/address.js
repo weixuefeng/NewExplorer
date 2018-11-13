@@ -78,4 +78,5 @@ angular.module('insight.address').controller('AddressController',
       return value
     }
 
+    $rootScope.fsn = false;
   });
