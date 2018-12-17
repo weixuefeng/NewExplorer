@@ -75,7 +75,9 @@
                                     <th class="table-th" translate>Height</th>
                                     <th class="text-center table-th" translate>Timestamp</th>
                                     <th class="text-center table-th"><span class="ellipsis" translate>Transactions</span></th>
+                                    <!--
                                     <th class="text-center table-th"><span class="ellipsis" translate>Validator</span></th>
+                                    -->
                                     <th class="text-right table-th" translate>Size</th>
                                 </tr>
                             </thead>
@@ -88,7 +90,9 @@
                                     <td class="table-time text-center table-th">{{b.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                                     <td style="vertical-align: middle;" class="table-th text-center">{{b.txlength}}</td>
                                     <!-- <td class="text-right"><a href="{{b.validator_url}}" title="{{b.validator_name}}" target="_blank" data-ng-show="b.validator">{{b.validator_name}}</a></td> -->
+                                    <!--
                                     <td class="text-center table-th" style="vertical-align: middle;">{{b.validator_name}}</td>
+                                    -->
                                     <td class="text-right table-th" style="vertical-align: middle;">{{b.size}}</td>
                                 </tr>
                             </tbody>
