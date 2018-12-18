@@ -19,6 +19,8 @@ class NewChainAddress(object):
         if address_data.startswith('0x'):
             address_data = address_data[2:]
         hex_chainID = hex(self.chainID)[2:]
+        if len(hex_chainID) < 4:
+            hex_chainID = '0' + hex_chainID
         num_sum = hex_chainID + address_data
         data = base58.b58encode_check(b'\0' + num_sum.decode('hex'))
         new_address = self.PREFIX + data
