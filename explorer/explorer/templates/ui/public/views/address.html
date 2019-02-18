@@ -3,7 +3,7 @@
   <div class="secondary_navbar hidden-xs hidden-sm" scroll data-ng-class="{'hidden': !secondaryNavbar}" data-ng-show="address.addrStr" data-ng-init="hideSNavbar=0">
     <div class="container" data-ng-if="!hideSNavbar">
       <div class="col-md-8 text-left">
-          <h3 translate>Address</h3> {{address.addrStr}}
+	      <h3 translate>Address</h3> {{address.addrStr}}<div ng-show="address.addrStr == 'NEW182E111111111111111111111111114FhDeS'">blackhole</div>
           <span class="btn-copy" clip-copy="address.addrStr"></span>
       </div>
       <div class="col-md-4">
