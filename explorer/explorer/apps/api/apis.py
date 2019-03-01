@@ -698,8 +698,8 @@ def api_show_client_transactions(request, version):
         if not addr:
             addr = request.GET.get('address')
         page_id = int(request.GET.get('pageNum', 1))
-        if page_id > settings.MAX_PAGE_NUM:
-            page_id = settings.MAX_PAGE_NUM
+        #if page_id > settings.MAX_PAGE_NUM:
+        #    page_id = settings.MAX_PAGE_NUM
         limit = int(request.GET.get('limit', settings.PAGE_SIZE))
         if limit > settings.PAGE_SIZE:
             limit = settings.PAGE_SIZE
