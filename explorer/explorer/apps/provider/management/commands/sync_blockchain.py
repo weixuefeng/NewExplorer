@@ -38,6 +38,16 @@ class Command(BaseCommand):
             blockchain_type=codes.BlockChainType.NEWTON.value
             url_prefix = settings.FULL_NODES['new']['rest_url']
             provider_services.fill_missing_block(url_prefix, start_height=start_height, end_height=end_height)
+        elif action == 'reindex':
+            start_height = 0
+            end_height = 0
+            if len(args) >= 2:
+                start_height = int(args[1])
+            if len(args) >= 3:
+                end_height = int(args[2])
+            blockchain_type=codes.BlockChainType.NEWTON.value
+            url_prefix = settings.FULL_NODES['new']['rest_url']
+            provider_services.reindex_block(url_prefix, start_height=start_height, end_height=end_height)
         elif action == 'totalize_account_transactions':
             provider_services.totalize_account_transactions()
         else:
@@ -46,4 +56,5 @@ class Command(BaseCommand):
     def print_usage(self):
         print "python manage.py sync_blockchain fast_sync"
         print "python manage.py sync_blockchain fill_missing [start height] [end height]"
+        print "python manage.py sync_blockchain reindex [start height] [end height]"
         print "python manage.py sync_blockchain totalize_account_transactions"

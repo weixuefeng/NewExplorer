@@ -40,3 +40,4 @@ class ValueType(Enum):
 class SyncType(Enum):
     SYNC_PROGRAM = 1
     FILL_MISSING_PROGRAM = 2
+    REINDEX_PROGRAM = 3

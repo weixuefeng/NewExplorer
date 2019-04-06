@@ -140,12 +140,12 @@ def save_block_data(provider, block_info, sync_type=codes.SyncType.SYNC_PROGRAM.
             stats.sync_type = sync_type
         if sync_type == codes.SyncType.SYNC_PROGRAM.value:
             stats.block_height = block_height
-        elif sync_type == codes.SyncType.FILL_MISSING_PROGRAM.value:
+        elif sync_type in [codes.SyncType.FILL_MISSING_PROGRAM.value, codes.SyncType.REINDEX_PROGRAM.value]:
             pass
         else:
             logger.error("unsupported sync type")
             return False
-        if sync_type == codes.SyncType.SYNC_PROGRAM.value:
+        if sync_type in [codes.SyncType.SYNC_PROGRAM.value, codes.SyncType.FILL_MISSING_PROGRAM.value]:
             stats.transactions_number += transactions_number
             stats.contracts_number += contracts_number
             stats.save()
@@ -214,7 +214,7 @@ def sync_account_data(provider, address_list, address_dict, sync_type=codes.Sync
             instance.balance = balance
             if sync_type == codes.SyncType.SYNC_PROGRAM.value:
                 instance.transactions_number += address_dict[address]
-            else:
+            elif sync_type == codes.SyncType.FILL_MISSING_PROGRAM.value:
                 instance.missing_transactions_number += address_dict[address]
             instance.save()
     except Exception, inst:
@@ -443,6 +443,41 @@ def fill_missing_block(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.v
         if end_height == 0:
             end_height = current_height
         for tmp_height in range(start_height, end_height + 1):
+            data = get_block_hash_by_height(tmp_height)
+            if not data:
+                try:
+                    data = provider.get_block_by_height(tmp_height)
+                except:
+                    pass
+                if data:
+                    # delete wrong data
+                    provider_models.Transaction.objects.filter(blockheight=tmp_height).delete()
+                    status = save_transaction_data(provider, data, sync_type=sync_type, is_cached=False)
+                    if status[0]:
+                        contracts_number = status[1]
+                        save_block_data(provider, data, sync_type=sync_type, contracts_number=contracts_number)
+                        logger.info("sync missing block:%s" % tmp_height)
+    except Exception, inst:
+        print "fail to fill missing block", inst
+        logger.exception("fail to fill missing block:%s" % str(inst))
+
+
+def reindex_block(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.value, start_height=0, end_height=0):
+    """Re-Indexing blocks according to current block database
+    """
+    try:
+        sync_type = codes.SyncType.REINDEX_PROGRAM.value
+        provider = blockchain_providers[blockchain_type].Provider(url_prefix)
+        # query the current height
+        current_height = get_current_height(blockchain_type)
+        if current_height == -1:
+            start_height = 0
+        if start_height > current_height or end_height > current_height:
+            print "error: start_height > current_height"
+            return
+        if end_height == 0:
+            end_height = current_height
+        for tmp_height in range(start_height, end_height + 1):
             data = provider.get_block_by_height(tmp_height)
             if data:
                 # delete wrong data
@@ -453,13 +488,11 @@ def fill_missing_block(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.v
                 if status[0]:
                     contracts_number = status[1]
                     save_block_data(provider, data, sync_type=sync_type, contracts_number=contracts_number)
-                    print("sync missing block:%s" % tmp_height)
-                    logger.info("sync missing block:%s" % tmp_height)
+                    logger.info("reindex block:%s" % tmp_height)
     except Exception, inst:
-        print "fail to fill missing block", inst
-        logger.exception("fail to fill missing block:%s" % str(inst))
+        logger.exception("fail to reindexing block:%s" % str(inst))
 
-    
+
 def send_transaction(rawtx, blockchain_type=codes.BlockChainType.NEWTON.value):
     """Send transaction
     
