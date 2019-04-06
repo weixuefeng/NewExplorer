@@ -23,6 +23,7 @@ from mongoengine.queryset.visitor import Q
 
 
 DECIMAL_SATOSHI = Decimal("100000000")
+CONFIRM_BLOCKS = 10
 logger = logging.getLogger(__name__)
 blockchain_providers = {
     codes.BlockChainType.NEWTON.value: provider_newton
@@ -361,6 +362,8 @@ def sync_blockchain(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.valu
         logger.info("sync_blockchain:current_height:%s" % current_height)
         # query the height of blockchain
         height = provider.get_block_height()
+        if height > CONFIRM_BLOCKS: # waiting for some blocks confirmation
+            height -= CONFIRM_BLOCKS
         if height <= current_height:
             logger.info("sync_blockchain:no new block")
             return
