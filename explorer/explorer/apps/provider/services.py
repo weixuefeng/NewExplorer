@@ -145,9 +145,10 @@ def save_block_data(provider, block_info, sync_type=codes.SyncType.SYNC_PROGRAM.
         else:
             logger.error("unsupported sync type")
             return False
-        stats.transactions_number += transactions_number
-        stats.contracts_number += contracts_number
-        stats.save()
+        if sync_type == codes.SyncType.SYNC_PROGRAM.value:
+            stats.transactions_number += transactions_number
+            stats.contracts_number += contracts_number
+            stats.save()
         return True
     except Exception, inst:
         print inst
@@ -450,11 +451,14 @@ def fill_missing_block(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.v
                     pass
                 if data:
                     # delete wrong data
+                    provider_models.Block.objects.filter(height=tmp_height).delete()
+                    provider_models.Transaction.objects.filter(txid__in=[item['hash']for item in data]).delete()
                     provider_models.Transaction.objects.filter(blockheight=tmp_height).delete()
                     status = save_transaction_data(provider, data, sync_type=sync_type, is_cached=False)
                     if status[0]:
                         contracts_number = status[1]
                         save_block_data(provider, data, sync_type=sync_type, contracts_number=contracts_number)
+                        print("sync missing block:%s" % tmp_height)
                         logger.info("sync missing block:%s" % tmp_height)
     except Exception, inst:
         print "fail to fill missing block", inst
