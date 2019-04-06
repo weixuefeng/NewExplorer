@@ -443,23 +443,18 @@ def fill_missing_block(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.v
         if end_height == 0:
             end_height = current_height
         for tmp_height in range(start_height, end_height + 1):
-            data = get_block_hash_by_height(tmp_height)
-            if not data:
-                try:
-                    data = provider.get_block_by_height(tmp_height)
-                except:
-                    pass
-                if data:
-                    # delete wrong data
-                    provider_models.Block.objects.filter(height=tmp_height).delete()
-                    provider_models.Transaction.objects.filter(txid__in=[item['hash']for item in data]).delete()
-                    provider_models.Transaction.objects.filter(blockheight=tmp_height).delete()
-                    status = save_transaction_data(provider, data, sync_type=sync_type, is_cached=False)
-                    if status[0]:
-                        contracts_number = status[1]
-                        save_block_data(provider, data, sync_type=sync_type, contracts_number=contracts_number)
-                        print("sync missing block:%s" % tmp_height)
-                        logger.info("sync missing block:%s" % tmp_height)
+            data = provider.get_block_by_height(tmp_height)
+            if data:
+                # delete wrong data
+                provider_models.Block.objects.filter(height=tmp_height).delete()
+                provider_models.Transaction.objects.filter(txid__in=[item['hash']for item in data]).delete()
+                provider_models.Transaction.objects.filter(blockheight=tmp_height).delete()
+                status = save_transaction_data(provider, data, sync_type=sync_type, is_cached=False)
+                if status[0]:
+                    contracts_number = status[1]
+                    save_block_data(provider, data, sync_type=sync_type, contracts_number=contracts_number)
+                    print("sync missing block:%s" % tmp_height)
+                    logger.info("sync missing block:%s" % tmp_height)
     except Exception, inst:
         print "fail to fill missing block", inst
         logger.exception("fail to fill missing block:%s" % str(inst))
