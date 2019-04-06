@@ -23,7 +23,7 @@ from mongoengine.queryset.visitor import Q
 
 
 DECIMAL_SATOSHI = Decimal("100000000")
-CONFIRM_BLOCKS = 10
+CONFIRM_BLOCKS = 6
 logger = logging.getLogger(__name__)
 blockchain_providers = {
     codes.BlockChainType.NEWTON.value: provider_newton
