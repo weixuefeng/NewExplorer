@@ -447,7 +447,7 @@ def fill_missing_block(url_prefix, blockchain_type=codes.BlockChainType.NEWTON.v
             if data:
                 # delete wrong data
                 provider_models.Block.objects.filter(height=tmp_height).delete()
-                provider_models.Transaction.objects.filter(txid__in=[item['hash']for item in data]).delete()
+                provider_models.Transaction.objects.filter(txid__in=[item['hash'] for item in data['transactions']]).delete()
                 provider_models.Transaction.objects.filter(blockheight=tmp_height).delete()
                 status = save_transaction_data(provider, data, sync_type=sync_type, is_cached=False)
                 if status[0]:
