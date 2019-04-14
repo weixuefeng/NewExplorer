@@ -34,17 +34,19 @@ def get_current_height(blockchain_type=codes.BlockChainType.NEWTON.value):
         stats = provider_models.Statistics.objects.filter(sync_type=codes.SyncType.SYNC_PROGRAM.value).first()
         if stats and stats.block_height:
             return stats.block_height
-        obj = provider_models.Block._get_collection().aggregate([{ "$group": {
+        rs = provider_models.Block._get_collection().aggregate([{ "$group": {
             "_id": None,
             "height": { "$max": "$height" }
             }}
         ])
-        result = obj['result']
-        if not result:
+        if not rs.alive:
             return -1
-        return result[0]['height']
+        obj = rs.next()
+        if not obj:
+            return -1
+        return obj['height']
     except Exception, inst:
-        print inst
+        print "inst:", inst
         return -1
 
 def get_current_blockhash(blockchain_type=codes.BlockChainType.NEWTON.value):
