@@ -139,7 +139,10 @@ def save_block_data(provider, block_info, sync_type=codes.SyncType.SYNC_PROGRAM.
             stats = provider_models.Statistics()
             stats.sync_type = sync_type
         if sync_type == codes.SyncType.SYNC_PROGRAM.value:
-            stats.block_height = block_height
+            if not stats.block_height and stats.block_height > block_height:
+                logger.error('block height exception:stats.block_height > block_height')
+            else:
+                stats.block_height = block_height
         elif sync_type in [codes.SyncType.FILL_MISSING_PROGRAM.value, codes.SyncType.REINDEX_PROGRAM.value]:
             pass
         else:
