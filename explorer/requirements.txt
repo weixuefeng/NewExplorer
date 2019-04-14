@@ -18,7 +18,7 @@ mccabe==0.3.1
 pep8==1.6.2
 Pillow==2.7.0
 pyflakes==0.9.2
-pymongo==2.7.1
+pymongo==3.7.2
 pysolr==3.2.0
 python-magic==0.4.6
 pytz==2015.4
