@@ -33,6 +33,10 @@ class NewChainAddress(object):
         address_data = '0x' + new_address.encode('hex')[6:]
         return address_data
 
+    def is_valid_address(self, new_address):
+        new_address = base58.b58decode_check(bytes(new_address[3:]))
+        return int(new_address.encode('hex')[:6], 16) == self.chainID
+
 
 if __name__ == "__main__":
     Adec = NewChainAddress()

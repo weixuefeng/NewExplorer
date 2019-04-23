@@ -137,7 +137,7 @@ DEFAULT_MONITOR_PORT = 8090
 
 CURRENT_NET = 'TestNet'
 
-CHAIN_ID = 88888
+CHAIN_ID = 1002
 
 import djcelery
 djcelery.setup_loader()
