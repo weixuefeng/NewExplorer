@@ -4,7 +4,7 @@
 
 __copyright__ = """ Copyright (c) 2018 Newon Foundation. All rights reserved."""
 __version__ = '1.0'
-__author__ = 'xiawu@newtonproject.org'
+__author__ = 'xiawu@zeuux.org'
 
 import logging
 import os

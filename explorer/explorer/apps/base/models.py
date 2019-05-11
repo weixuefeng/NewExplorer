@@ -2,7 +2,7 @@
 from django.db import models
 from config import codes
 
-__author__ = 'xiawu@xiawu.org'
+__author__ = 'xiawu@zeuux.org'
 __version__ = '$Rev$'
 __doc__ = """  The definition of global abstract models """
 

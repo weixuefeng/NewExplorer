@@ -4,7 +4,7 @@
 
 __copyright__ = """ Copyright (c) 2016 Beijing ShenJiangHuDong Technology Co., Ltd. All rights reserved."""
 __version__ = '1.0'
-__author__ = 'xiawu@lubangame.com'
+__author__ = 'xiawu@zeuux.org'
 
 import logging
 import json
