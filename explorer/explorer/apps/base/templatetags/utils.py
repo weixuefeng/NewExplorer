@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = 'xiawu@xiawu.org'
+__author__ = 'xiawu@zeuux.org'
 __version__ = '$Rev$'
 __doc__ = """ """
 

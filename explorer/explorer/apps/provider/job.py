@@ -5,7 +5,7 @@
 
 __copyright__ = """ Copyright (c) 2016 Newton Foundation. All rights reserved."""
 __version__ = '1.0'
-__author__ = 'xiawu@newtonproject.org'
+__author__ = 'xiawu@zeuux.org'
 
 import logging
 import time

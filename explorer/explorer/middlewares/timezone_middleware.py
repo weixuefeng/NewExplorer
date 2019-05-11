@@ -3,7 +3,7 @@ Get and set timezone information from request
 
 """
 
-__copyright__ = """ Copyright (c) 2016 Beijing ShenJiangHuDong Technology Co., Ltd. All rights reserved."""
+__copyright__ = """ Copyright (c) 2018 Newton Foundation. All rights reserved."""
 __version__ = '1.0'
 __author__ = 'liuda@lubangame.com'
 
