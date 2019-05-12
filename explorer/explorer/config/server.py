@@ -129,15 +129,15 @@ BLOCK_CHAIN_DB_NAME = 'blockchain'
 FULL_NODES = {
     'new': {
         'node_type': 3,
-        'rest_url': 'https://us.rpc.mainnet.newtonproject.org/',
-        'ws_url': 'http://explorer.newtonproject.dev.diynova.com:8501',
+        'rest_url': 'https://rpc1.newchain.newtonproject.org',
+        'ws_url': 'https://rpc1.newchain.newtonproject.org',
     }
 }
 DEFAULT_MONITOR_PORT = 8090
 
 CURRENT_NET = 'TestNet'
 
-CHAIN_ID = 1002
+CHAIN_ID = 1007
 
 import djcelery
 djcelery.setup_loader()
