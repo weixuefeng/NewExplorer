@@ -10,9 +10,9 @@
 
  - pip install -r requirements.txt
  
- - cd <project_repo>/explorer/templates/ui/
+ - cd explorer/templates/ui/
  
- - `npm install -g grunt-cli && npm run watch` # For Running Testing
+ - `npm install -g grunt-cli && npm run watch` # For Running Test
 
 ### Service Components Installing: ###
 
@@ -23,5 +23,5 @@ Install MongoDB, Redis & rabbitmq-server. The version of MongoDB is specificed w
 # Run
 
 ### Project Running： ###
- - (explorer venv_path)/bin/python manage.py celeryd -B -c 1 -s /tmp/celerybeat-schedule-explorer
+ - \<venv_path\>/bin/python manage.py celeryd -B -c 1 -s /tmp/celerybeat-schedule-explorer
  - python manage.py runserver
