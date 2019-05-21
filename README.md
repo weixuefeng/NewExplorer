@@ -1,27 +1,49 @@
-# Installation
+# NewExplorer
+Explorer of Newton Ecosystem
 
-### Project Initialize： ###
-  
- - git clone git@github.com:newtonproject/NewExplorer.git
+## Project Initialize
 
- - Create Virtual Environment：`mkvirtualenv explorer && workon explorer`
+* Create Virtual Environment：
 
- - cd NewExplorer
+```
+git clone git@github.com:newtonproject/NewExplorer.git
+cd NewExplorer && virtualenv --python=python3.6 ve && source ve/bin/activate
+```
 
- - pip install -r requirements.txt
+* Install the python library
+
+```
+cd explorer  && pip install -r requirements.txt
+```
  
- - cd explorer/templates/ui/
+ * compile the js library
+
+```
+cd explorer/explorer/templates/ui/
+npm install -g grunt-cli && npm run watch # For Running Test
+```
  
- - `npm install -g grunt-cli && npm run watch` # For Running Test
 
-### Service Components Installing: ###
+## Service Components Installation
 
-Install MongoDB, Redis & rabbitmq-server. The version of MongoDB is specificed with: `mongodb-org 3.4.20`<br/>
- - `echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list`<br/>
- - `apt -y install mongodb-org redis-server rabbitmq-server`
+* Install MongoDB, Redis & rabbitmq-server
+The version of MongoDB is specificed with: `mongodb-org 3.4.20`.
 
-# Run
+```
+echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list
+apt -y install mongodb-org redis-server rabbitmq-server
+```
+ 
+## Run
 
-### Project Running： ###
- - \<venv_path\>/bin/python manage.py celeryd -B -c 1 -s /tmp/celerybeat-schedule-explorer
- - python manage.py runserver
+* Start worker
+
+```
+cd explorer  && python manage.py celeryd -B -c 1 -s /tmp/celerybeat-schedule-explorer
+```
+
+* Start webserver
+
+```
+cd explorer  && environment/test/testing.sh
+```
