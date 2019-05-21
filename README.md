@@ -1,14 +1,23 @@
 # NewExplorer
 Explorer of Newton Ecosystem
 
+## Requirement
+- Python: 3.6
+
 ## Service Components Installation
 
 * Install MongoDB, Redis & rabbitmq-server
 The version of MongoDB is specificed with: `mongodb-org 3.4.20`.
 
+** Ubuntu
+
 ```
 echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list
 apt -y install mongodb-org redis-server rabbitmq-server
+```
+** Mac OS
+```
+brew install redis mongodb
 ```
  
 ## Project Initialize
