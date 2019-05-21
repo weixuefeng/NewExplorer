@@ -75,10 +75,10 @@ class Provider(object):
         if final_result['height'] == 0:
             final_result['validator'] = ''
             return final_result
-        validator_lib = self.load_validator_lib()
-        validator_address = self.get_validator(validator_lib, result)
-        final_result['validator'] = validator_address
-        # final_result['validator'] = ''
+        #validator_lib = self.load_validator_lib()
+        #validator_address = self.get_validator(validator_lib, result)
+        #final_result['validator'] = validator_address
+        final_result['validator'] = ''
         return final_result
 
     def get_block_by_hash(self, hash_key):
