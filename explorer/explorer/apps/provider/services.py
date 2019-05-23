@@ -208,6 +208,7 @@ def sync_account_data(provider, address_list, address_dict, sync_type=codes.Sync
     """
     try:
         result = {}
+        address_list.append(settings.NEWTAX_ADDRESS)
         for address in address_list:
             value = provider.get_balance_by_address(address)
             result[address] = value
@@ -217,10 +218,11 @@ def sync_account_data(provider, address_list, address_dict, sync_type=codes.Sync
                 instance = provider_models.Account()
                 instance.address = address
             instance.balance = balance
-            if sync_type == codes.SyncType.SYNC_PROGRAM.value:
-                instance.transactions_number += address_dict[address]
-            elif sync_type == codes.SyncType.FILL_MISSING_PROGRAM.value:
-                instance.missing_transactions_number += address_dict[address]
+            if address != settings.NEWTAX_ADDRESS:
+                if sync_type == codes.SyncType.SYNC_PROGRAM.value:
+                    instance.transactions_number += address_dict[address]
+                elif sync_type == codes.SyncType.FILL_MISSING_PROGRAM.value:
+                    instance.missing_transactions_number += address_dict[address]
             instance.save()
     except Exception, inst:
         logger.exception("fail to sync account data:%s" % str(inst))
