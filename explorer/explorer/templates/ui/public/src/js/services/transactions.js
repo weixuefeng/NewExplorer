@@ -39,6 +39,10 @@ angular.module('insight.transactions')
         contract: '@contract'
       });
   })
+  .factory('Transaction_list',
+    function($resource, Api) {
+      return $resource(Api.apiPrefix + '/trans');
+  })
   .factory('Transactions',
     function($resource, Api) {
       return $resource(Api.apiPrefix + '/txs');

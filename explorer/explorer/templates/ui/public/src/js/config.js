@@ -31,6 +31,14 @@ angular.module('insight').config(function($routeProvider) {
       templateUrl: 'views/block_list.html',
       title: 'Blocks solved '
     }).
+    when('/transactions-date/:transDate/:timezone/:startTimestamp?', {
+      templateUrl: 'views/transaction_list.html',
+      title: 'Transactions list '
+    }).
+    when('/transactions', {
+      templateUrl: 'views/transaction_list.html',
+      title: 'Transactions list today'
+    }).
     when('/address/:addrStr', {
       templateUrl: 'views/address.html',
       title: 'Address '
