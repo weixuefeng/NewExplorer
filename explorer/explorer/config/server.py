@@ -145,3 +145,6 @@ CELERYBEAT_SCHEDULE = {
         'schedule': timedelta(seconds=3),        
     },
 }
+
+# NewTax address
+NEWTAX_ADDRESS = '0x58a66b9abe75c0112f485c83ca9b12f055986ef1'
