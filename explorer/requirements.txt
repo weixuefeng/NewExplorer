@@ -39,7 +39,6 @@ numpy-stl==1.7.1
 pycrypto==2.6.1
 raven==5.10.1
 pymesh==1.0.2
-MySQL-python==1.2.5
 msgpack-python==0.4.7
 tornado==4.3
 line-profiler==1.0

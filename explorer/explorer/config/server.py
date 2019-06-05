@@ -112,15 +112,6 @@ CACHES = {
     },
 }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'explorer',
-        'USER': 'root',
-        'PASSWORD': ''
-    }
-}
-
 # Following is project settings
 MONGODB_HOST = 'localhost'
 BLOCK_CHAIN_DB_NAME = 'blockchain'

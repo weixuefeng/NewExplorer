@@ -302,6 +302,99 @@ def api_show_block_info(request, version, blockhash):
         logger.exception("fail to show block info by hash:%s" % str(inst))
         return http.HttpResponseServerError()
 
+
+def api_show_transaction_list(request, version):
+    """Show the transaction list for uri: /trasactions
+
+    response
+    -------------------
+    {
+        "trans":[
+            {
+                "txid": "0x9b2e24df970697c1bf7add69711d3114302673bf3e753b975c2bbafaf0b5b3e2"
+                "value": 1888
+                "time": 1508238076,
+            },],
+        "length":200,
+        "pagination":{
+            "next":"2017-10-18",
+            "prev":"2017-10-16",
+            "currentTs":1508284799,
+            "current":"2017-10-17",
+            "isToday":False,
+            "more":True,
+            "moreTs":1508284800}}
+    """
+    try:
+        # handle the query parameters
+        trans_date = request.GET.get('transDate')
+        start_ts = request.GET.get('startTimestamp')
+        timezone = int(request.GET.get('timezone', 0))
+        limit = int(request.GET.get('limit', settings.PAGE_SIZE))
+        if limit > settings.PAGE_SIZE:
+            limit = settings.PAGE_SIZE
+        if trans_date:
+            trans_date = datetime.datetime.strptime(trans_date, '%Y-%m-%d')
+        else:
+            today = datetime.datetime.today()
+            trans_date = datetime.datetime(today.year, today.month, today.day)
+        if start_ts:
+            start_ts = int(start_ts)
+        else:
+            start_ts = 0
+        is_today = False
+        if trans_date == datetime.datetime.today().date():
+            is_today = True
+        gmt_date = trans_date + datetime.timedelta(hours=timezone)
+        next_date = gmt_date + datetime.timedelta(days=1)
+        previous_date = gmt_date + datetime.timedelta(days=-1)
+        trans_ts = gmt_date.timetuple()
+        trans_ts = int(time.mktime(trans_ts))
+        next_date_ts = next_date.timetuple()
+        next_date_ts = int(time.mktime(next_date_ts))
+        # query db
+        if start_ts > 0:
+            rs = provider_models.Transaction.objects.filter(time__gte=trans_ts, time__lt=start_ts).order_by('-time')
+        else:
+            rs = provider_models.Transaction.objects.filter(time__gte=trans_ts, time__lt=next_date_ts).order_by('-time')
+        cnt = rs.count()
+        is_more = False
+        more_ts = trans_ts
+        if cnt > settings.PAGE_SIZE:
+            is_more = True
+        if cnt > 0:
+            rs = rs.limit(limit)
+        # output
+        trans = []
+        for items in rs:
+            item_dict = dict()
+            item_dict['txid'] = items.txid
+            item_dict['value'] = float(items.value) / 1000000000000000000
+            item_dict['time'] = items.time
+            trans.append(item_dict)
+        if trans:
+            # get the last timestamp
+            more_ts = trans[-1]['time']
+        result = {
+            'trans': trans,
+            'length': len(trans),
+            'pagination': {
+                "next": next_date.strftime('%Y-%m-%d'),
+                "prev": previous_date.strftime('%Y-%m-%d'),
+                "currentTs": trans_ts,
+                "current": trans_date.strftime('%Y-%m-%d'),
+                "isToday": is_today,
+                "more": is_more,
+                "moreTs": more_ts,
+            }
+        }
+        return http.JsonResponse(result)
+    except Exception, inst:
+        print inst
+        logger.exception("fail to show trasactions:%s" % str(inst))
+        return http.HttpResponseServerError()
+
+
 def api_show_transactions(request, version):
     """ show the transcations for uri: /txs
 
