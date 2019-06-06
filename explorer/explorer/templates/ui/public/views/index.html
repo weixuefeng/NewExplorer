@@ -116,7 +116,7 @@
                                 <thead>
                                     <tr>
                                         <th class="table-th" translate>Transaction ID</th>
-                                        <th class="table-th text-left" translate>Timestamp</th>
+                                        <th class="table-th text-center" translate>Timestamp</th>
                                         <th class="table-th text-right" translate>Value</th>
                                     </tr>
                                 </thead>
@@ -126,14 +126,14 @@
                                         <td class="table-th">
                                             <a href="tx/{{tx.txid}}">{{tx.txid}}</a>
                                         </td>
-                                        <td class="table-th text-left">{{tx.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                        <td class="table-th text-center">{{tx.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                                         <td class="table-th text-right">{{tx.value}} NEW</td>
                                     </tr>
                                     <tr class="fader visible-xs visible-sm" data-ng-repeat='tx in txs'>
                                         <td class="table-th" style="max-width: 100px">
                                             <a class="ellipsis" href="tx/{{tx.txid}}">{{tx.txid}}</a>
                                         </td>
-                                        <td class="table-th text-left">{{tx.time * 1000 | date:'HH:mm:ss'}}</td>
+                                        <td class="table-th text-center">{{tx.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                                         <td class="table-th text-right">{{tx.value}} NEW</td>
                                     </tr>
                                 </tbody>
