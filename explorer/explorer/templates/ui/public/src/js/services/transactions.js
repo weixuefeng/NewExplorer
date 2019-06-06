@@ -41,7 +41,7 @@ angular.module('insight.transactions')
   })
   .factory('Transaction_list',
     function($resource, Api) {
-      return $resource(Api.apiPrefix + '/trans');
+      return $resource(Api.apiPrefix + '/txs/all');
   })
   .factory('Transactions',
     function($resource, Api) {
