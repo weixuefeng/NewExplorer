@@ -11,7 +11,7 @@ urlpatterns = patterns('api.apis',
                         url(r'^block-index/(?P<height>[0-9]+)', 'api_show_block_info_by_height'),
                         url(r'^block/(?P<blockhash>[0-9a-z]+)', 'api_show_block_info'),
                         # transaction
-                        url(r'^trans', 'api_show_transaction_list'),
+                        url(r'^txs/all$', 'api_show_transaction_list'),
                         url(r'^txs',                             'api_show_transactions'),
                         url(r'^tx/send',          'api_send_transcation'),
                         url(r'^tx/(?P<txid>[0-9a-z]+)',          'api_show_transaction'),
