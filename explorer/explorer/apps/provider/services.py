@@ -9,6 +9,7 @@ import time
 import logging
 import threading
 import math
+import copy
 
 from mongoengine import connect
 from django.conf import settings
