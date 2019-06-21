@@ -208,8 +208,9 @@ def sync_account_data(provider, address_list, address_dict, sync_type=codes.Sync
     """
     try:
         result = {}
-        address_list.append(settings.NEWTAX_ADDRESS)
-        for address in address_list:
+        all_address_list = copy.deepcopy(address_list)
+        all_address_list.extend(settings.MONITOR_CONTRACT_LIST)
+        for address in all_address_list:
             value = provider.get_balance_by_address(address)
             result[address] = value
         for address,balance in result.items():
@@ -218,7 +219,7 @@ def sync_account_data(provider, address_list, address_dict, sync_type=codes.Sync
                 instance = provider_models.Account()
                 instance.address = address
             instance.balance = balance
-            if address != settings.NEWTAX_ADDRESS:
+            if ((address in settings.MONITOR_CONTRACT_LIST) and (address in settings.MONITOR_CONTRACT_LIST)) or ((address not in settings.MONITOR_CONTRACT_LIST) and (address in address_list)):
                 if sync_type == codes.SyncType.SYNC_PROGRAM.value:
                     instance.transactions_number += address_dict[address]
                 elif sync_type == codes.SyncType.FILL_MISSING_PROGRAM.value:
