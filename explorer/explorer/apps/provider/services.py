@@ -219,7 +219,7 @@ def sync_account_data(provider, address_list, address_dict, sync_type=codes.Sync
                 instance = provider_models.Account()
                 instance.address = address
             instance.balance = balance
-            if ((address in settings.MONITOR_CONTRACT_LIST) and (address in settings.MONITOR_CONTRACT_LIST)) or ((address not in settings.MONITOR_CONTRACT_LIST) and (address in address_list)):
+            if ((address in settings.MONITOR_CONTRACT_LIST) and (address in address_list)) or ((address not in settings.MONITOR_CONTRACT_LIST) and (address in address_list)):
                 if sync_type == codes.SyncType.SYNC_PROGRAM.value:
                     instance.transactions_number += address_dict[address]
                 elif sync_type == codes.SyncType.FILL_MISSING_PROGRAM.value:
