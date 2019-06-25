@@ -87,6 +87,16 @@
         <span data-ng-show="tx.confirmations">{{tx.confirmations}}</span>
       </td>
     </tr>
+    <tr data-ng-if="tx.is_internal_list">
+      <td class="key">
+        <strong translate>Internal Transaction :</strong>
+      </td>
+      <td class="value text-right">
+        <a href="tx/{{tx.txid}}/#internal-transaction-detail">
+          <span translate>Detail</span>
+        </a>
+      </td>
+    </tr>
     </tbody>
   </table>
   </div>

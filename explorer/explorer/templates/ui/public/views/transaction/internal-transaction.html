@@ -1,0 +1,67 @@
+<div class="tx-list container" data-ng-hide="!tx">
+  <div class="summary-table table-responsive" style="margin-top:20px">
+  <table class="table" style="table-layout:fixed;">
+    <tbody>
+    <tr>
+      <td class="key" style="border-top:unset">
+        <strong translate>Transaction ID :</strong>
+      </td>
+      <td class="value text-right ellipsis" style="border-top:unset">
+        <a href="tx/{{tx.internal_txid}}">{{tx.internal_txid}}</a>
+      </td>
+    </tr>
+    <tr data-ng-if="!tx.internal_from_contract">
+      <td class="key">
+        <strong translate>From Address :</strong>
+      </td>
+      <td class="value text-right ellipsis">
+        <span><a href="address/{{ tx.internal_contract_address }}">{{ tx.internal_contract_address }}</a></span>
+      </td>
+    </tr>
+    <tr data-ng-if="tx.internal_from_contract">
+      <td class="key">
+        <strong translate>From Contract Address :</strong>
+      </td>
+      <td class="value text-right ellipsis">
+        <span><a href="contract/{{ tx.internal_contract_address }}">{{ tx.internal_contract_address }}</a></span>
+      </td>
+    </tr>
+    <tr data-ng-if="!tx.internal_to_contract">
+      <td class="key">
+        <strong translate>To Address :</strong>
+      </td>
+      <td class="value text-right ellipsis">
+        <span><a href="address/{{ tx.internal_to_address }}">{{ tx.internal_to_address }}</a></span>
+      </td>
+    </tr>
+    <tr data-ng-if="tx.internal_to_contract">
+      <td class="key">
+        <strong translate>To Contract Address :</strong>
+      </td>
+      <td class="value text-right ellipsis">
+        <span><a href="contract/{{ tx.internal_to_address }}">{{ tx.internal_to_address }}</a></span>
+      </td>
+    </tr>
+    <tr>
+      <td class="key">
+        <strong translate>Value :</strong>
+      </td>
+      <td class="value text-right">
+        <span>{{ tx.internal_value }} NEW</span>
+      </td>
+    </tr>
+    <tr>
+<!--      <div data-ng-show="tx.blocktime && !tx.firstSeenTs">-->
+      <td class="key">
+        <strong translate>Transaction Time :</strong>
+      </td>
+      <td class="value text-right">
+        <time>{{tx.internal_time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</time>
+      </td>
+    </div>
+    </tr>
+    </tr>
+    </tbody>
+  </table>
+  </div>
+</div>

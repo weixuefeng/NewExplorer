@@ -503,6 +503,12 @@ def api_show_transactions(request, version):
             item['value'] = value
             final_fees = item['fees'] * item['fees_price']
             item['fees'] = final_fees
+            item['is_internal'] = False
+            internal_obj = provider_models.InternalTransaction.objects.filter(txid=item['txid']).first()
+            if internal_obj:
+                item['is_internal_list'] = True
+            else:
+                item['is_internal_list'] = False
             txs.append(item)
         result = {
             "pagesTotal": total_page,
@@ -513,6 +519,56 @@ def api_show_transactions(request, version):
         print inst
         logger.exception("fail to show transactions:%s" % str(inst))
         return http.HttpResponseServerError()
+
+
+def get_internal_transaction_info(txid):
+    """ show the internal transactions for url: /internal
+
+    response
+    -------
+    {
+        "is_internal": True,
+        "internal_info": {
+            "from_contract": True,
+            "to_contract": True,
+            "contract_address": "NEW17xJKkRcaXhG9G51b5iy8vs37AVsTw9XPgGw",
+            "txid": "0x98aea2855d2d37d8a6fb86279da791bd52a619d49eeb43e5d1e2d6141e6da427",
+            "to_address": "NEW17xVxeVgdvwZ3Xoc84urTHwKoBVTR3Ai2Fxu",
+            "value": Decimal(1),
+            "time": 1561466541,
+        }
+    }
+    """
+    try:
+        obj = provider_models.InternalTransaction.objects.filter(txid=txid).first()
+        res = {}
+        if obj:
+            res['is_internal'] = True
+            internal_info = {}
+            from_contract_obj = provider_models.Contract.objects.filter(contract_address=obj.contract_address)
+            to_contract_obj = provider_models.Contract.objects.filter(contract_address=obj.to_address)
+            if from_contract_obj:
+                internal_info['from_contract'] = True
+            else:
+                internal_info['from_contract'] = False
+            if to_contract_obj:
+                internal_info['to_contract'] = True
+            else:
+                internal_info['to_contract'] = False
+            internal_info['contract_address'] = addr_translation.address_encode(obj.contract_address)
+            internal_info['txid'] = txid
+            internal_info['to_address'] = addr_translation.address_encode(obj.to_address)
+            internal_info['value'] = Decimal(obj.value) / DECIMAL_SATOSHI
+            internal_info['time'] = obj.time
+            res['internal_info'] = internal_info
+        else:
+            res['is_internal'] = False
+        return res
+    except Exception, inst:
+        print inst
+        logger.exception("fail to show transactions:%s" % str(inst))
+        return http.HttpResponseServerError()
+
 
 def api_show_transaction(request, version, txid):
     """ show the transcation for uri: /tx
@@ -577,6 +633,19 @@ def api_show_transaction(request, version, txid):
             result['value'] = value
             final_fees = result['fees'] * result['fees_price']
             result['fees'] = final_fees
+            res = get_internal_transaction_info(txid)
+            if res['is_internal']:
+                result['is_internal'] = True
+                internal_info = res['internal_info']
+                result['internal_from_contract'] = internal_info['from_contract']
+                result['internal_to_contract'] = internal_info['to_contract']
+                result['internal_contract_address'] = internal_info['contract_address']
+                result['internal_txid'] = internal_info['txid']
+                result['internal_to_address'] = internal_info['to_address']
+                result['internal_value'] = internal_info['value']
+                result['internal_time'] = internal_info['time']
+            else:
+                result['is_internal'] = False
             return http.JsonResponse(result)
         else:
             return http.HttpResponseNotFound()
