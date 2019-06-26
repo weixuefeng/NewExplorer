@@ -103,5 +103,10 @@ class InternalTransaction(Document):
     time = IntField()
     meta = { 'indexes': ['contract_address', 'txid']}
 
+
+class UpdateQueue(Document):
+    address = StringField(max_length=128, required=True)
+    meta = { 'indexes': ['address', ]}
+
 # init the connection
 connect(settings.BLOCK_CHAIN_DB_NAME, host=settings.MONGODB_HOST)
