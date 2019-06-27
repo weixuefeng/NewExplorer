@@ -38,11 +38,14 @@ angular.module('insight.address').controller('AddressController',
       //_startSocket();
 
       Address.get({
-          addrStr: $routeParams.addrStr
+          addrStr: $routeParams.addrStr,
+          type: $routeParams.type
         },
         function(address) {
           $rootScope.titleDetail = address.addrStr.substring(0, 7) + '...';
           $rootScope.flashMessage = null;
+          $scope.is_internal = address.is_internal;
+          $scope.has_internal = address.has_internal;
           $scope.address = address;
           $scope.address.totalReceived = scientificToNumber($scope.address.totalReceived,$scope.address.totalReceivedSat)
           $scope.address.totalSent = scientificToNumber($scope.address.totalSent,$scope.address.totalSentSat)
