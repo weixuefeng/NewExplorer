@@ -15,7 +15,7 @@
         <strong translate>From Address :</strong>
       </td>
       <td class="value text-right ellipsis">
-        <span><a href="address/{{ tx.from_addr }}">{{ tx.from_addr }}</a></span>
+        <span><a href="address/{{ tx.contract_address }}">{{ tx.contract_address }}</a></span>
       </td>
     </tr>
     <tr data-ng-if="tx.from_contract">
@@ -23,7 +23,7 @@
         <strong translate>From Contract Address :</strong>
       </td>
       <td class="value text-right ellipsis">
-        <span><a href="contract/{{ tx.from_addr }}">{{ tx.from_addr }}</a></span>
+        <span><a href="contract/{{ tx.contract_address }}">{{ tx.contract_address }}</a></span>
       </td>
     </tr>
     <tr data-ng-if="!tx.to_contract">
@@ -31,7 +31,7 @@
         <strong translate>To Address :</strong>
       </td>
       <td class="value text-right ellipsis">
-        <span><a href="address/{{ tx.to_addr }}">{{ tx.to_addr }}</a></span>
+        <span><a href="address/{{ tx.to_address }}">{{ tx.to_address }}</a></span>
       </td>
     </tr>
     <tr data-ng-if="tx.to_contract">
@@ -39,7 +39,7 @@
         <strong translate>To Contract Address :</strong>
       </td>
       <td class="value text-right ellipsis">
-        <span><a href="contract/{{ tx.to_addr }}">{{ tx.to_addr }}</a></span>
+        <span><a href="contract/{{ tx.to_address }}">{{ tx.to_address }}</a></span>
       </td>
     </tr>
     <tr>
@@ -51,50 +51,12 @@
       </td>
     </tr>
     <tr>
-      <div data-ng-show="tx.blocktime && !tx.firstSeenTs">
+<!--      <div data-ng-show="tx.blocktime && !tx.firstSeenTs">-->
       <td class="key">
         <strong translate>Transaction Time :</strong>
       </td>
       <td class="value text-right">
         <time>{{tx.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</time>
-      </td>
-    </div>
-    </tr>
-    <tr>
-      <div class="well well-sm ellipsis transaction-block" data-ng-if="itemsExpanded && !block.hash && tx.blockhash">
-      <td class="key">
-        <strong translate>Included in Block :</strong>
-      </td>
-      <td class="value text-right ellipsis">
-          <a href="block/{{tx.blockhash}}">{{tx.blockhash}}</a>
-          <span class="btn-copy" clip-copy="tx.blockhash"></span>
-      </td>
-      </div>
-    </tr>
-    <tr>
-      <td class="key">
-        <strong translate>Fee :</strong>
-      </td>
-      <td class="value text-right">
-        <span data-ng-show="!tx.isCoinBase &&  !isNaN(parseFloat(tx.fees))">{{tx.fees}} ISSAC</span>
-      </td>
-    </tr>
-    <tr>
-      <td class="key">
-        <strong translate>Confirmations :</strong>
-      </td>
-      <td class="value text-right">
-        <span data-ng-show="tx.confirmations">{{tx.confirmations}}</span>
-      </td>
-    </tr>
-    <tr data-ng-if="tx.is_internal_list">
-      <td class="key">
-        <strong translate>Internal Transaction :</strong>
-      </td>
-      <td class="value text-right">
-        <a href="tx/{{tx.txid}}/#internal-transaction-detail">
-          <span translate>View details</span>
-        </a>
       </td>
     </tr>
     </tbody>

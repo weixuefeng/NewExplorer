@@ -127,6 +127,7 @@ function($scope, $rootScope, $routeParams, $location, Global, Transaction, Trans
   var _byAddress = function () {
     TransactionsByAddress.get({
       address: $routeParams.addrStr,
+      type: $routeParams.type,
       pageNum: pageNum
     }, function(data) {
       _paginate(data);
@@ -144,7 +145,7 @@ function($scope, $rootScope, $routeParams, $location, Global, Transaction, Trans
 
   var _findTx = function(txid) {
     Transaction.get({
-      txId: txid
+      txId: txid,
     }, function(tx) {
       $rootScope.titleDetail = tx.txid.substring(0,7) + '...';
       $rootScope.flashMessage = null;

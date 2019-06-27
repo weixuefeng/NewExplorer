@@ -94,5 +94,19 @@ class Statistics(Document):
     block_height = LongField()
     sync_type = IntField()
 
+
+class InternalTransaction(Document):
+    contract_address = StringField(max_length=128, required=True)
+    txid = StringField(max_length=128, required=True)
+    to_address = StringField(max_length=128, required=True)
+    value = StringField(max_length=128, required=True)
+    time = IntField()
+    meta = { 'indexes': ['contract_address', 'txid']}
+
+
+class UpdateQueue(Document):
+    address = StringField(max_length=128, required=True)
+    meta = { 'indexes': ['address', ]}
+
 # init the connection
 connect(settings.BLOCK_CHAIN_DB_NAME, host=settings.MONGODB_HOST)

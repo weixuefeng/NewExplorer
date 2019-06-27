@@ -210,7 +210,11 @@ def sync_account_data(provider, address_list, address_dict, sync_type=codes.Sync
     try:
         result = {}
         all_address_list = copy.deepcopy(address_list)
-        all_address_list.extend(settings.MONITOR_CONTRACT_LIST)
+        monitor_list = []
+        monitor_list.extend(settings.MONITOR_CONTRACT_LIST)
+        monitor_list.extend([item.address for item in provider_models.UpdateQueue.objects.all()])
+        monitor_list = list(set(monitor_list))
+        all_address_list.extend(monitor_list)
         for address in all_address_list:
             value = provider.get_balance_by_address(address)
             result[address] = value
@@ -220,12 +224,14 @@ def sync_account_data(provider, address_list, address_dict, sync_type=codes.Sync
                 instance = provider_models.Account()
                 instance.address = address
             instance.balance = balance
-            if ((address in settings.MONITOR_CONTRACT_LIST) and (address in address_list)) or ((address not in settings.MONITOR_CONTRACT_LIST) and (address in address_list)):
+            if ((address in monitor_list) and (address in address_list)) or ((address not in monitor_list) and (address in address_list)):
                 if sync_type == codes.SyncType.SYNC_PROGRAM.value:
                     instance.transactions_number += address_dict[address]
                 elif sync_type == codes.SyncType.FILL_MISSING_PROGRAM.value:
                     instance.missing_transactions_number += address_dict[address]
             instance.save()
+        # clear the address queue
+        provider_models.UpdateQueue.objects.filter(address__in=monitor_list).delete()
     except Exception, inst:
         logger.exception("fail to sync account data:%s" % str(inst))
 
