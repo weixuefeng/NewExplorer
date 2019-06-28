@@ -100,8 +100,9 @@ class InternalTransaction(Document):
     txid = StringField(max_length=128, required=True)
     to_address = StringField(max_length=128, required=True)
     value = StringField(max_length=128, required=True)
+    seq_id = IntField(required=False)
     time = IntField()
-    meta = { 'indexes': ['contract_address', 'txid']}
+    meta = { 'indexes': [('contract_address', 'txid', 'seq_id'), 'contract_address', 'txid', 'to_address']}
 
 
 class UpdateQueue(Document):
