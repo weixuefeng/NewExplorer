@@ -39,6 +39,10 @@ angular.module('insight').config(function($routeProvider) {
       templateUrl: 'views/transaction_list.html',
       title: 'Transactions list today'
     }).
+    when('/address/page/:pageNum', {
+      templateUrl: 'views/accounts.html',
+      title: 'Accounts '
+    }).
     when('/address/:addrStr/:type', {
       templateUrl: 'views/address.html',
       title: 'Address '
@@ -70,10 +74,6 @@ angular.module('insight').config(function($routeProvider) {
     when('/address', {
     templateUrl: 'views/accounts.html',
     title: 'Accounts '
-    }).
-    when('/address/:pageNum', {
-      templateUrl: 'views/accounts.html',
-      title: 'Accounts '
     }).
     when('/contract/:contractAddr', {
       templateUrl: 'views/contract.html',

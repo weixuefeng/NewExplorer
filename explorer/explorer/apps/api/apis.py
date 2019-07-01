@@ -19,6 +19,7 @@ from provider import services as provider_services
 DECIMAL_SATOSHI = Decimal("1000000000000000000")
 from utils import newchain_tools
 import datetime
+from pymongo import MongoClient
 from mongoengine.queryset.visitor import Q
 
 addr_translation = newchain_tools.NewChainAddress()
@@ -690,7 +691,7 @@ def api_show_transaction(request, version, txid):
         logger.exception("fail to show transaction:%s" % str(inst))
         return http.HttpResponseServerError()
 
-from pymongo import MongoClient, DESCENDING
+
 def api_show_top_accounts(request, version):
     """ show the accounts ordered by balance descending
 

@@ -1,0 +1,66 @@
+<div data-ng-include src="'views/includes/connection.html'"></div>
+<section data-ng-controller="AddressController" data-ng-init="findAccount()" class="blocks-body">
+    <div class="blocks-page-upper container">
+        <div class="blocks-page-header">
+            <h1 class="text-center">
+                <span class="blocks-title" translate>Address</span>
+                <!-- <small><span translate>by date.</span> {{detail}} {{before}}</small> -->
+            </h1>
+        </div>
+        <div class="row  block-calendar">
+            <div class="col-md-12">
+                <div>
+                    <p class="text-center m20v">
+                        <div class="calendar-btn text-center">
+                            <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" href="/address"><small translate>First</small></a>
+                    <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" href="/address/page/{{ current_page - 1 }}"><small>&larr; <span translate>Previous</span></small></a>
+                    <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" href="/address/page/{{ current_page + 1 }}"><small><span translate>Next</span> &rarr;</small></a>
+                            <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" href="/address/page/{{ total_page }}"><small translate>End</small></a>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="blocks-page-lower container">
+        <div class="panel panel-default blocks-table">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th class="table-title blocks-table-header text-center" translate>Rank</th>
+                        <th class="table-title blocks-table-header text-center" translate>Address</th>
+                        <th class="table-title blocks-table-header text-center" translate>Txn Count</th>
+                        <th class="table-title blocks-table-header text-right" translate>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-show="loading">
+                        <td colspan="5"><span translate>Waiting for addresses...</span> <span class="loader-gif"></span></td>
+                    </tr>
+                    <tr class="table-cell fader hidden-xs hidden-sm" data-ng-repeat='b in accounts'>
+                        <td class="table-del-border ph-table text-center">{{ b.rank }}</td>
+                        <td class="table-height ph-table table-del-border text-center"><a class="ellipsis" href="/address/{{b.address}}">{{b.address}}</a></td>
+                        <td class="table-time text-center ph-table table-del-border">{{b.txn_count}}</td>
+                        <td class="table-time ph-table table-del-border text-right">{{b.balance}} NEW</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row  block-calendar">
+            <div class="col-md-12">
+                <div>
+                    <p class="text-center m20v">
+                        <div class="calendar-btn text-center">
+                            <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" href="/address"><small translate>First</small></a>
+                            <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" href="/address/page/{{ current_page - 1 }}"><small>&larr; <span translate>Previous</span></small></a>
+                            <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" href="/address/page/{{ current_page + 1 }}"><small><span translate>Next</span> &rarr;</small></a>
+                            <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" href="/address/page/{{ total_page }}"><small translate>End</small></a>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
