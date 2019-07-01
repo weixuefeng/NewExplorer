@@ -719,8 +719,11 @@ def api_show_top_accounts(request, version):
             limit = int(request.GET.get('limit', settings.PAGE_SIZE))
             if limit > settings.PAGE_SIZE:
                 limit = settings.PAGE_SIZE
-            mongo_list = settings.MONGODB_HOST.split(":")            #split MONGODB_HOST to host and port
-            client = MongoClient(mongo_list[0], int(mongo_list[1]))
+            if ":" in settings.MONGODB_HOST:
+                mongo_list = settings.MONGODB_HOST.split(":")            #split MONGODB_HOST to host and port
+                client = MongoClient(mongo_list[0], int(mongo_list[1]))
+            else:
+                client = MongoClient(host=settings.MONGODB_HOST)
             db = client[settings.BLOCK_CHAIN_DB_NAME]
             collection = db['account']
             objs = collection.find({}).collation({"locale": "en", "numericOrdering": True}).sort([("balance", -1), ("transactions_number", -1)])
