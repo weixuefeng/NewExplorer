@@ -722,7 +722,7 @@ def api_show_top_accounts(request, version):
             client = MongoClient(mongo_list[0], int(mongo_list[1]))
             db = client[settings.BLOCK_CHAIN_DB_NAME]
             collection = db['account']
-            objs = collection.find({}).collation({"locale": "en", "numericOrdering": True}).sort([("balance", -1)])
+            objs = collection.find({}).collation({"locale": "en", "numericOrdering": True}).sort([("balance", -1), ("transactions_number", -1)])
             # objs = provider_models.Account.objects.order_by('-balance').max_time_ms(settings.MAX_SELERY_TIME)
             if objs:
                 cnt = objs.count()
