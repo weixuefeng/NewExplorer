@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('insight.address').controller('AddressController',
-  function($scope, $rootScope, $routeParams, $location, Global, Address, getSocket) {
+  function($scope, $rootScope, $routeParams, $location, Global, Address, Accounts, getSocket) {
     $scope.global = Global;
 
     //var socket = getSocket($scope);
@@ -32,11 +32,27 @@ angular.module('insight.address').controller('AddressController',
     });
     */
     $scope.params = $routeParams;
-
+    $scope.findAccount = function() {
+        Accounts.get({
+          pageNum: $routeParams.pageNum
+        },
+        function(res) {
+          if (res.error === 'large') {
+              $location.path('/accounts/' + res.total_page);
+          } else if (res.error === 'small') {
+              $location.path('/accounts');
+          } else {
+              $scope.loading = false;
+              $scope.accounts = res.account_list;
+              $scope.total_page = res.total_page;
+              $scope.current_page = res.current_page;
+          }
+        }
+       );
+    };
     $scope.findOne = function() {
       $rootScope.currentAddr = $routeParams.addrStr;
       //_startSocket();
-
       Address.get({
           addrStr: $routeParams.addrStr,
           type: $routeParams.type

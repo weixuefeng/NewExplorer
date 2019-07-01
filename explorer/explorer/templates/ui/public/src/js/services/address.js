@@ -19,6 +19,10 @@ angular.module('insight.address').factory('Address',
       }
     }
   });
+})
+.factory('Accounts',
+    function($resource, Api) {
+      return $resource(Api.apiPrefix + '/accounts');
 });
 
  
