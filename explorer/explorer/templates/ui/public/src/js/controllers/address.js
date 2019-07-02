@@ -33,22 +33,29 @@ angular.module('insight.address').controller('AddressController',
     */
     $scope.params = $routeParams;
     $scope.findAccount = function() {
+        $rootScope.flashMessage = '';
+        $scope.page = $routeParams.pageNum;
+        $scope.r = /^[1-9]d*$/;
+        $scope.flag = $scope.r.test($scope.page);
+        if (!$scope.flag) {
+            $rootScope.flashMessage = 'Page number should be positive interger';
+            $location.path('/address');
+        }
         Accounts.get({
           pageNum: $routeParams.pageNum
         },
         function(res) {
-          if (res.error === 'large') {
-              $location.path('/accounts/' + res.total_page);
-          } else if (res.error === 'small') {
-              $location.path('/accounts');
-          } else {
-              $scope.loading = false;
-              $scope.accounts = res.account_list;
-              $scope.total_page = res.total_page;
-              $scope.current_page = res.current_page;
-              $scope.total_addresses = res.total_addresses;
-              $scope.total_transactions = res.total_transactions;
-          }
+            if (res.error_message) {
+                $rootScope.flashMessage = 'Page number is too large';
+                $location.path('/address/page/' + res.result.total_page);
+            } else {
+                $scope.loading = false;
+                $scope.accounts = res.account_list;
+                $scope.total_page = res.total_page;
+                $scope.current_page = res.current_page;
+                $scope.total_addresses = res.total_addresses;
+                $scope.total_transactions = res.total_transactions;
+            }
         }
        );
     };

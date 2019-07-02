@@ -700,6 +700,8 @@ def api_show_top_accounts(request, version):
     {
         "total_page": 1,
         "current_page": 1,
+        "total_addresses": 210000,
+        "total_transactions": 32600,
         "account_list": [
             {
                 "rank": 1,
@@ -713,52 +715,49 @@ def api_show_top_accounts(request, version):
     try:
         page_id = int(request.GET.get('pageNum', 1))
         res = {}
-        if page_id > 0:
-            # if page_id > settings.MAX_PAGE_NUM:
-            #     page_id = settings.MAX_PAGE_NUM
-            limit = int(request.GET.get('limit', settings.PAGE_SIZE))
-            if limit > settings.PAGE_SIZE:
-                limit = settings.PAGE_SIZE
-            if ":" in settings.MONGODB_HOST:
-                mongo_list = settings.MONGODB_HOST.split(":")            #split MONGODB_HOST to host and port
-                client = MongoClient(mongo_list[0], int(mongo_list[1]))
-            else:
-                client = MongoClient(host=settings.MONGODB_HOST)
-            db = client[settings.BLOCK_CHAIN_DB_NAME]
-            collection = db['account']
-            objs = collection.find({}).collation({"locale": "en", "numericOrdering": True}).sort([("balance", -1), ("transactions_number", -1)])
-            # objs = provider_models.Account.objects.order_by('-balance').max_time_ms(settings.MAX_SELERY_TIME)
-            if objs:
-                cnt = objs.count()
-                if cnt == 0:
-                    total_page = 1
-                else:
-                    if cnt % settings.PAGE_SIZE != 0:
-                        total_page = (cnt / settings.PAGE_SIZE) + 1
-                    else:
-                        total_page = (cnt / settings.PAGE_SIZE)
-                res['total_page'] = total_page
-                if page_id > total_page:
-                    res['error'] = 'large'
-                else:
-                    skip_num = (page_id - 1) * settings.PAGE_SIZE
-                    obj = objs.skip(skip_num).limit(limit)
-                    account_list = []
-                    for index, ele in enumerate(obj):
-                        account = {}
-                        account['rank'] = skip_num + index + 1
-                        account['address'] = addr_translation.address_encode(ele['_id'])
-                        account['balance'] = Decimal(ele['balance']) / DECIMAL_SATOSHI
-                        account['txn_count'] = ele['transactions_number']
-                        account_list.append(account)
-                    res['account_list'] = account_list
-                    res['current_page'] = page_id
-                    res['total_addresses'] = cnt
-                    res['total_transactions'] = provider_models.Transaction.objects.all().count()
-                    res['error'] = 'none'
-            client.close()
+        # if page_id > settings.MAX_PAGE_NUM:
+        #     page_id = settings.MAX_PAGE_NUM
+        limit = int(request.GET.get('limit', settings.PAGE_SIZE))
+        if limit > settings.PAGE_SIZE:
+            limit = settings.PAGE_SIZE
+        if ":" in settings.MONGODB_HOST:
+            mongo_list = settings.MONGODB_HOST.split(":")            #split MONGODB_HOST to host and port
+            client = MongoClient(mongo_list[0], int(mongo_list[1]))
         else:
-            res['error'] = 'small'
+            client = MongoClient(host=settings.MONGODB_HOST)
+        db = client[settings.BLOCK_CHAIN_DB_NAME]
+        collection = db['account']
+        objs = collection.find({}).collation({"locale": "en", "numericOrdering": True}).sort([("balance", -1), ("transactions_number", -1)])
+        # objs = provider_models.Account.objects.order_by('-balance').max_time_ms(settings.MAX_SELERY_TIME)
+        if objs:
+            cnt = objs.count()
+            if cnt == 0:
+                total_page = 1
+            else:
+                if cnt % settings.PAGE_SIZE != 0:
+                    total_page = (cnt / settings.PAGE_SIZE) + 1
+                else:
+                    total_page = (cnt / settings.PAGE_SIZE)
+            res['total_page'] = total_page
+            if page_id > total_page:
+                # raise Exception("page number is too large")
+                return http.JsonErrorResponse(error_message='large', data=res)
+            else:
+                skip_num = (page_id - 1) * settings.PAGE_SIZE
+                obj = objs.skip(skip_num).limit(limit)
+                account_list = []
+                for index, ele in enumerate(obj):
+                    account = {}
+                    account['rank'] = skip_num + index + 1
+                    account['address'] = addr_translation.address_encode(ele['_id'])
+                    account['balance'] = Decimal(ele['balance']) / DECIMAL_SATOSHI
+                    account['txn_count'] = ele['transactions_number']
+                    account_list.append(account)
+                res['account_list'] = account_list
+                res['current_page'] = page_id
+                res['total_addresses'] = cnt
+                res['total_transactions'] = provider_models.Transaction.objects.all().count()
+        client.close()
         return http.JsonResponse(res)
     except Exception, inst:
         print inst
