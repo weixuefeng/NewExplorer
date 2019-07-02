@@ -33,11 +33,10 @@ angular.module('insight.address').controller('AddressController',
     */
     $scope.params = $routeParams;
     $scope.findAccount = function() {
-        $rootScope.flashMessage = '';
         $scope.page = $routeParams.pageNum;
         $scope.r = /^[1-9]d*$/;
         $scope.flag = $scope.r.test($scope.page);
-        if (!$scope.flag) {
+        if ($scope.page && !$scope.flag) {
             $rootScope.flashMessage = 'Page number should be positive interger';
             $location.path('/address');
         }
