@@ -22,7 +22,7 @@
         </div>
     </div>
     <div id="home" class="home address-info">
-        <div class="brief container address-container">
+        <div class="brief container address-container hidden-sm hidden-xs">
             <div class="col-md-6 col-xs-6 address-row">
                 <div class="panel panel-default">
                     <div class="panel-body">
@@ -55,30 +55,74 @@
                 </div>
             </div>
         </div>
+        <div class="brief container address-mobile-container visible-sm visible-xs">
+            <div class="col-sm-6 col-xs-6 address-mobile-row">
+                <div class="address-mobile-block">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="brief_title">
+                                <span class="brief_icon"></span>
+                                <span class="address-title" translate>Addresses</span>
+                            </div>
+                            <div class="brief_content">
+                                {{ total_addresses }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-xs-6 transaction-mobile-row">
+                <div class="transaction-mobile-block">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <a href="/transactions">
+                                <div class="brief_title">
+                                    <span class="brief_icon"></span>
+                                    <span translate>Transactions</span>
+                                </div>
+                            </a>
+                            <div class="brief_content">
+                                {{ total_transactions }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
     <div class="blocks-page-lower container">
         <div class="panel panel-default blocks-table">
-            <table class="table table-hover table-striped">
-                <thead>
-                    <tr>
-                        <th class="table-title blocks-table-header text-center" translate>Rank</th>
-                        <th class="table-title blocks-table-header text-center" translate>Address</th>
-                        <th class="table-title blocks-table-header text-center" translate>Txn Count</th>
-                        <th class="table-title blocks-table-header text-right" translate>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr data-ng-show="loading">
-                        <td colspan="5"><span translate>Waiting for addresses...</span> <span class="loader-gif"></span></td>
-                    </tr>
-                    <tr class="table-cell fader hidden-xs hidden-sm" data-ng-repeat='b in accounts'>
-                        <td class="table-del-border ph-table text-center">{{ b.rank }}</td>
-                        <td class="table-height ph-table table-del-border text-center"><a class="ellipsis" href="/address/{{b.address}}">{{b.address}}</a></td>
-                        <td class="table-time text-center ph-table table-del-border">{{b.txn_count}}</td>
-                        <td class="table-time ph-table table-del-border text-right">{{b.balance}} NEW</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th class="table-th text-center" translate>Rank</th>
+                            <th class="table-th text-center" translate>Address</th>
+                            <th class="table-th text-center" translate>Txn Count</th>
+                            <th class="table-th text-right" translate>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-show="loading">
+                            <td colspan="5"><span translate>Waiting for addresses...</span> <span class="loader-gif"></span></td>
+                        </tr>
+                        <tr class="table-cell fader hidden-xs hidden-sm" data-ng-repeat='b in accounts'>
+                            <td class="table-del-border ph-table text-center">{{ b.rank }}</td>
+                            <td class="table-height ph-table table-del-border text-center"><a class="ellipsis" href="/address/{{b.address}}">{{b.address}}</a></td>
+                            <td class="table-time text-center ph-table table-del-border">{{b.txn_count}}</td>
+                            <td class="table-time ph-table table-del-border text-right">{{b.balance}} NEW</td>
+                        </tr>
+                        <tr class="table-cell fader visible-xs visible-sm" data-ng-repeat='b in accounts'>
+                            <td class="table-th text-center">{{ b.rank }}</td>
+                            <td class="table-th text-center"><a class="ellipsis" href="/address/{{b.address}}">{{b.address}}</a></td>
+                            <td class="table-th text-center">{{b.txn_count}}</td>
+                            <td class="table-th text-right">{{b.balance}} NEW</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <div class="container">

@@ -1068,3 +1068,18 @@ a.v_highlight_more {
 .address-title {
     color: #428bca;
 }
+.address-table {
+    padding-right: 0;
+    padding-left: 0;
+}
+.address-mobile-container {
+    margin: 8% 2%;
+    padding-right: 0;
+    padding-left: 0;
+}
+.address-mobile-block {
+    margin-right: 5px;
+}
+.transaction-mobile-block {
+    margin-left: 5px;
+}
