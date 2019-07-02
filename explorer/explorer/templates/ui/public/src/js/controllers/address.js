@@ -38,15 +38,15 @@ angular.module('insight.address').controller('AddressController',
         $scope.flag = $scope.r.test($scope.page);
         if ($scope.page && !$scope.flag) {
             $rootScope.flashMessage = 'Page number should be positive interger';
-            $location.path('/address');
+            return;
         }
         Accounts.get({
           pageNum: $routeParams.pageNum
         },
         function(res) {
             if (res.error_message) {
-                $rootScope.flashMessage = 'Page number is too large';
-                $location.path('/address/page/' + res.result.total_page);
+                $rootScope.flashMessage = 'Page number is too large,the last page number is ' + res.result.total_page;
+                return;
             } else {
                 $scope.loading = false;
                 $scope.accounts = res.account_list;

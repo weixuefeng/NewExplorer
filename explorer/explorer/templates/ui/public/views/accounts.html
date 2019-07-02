@@ -2,7 +2,7 @@
     {{$root.flashMessage}}
 </div>
 <div data-ng-include src="'views/includes/connection.html'"></div>
-<section data-ng-controller="AddressController" data-ng-init="findAccount()" class="blocks-body">
+<section data-ng-show="!flashMessage" data-ng-controller="AddressController" data-ng-init="findAccount()" class="blocks-body">
     <div class="blocks-page-upper container">
         <div class="blocks-page-header">
             <h1 class="text-center">
