@@ -1052,3 +1052,19 @@ a.v_highlight_more {
 .a-able h2 {
     opacity: 0.7;
 }
+.address-info {
+    margin-top: 30px;
+}
+.address-container {
+    padding-right: 0;
+    padding-left: 0;
+}
+.address-row {
+    padding-left: 0;
+}
+.transaction-row {
+    padding-right: 0;
+}
+.address-title {
+    color: #428bca;
+}

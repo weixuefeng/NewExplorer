@@ -753,7 +753,10 @@ def api_show_top_accounts(request, version):
                         account_list.append(account)
                     res['account_list'] = account_list
                     res['current_page'] = page_id
+                    res['total_addresses'] = cnt
+                    res['total_transactions'] = provider_models.Transaction.objects.all().count()
                     res['error'] = 'none'
+            client.close()
         else:
             res['error'] = 'small'
         return http.JsonResponse(res)

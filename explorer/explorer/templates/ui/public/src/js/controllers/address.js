@@ -46,6 +46,8 @@ angular.module('insight.address').controller('AddressController',
               $scope.accounts = res.account_list;
               $scope.total_page = res.total_page;
               $scope.current_page = res.current_page;
+              $scope.total_addresses = res.total_addresses;
+              $scope.total_transactions = res.total_transactions;
           }
         }
        );

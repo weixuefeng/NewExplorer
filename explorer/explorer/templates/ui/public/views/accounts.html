@@ -21,6 +21,41 @@
             </div>
         </div>
     </div>
+    <div id="home" class="home address-info">
+        <div class="brief container address-container">
+            <div class="col-md-6 col-xs-6 address-row">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="brief_title">
+                            <span class="brief_icon"></span>
+                            <span class="address-title" translate>Addresses</span>
+                        </div>
+                        <div class="brief_content">
+                            {{ total_addresses }}
+                        </div>
+                    </div>
+                    <!-- <div class="panel-footer text-center brief_detail"><a href="/blocks/"><span>View Details</span></a></div> -->
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xs-6 transaction-row">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <a href="/transactions">
+                            <div class="brief_title">
+                                <span class="brief_icon"></span>
+                                <span translate>Transactions</span>
+                            </div>
+                        </a>
+                        <div class="brief_content">
+                            {{ total_transactions }}
+                        </div>
+                    </div>
+                    <!-- div class="panel-footer text-center brief_detail"><a href=""><span>View Details</span></a></div> -->
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="blocks-page-lower container">
         <div class="panel panel-default blocks-table">
             <table class="table table-hover table-striped">
