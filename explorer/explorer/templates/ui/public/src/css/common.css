@@ -1093,3 +1093,7 @@ a.v_highlight_more {
 .mobile-jump {
     margin: 20px auto;
 }
+.address-rule {
+    margin-bottom: 20px;
+    color: #999;
+}
