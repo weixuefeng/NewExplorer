@@ -715,24 +715,23 @@ def api_show_top_accounts(request, version):
     try:
         page_id = int(request.GET.get('pageNum', 1))
         res = {}
-        # if page_id > settings.MAX_PAGE_NUM:
-        #     page_id = settings.MAX_PAGE_NUM
         limit = int(request.GET.get('limit', settings.PAGE_SIZE))
         if limit > settings.PAGE_SIZE:
             limit = settings.PAGE_SIZE
-        if ":" in settings.MONGODB_HOST:
-            mongo_list = settings.MONGODB_HOST.split(":")            #split MONGODB_HOST to host and port
+        if ":" in settings.MONGODB_HOST:                      # split MONGODB_HOST to host and port
+            mongo_list = settings.MONGODB_HOST.split(":")
             client = MongoClient(mongo_list[0], int(mongo_list[1]))
         else:
             client = MongoClient(host=settings.MONGODB_HOST)
         db = client[settings.BLOCK_CHAIN_DB_NAME]
         collection = db['account']
         objs = collection.find({}).collation({"locale": "en", "numericOrdering": True}).sort([("balance", -1), ("transactions_number", -1)])
-        # objs = provider_models.Account.objects.order_by('-balance').max_time_ms(settings.MAX_SELERY_TIME)
         if objs:
             cnt = objs.count()
             if cnt == 0:
                 total_page = 1
+            elif cnt >= settings.PAGE_SIZE * settings.ADDRESS_MAX_PAGE_NUM:
+                total_page = settings.ADDRESS_MAX_PAGE_NUM
             else:
                 if cnt % settings.PAGE_SIZE != 0:
                     total_page = (cnt / settings.PAGE_SIZE) + 1
@@ -740,7 +739,6 @@ def api_show_top_accounts(request, version):
                     total_page = (cnt / settings.PAGE_SIZE)
             res['total_page'] = total_page
             if page_id > total_page:
-                # raise Exception("page number is too large")
                 return http.JsonErrorResponse(error_message='large', data=res)
             else:
                 skip_num = (page_id - 1) * settings.PAGE_SIZE

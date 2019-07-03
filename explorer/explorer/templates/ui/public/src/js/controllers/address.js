@@ -32,6 +32,10 @@ angular.module('insight.address').controller('AddressController',
     });
     */
     $scope.params = $routeParams;
+    $scope.jump = function() {
+        $scope.page = $scope.q;
+        $location.path('/address/page/' + $scope.page);
+    };
     $scope.findAccount = function() {
         $scope.page = $routeParams.pageNum;
         $scope.r = /^[1-9]\d*$/;
