@@ -12,15 +12,19 @@
         <div class="row  block-calendar">
             <div class="col-md-12">
                 <div class="row calendar-btn">
-                    <div class="text-center col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3">
+                    <div class="text-center visible-lg visible-md">
                         <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" href="/address"><small translate>First</small></a>
                         <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" href="/address/page/{{ current_page - 1 }}"><small>&larr; <span translate>Previous</span></small></a>
                         <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" href="/address/page/{{ current_page + 1 }}"><small><span translate>Next</span> &rarr;</small></a>
                         <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" href="/address/page/{{ total_page }}"><small translate>End</small></a>
-                    </div>
-                    <div class="col-lg-3 col-md-3 visible-md visible-lg">
                         <input type="text" class="jump-input text-center" data-ng-model="q" placeholder="{{ current_page }}/{{ total_page }}" />
                         <button class="jump-btn btn btn-primary calendar-style" data-ng-click="jump()"><small translate>Jump to</small></button>
+                    </div>
+                    <div class="text-center visible-xs visible-sm">
+                        <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" href="/address"><small translate>First</small></a>
+                        <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" href="/address/page/{{ current_page - 1 }}"><small>&larr; <span translate>Previous</span></small></a>
+                        <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" href="/address/page/{{ current_page + 1 }}"><small><span translate>Next</span> &rarr;</small></a>
+                        <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" href="/address/page/{{ total_page }}"><small translate>End</small></a>
                     </div>
                     <div class="mobile-jump text-center col-sm-12 col-xs-12 visible-sm visible-xs">
                         <input type="text" class="jump-input text-center" data-ng-model="q" placeholder="{{ current_page }}/{{ total_page }}" />
@@ -98,7 +102,7 @@
             </div>
         </div>
     </div>
-    <div class="container" data-ng-if="total_addresses > 10000" translate>*Only the first 10,000 data are displayed.</div>
+    <div class="container" translate>*Only the first 10,000 data are displayed.</div>
     <div class="blocks-page-lower container">
         <div class="panel panel-default blocks-table">
             <div class="table-responsive">
@@ -136,15 +140,19 @@
         <div class="row  block-calendar">
             <div class="col-md-12">
                 <div class="row calendar-btn">
-                    <div class="text-center col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3">
+                    <div class="text-center visible-lg visible-md">
                         <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" href="/address"><small translate>First</small></a>
                         <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" href="/address/page/{{ current_page - 1 }}"><small>&larr; <span translate>Previous</span></small></a>
                         <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" href="/address/page/{{ current_page + 1 }}"><small><span translate>Next</span> &rarr;</small></a>
                         <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" href="/address/page/{{ total_page }}"><small translate>End</small></a>
-                    </div>
-                    <div class="col-lg-3 col-md-3 visible-md visible-lg">
                         <input type="text" class="jump-input text-center" data-ng-model="q" placeholder="{{ current_page }}/{{ total_page }}" />
                         <button class="jump-btn btn btn-primary calendar-style" data-ng-click="jump()"><small translate>Jump to</small></button>
+                    </div>
+                    <div class="text-center visible-xs visible-sm">
+                        <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" href="/address"><small translate>First</small></a>
+                        <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" href="/address/page/{{ current_page - 1 }}"><small>&larr; <span translate>Previous</span></small></a>
+                        <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" href="/address/page/{{ current_page + 1 }}"><small><span translate>Next</span> &rarr;</small></a>
+                        <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" href="/address/page/{{ total_page }}"><small translate>End</small></a>
                     </div>
                     <div class="mobile-jump text-center col-sm-12 col-xs-12 visible-sm visible-xs">
                         <input type="text" class="jump-input text-center" data-ng-model="q" placeholder="{{ current_page }}/{{ total_page }}" />
