@@ -739,7 +739,7 @@ def api_show_top_accounts(request, version):
                     total_page = (cnt / settings.PAGE_SIZE)
             res['total_page'] = total_page
             if page_id > total_page:
-                page_id = total_page
+                return http.JsonErrorResponse(error_message='large', data=res)
             skip_num = (page_id - 1) * settings.PAGE_SIZE
             obj = objs.skip(skip_num).limit(limit)
             account_list = []

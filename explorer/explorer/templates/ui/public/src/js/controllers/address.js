@@ -67,13 +67,16 @@ angular.module('insight.address').controller('AddressController',
         if (($scope.page && !$scope.flag) ||  !$scope.page) {
             $location.path('/address');
         }
-        if ($scope.page > $scope.total_page) {
+        if ($scope.total_page && parseInt($scope.page) > $scope.total_page) {
             $location.path('/address/page/' + $scope.total_page);
         }
         Accounts.get({
             pageNum: $scope.page
         },
         function(res) {
+            if (res.error_message) {
+                $location.path('/address/page/' + res.result.total_page);
+            }
             $scope.loading = false;
             $scope.accounts = res.account_list;
             $scope.total_page = res.total_page;
