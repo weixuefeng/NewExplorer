@@ -727,7 +727,7 @@ def api_show_top_accounts(request, version):
         collection = db['account']
         objs = collection.find({}).collation({"locale": "en", "numericOrdering": True}).sort([("balance", -1), ("transactions_number", -1)])
         if objs:
-            cnt = objs.count()
+            cnt = collection.count_documents({})
             if cnt == 0:
                 total_page = 1
             elif cnt >= settings.PAGE_SIZE * settings.ADDRESS_MAX_PAGE_NUM:
@@ -739,22 +739,21 @@ def api_show_top_accounts(request, version):
                     total_page = (cnt / settings.PAGE_SIZE)
             res['total_page'] = total_page
             if page_id > total_page:
-                return http.JsonErrorResponse(error_message='large', data=res)
-            else:
-                skip_num = (page_id - 1) * settings.PAGE_SIZE
-                obj = objs.skip(skip_num).limit(limit)
-                account_list = []
-                for index, ele in enumerate(obj):
-                    account = {}
-                    account['rank'] = skip_num + index + 1
-                    account['address'] = addr_translation.address_encode(ele['_id'])
-                    account['balance'] = Decimal(ele['balance']) / DECIMAL_SATOSHI
-                    account['txn_count'] = ele['transactions_number']
-                    account_list.append(account)
-                res['account_list'] = account_list
-                res['current_page'] = page_id
-                res['total_addresses'] = cnt
-                res['total_transactions'] = provider_models.Statistics.objects.first().transactions_number
+                page_id = total_page
+            skip_num = (page_id - 1) * settings.PAGE_SIZE
+            obj = objs.skip(skip_num).limit(limit)
+            account_list = []
+            for index, ele in enumerate(obj):
+                account = {}
+                account['rank'] = skip_num + index + 1
+                account['address'] = addr_translation.address_encode(ele['_id'])
+                account['balance'] = Decimal(ele['balance']) / DECIMAL_SATOSHI
+                account['txn_count'] = ele['transactions_number']
+                account_list.append(account)
+            res['account_list'] = account_list
+            res['current_page'] = page_id
+            res['total_addresses'] = cnt
+            res['total_transactions'] = provider_models.Statistics.objects.first().transactions_number
         client.close()
         return http.JsonResponse(res)
     except Exception, inst:

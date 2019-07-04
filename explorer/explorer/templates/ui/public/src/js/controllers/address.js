@@ -32,34 +32,60 @@ angular.module('insight.address').controller('AddressController',
     });
     */
     $scope.params = $routeParams;
-    $scope.jump = function() {
-        $scope.page = $scope.q;
-        $location.path('/address/page/' + $scope.page);
+    $scope.input_focus = function(e) {
+        e.target.placeholder = '';
     };
-    $scope.findAccount = function() {
-        $scope.page = $routeParams.pageNum;
+    $scope.input_blur = function(e) {
+        e.target.placeholder = $scope.current_page + '/' + $scope.total_page;
+    };
+    $scope.input_enter = function(e) {
+        if (e.which === 13) {
+            e.target.blur();
+            $scope.jump();
+        }
+    };
+    $scope.first = function() {           // jump to the first page
+        $scope.page = 1;
+        $scope.findAccount();
+    };
+    $scope.next = function() {            // jump to the next page
+        $scope.page = $scope.page + 1;
+        $scope.findAccount();
+    };
+    $scope.prev = function() {            // jump to the prev page
+        $scope.page = $scope.page - 1;
+        $scope.findAccount();
+    };
+    $scope.last = function() {            // jump to the last page
+        $scope.page = $scope.total_page;
+        $scope.findAccount();
+    };
+    $scope.jump = function() {
+        $scope.jump_page = $scope.q;
         $scope.r = /^[1-9]\d*$/;
-        $scope.flag = $scope.r.test($scope.page);
-        if ($scope.page && !$scope.flag) {
-            $rootScope.flashMessage = 'Page number should be positive interger';
+        $scope.flag = $scope.r.test($scope.jump_page);
+        if (($scope.jump_page && !$scope.flag) || !$scope.jump_page || (parseInt($scope.jump_page) === $scope.current_page)) {
+            $scope.q = '';
             return;
         }
-        $rootScope.flashMessage = '';
+        $scope.q = '';
+        $scope.page = $scope.jump_page;
+        $scope.findAccount();
+    };
+    $scope.findAccount = function() {
+        if (!$scope.page) {
+            $scope.page = 1;
+        }
         Accounts.get({
-          pageNum: $routeParams.pageNum
+            pageNum: $scope.page
         },
         function(res) {
-            if (res.error_message) {
-                $rootScope.flashMessage = 'Page number is too large,the last page number is ' + res.result.total_page;
-                return;
-            } else {
-                $scope.loading = false;
-                $scope.accounts = res.account_list;
-                $scope.total_page = res.total_page;
-                $scope.current_page = res.current_page;
-                $scope.total_addresses = res.total_addresses;
-                $scope.total_transactions = res.total_transactions;
-            }
+            $scope.loading = false;
+            $scope.accounts = res.account_list;
+            $scope.total_page = res.total_page;
+            $scope.current_page = res.current_page;
+            $scope.total_addresses = res.total_addresses;
+            $scope.total_transactions = res.total_transactions;
         }
        );
     };

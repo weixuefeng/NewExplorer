@@ -13,21 +13,21 @@
             <div class="col-md-12">
                 <div class="row calendar-btn">
                     <div class="text-center visible-lg visible-md">
-                        <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" href="/address"><small translate>First</small></a>
-                        <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" href="/address/page/{{ current_page - 1 }}"><small>&larr; <span translate>Previous</span></small></a>
-                        <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" href="/address/page/{{ current_page + 1 }}"><small><span translate>Next</span> &rarr;</small></a>
-                        <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" href="/address/page/{{ total_page }}"><small translate>End</small></a>
-                        <input type="text" class="jump-input text-center" data-ng-model="q" placeholder="{{ current_page }}/{{ total_page }}" />
+                        <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" data-ng-click="first()"><small translate>First</small></a>
+                        <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" data-ng-click="prev()"><small>&larr; <span translate>Previous</span></small></a>
+                        <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" data-ng-click="next()"><small><span translate>Next</span> &rarr;</small></a>
+                        <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" data-ng-click="last()"><small translate>End</small></a>
+                        <input type="text" class="jump-input text-center" data-ng-model="q" data-ng-focus="input_focus($event)" data-ng-blur="input_blur($event)" data-ng-keypress="input_enter($event)" placeholder="{{ current_page }}/{{ total_page }}" />
                         <button class="jump-btn btn btn-primary calendar-style" data-ng-click="jump()"><small translate>Jump to</small></button>
                     </div>
                     <div class="text-center visible-xs visible-sm">
-                        <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" href="/address"><small translate>First</small></a>
-                        <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" href="/address/page/{{ current_page - 1 }}"><small>&larr; <span translate>Previous</span></small></a>
-                        <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" href="/address/page/{{ current_page + 1 }}"><small><span translate>Next</span> &rarr;</small></a>
-                        <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" href="/address/page/{{ total_page }}"><small translate>End</small></a>
+                        <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" data-ng-click="first()"><small translate>First</small></a>
+                        <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" data-ng-click="prev()"><small>&larr; <span translate>Previous</span></small></a>
+                        <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" data-ng-click="next()"><small><span translate>Next</span> &rarr;</small></a>
+                        <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" data-ng-click="last()"><small translate>End</small></a>
                     </div>
                     <div class="mobile-jump text-center col-sm-12 col-xs-12 visible-sm visible-xs">
-                        <input type="text" class="jump-input text-center" data-ng-model="q" placeholder="{{ current_page }}/{{ total_page }}" />
+                        <input type="text" class="jump-input text-center" data-ng-model="q" data-ng-focus="input_focus($event)" data-ng-blur="input_blur($event)" data-ng-keypress="input_enter($event)" placeholder="{{ current_page }}/{{ total_page }}" />
                         <button class="jump-btn btn btn-primary calendar-style" data-ng-click="jump()"><small translate>Jump to</small></button>
                     </div>
                 </div>
@@ -141,21 +141,21 @@
             <div class="col-md-12">
                 <div class="row calendar-btn">
                     <div class="text-center visible-lg visible-md">
-                        <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" href="/address"><small translate>First</small></a>
-                        <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" href="/address/page/{{ current_page - 1 }}"><small>&larr; <span translate>Previous</span></small></a>
-                        <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" href="/address/page/{{ current_page + 1 }}"><small><span translate>Next</span> &rarr;</small></a>
-                        <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" href="/address/page/{{ total_page }}"><small translate>End</small></a>
-                        <input type="text" class="jump-input text-center" data-ng-model="q" placeholder="{{ current_page }}/{{ total_page }}" />
+                        <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" data-ng-click="first()"><small translate>First</small></a>
+                        <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" data-ng-click="prev()"><small>&larr; <span translate>Previous</span></small></a>
+                        <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" data-ng-click="next()"><small><span translate>Next</span> &rarr;</small></a>
+                        <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" data-ng-click="last()"><small translate>End</small></a>
+                        <input type="text" class="jump-input text-center" data-ng-model="q" data-ng-focus="input_focus($event)" data-ng-blur="input_blur($event)" data-ng-keypress="input_enter($event)" placeholder="{{ current_page }}/{{ total_page }}" />
                         <button class="jump-btn btn btn-primary calendar-style" data-ng-click="jump()"><small translate>Jump to</small></button>
                     </div>
                     <div class="text-center visible-xs visible-sm">
-                        <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" href="/address"><small translate>First</small></a>
-                        <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" href="/address/page/{{ current_page - 1 }}"><small>&larr; <span translate>Previous</span></small></a>
-                        <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" href="/address/page/{{ current_page + 1 }}"><small><span translate>Next</span> &rarr;</small></a>
-                        <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" href="/address/page/{{ total_page }}"><small translate>End</small></a>
+                        <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" data-ng-click="first()"><small translate>First</small></a>
+                        <a data-ng-show="current_page > 1" class="btn btn-primary calendar-style" data-ng-click="prev()"><small>&larr; <span translate>Previous</span></small></a>
+                        <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" data-ng-click="next()"><small><span translate>Next</span> &rarr;</small></a>
+                        <a data-ng-show="current_page < total_page" class="btn btn-primary calendar-style" data-ng-click="last()"><small translate>End</small></a>
                     </div>
                     <div class="mobile-jump text-center col-sm-12 col-xs-12 visible-sm visible-xs">
-                        <input type="text" class="jump-input text-center" data-ng-model="q" placeholder="{{ current_page }}/{{ total_page }}" />
+                        <input type="text" class="jump-input text-center" data-ng-model="q" data-ng-focus="input_focus($event)" data-ng-blur="input_blur($event)" data-ng-keypress="input_enter($event)" placeholder="{{ current_page }}/{{ total_page }}" />
                         <button class="jump-btn btn btn-primary calendar-style" data-ng-click="jump()"><small translate>Jump to</small></button>
                     </div>
                 </div>
