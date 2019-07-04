@@ -44,22 +44,6 @@ angular.module('insight.address').controller('AddressController',
             $scope.jump();
         }
     };
-    $scope.first = function() {           // jump to the first page
-        $scope.page = 1;
-        $scope.findAccount();
-    };
-    $scope.next = function() {            // jump to the next page
-        $scope.page = $scope.page + 1;
-        $scope.findAccount();
-    };
-    $scope.prev = function() {            // jump to the prev page
-        $scope.page = $scope.page - 1;
-        $scope.findAccount();
-    };
-    $scope.last = function() {            // jump to the last page
-        $scope.page = $scope.total_page;
-        $scope.findAccount();
-    };
     $scope.jump = function() {
         $scope.jump_page = $scope.q;
         $scope.r = /^[1-9]\d*$/;
@@ -69,12 +53,22 @@ angular.module('insight.address').controller('AddressController',
             return;
         }
         $scope.q = '';
-        $scope.page = $scope.jump_page;
-        $scope.findAccount();
+        if ($scope.jump_page > $scope.total_page) {
+            $scope.page = $scope.total_page;
+        } else {
+            $scope.page = $scope.jump_page;
+        }
+        $location.path('/address/page/' + $scope.page);
     };
     $scope.findAccount = function() {
-        if (!$scope.page) {
-            $scope.page = 1;
+        $scope.page = $routeParams.pageNum;
+        $scope.r = /^[1-9]\d*$/;
+        $scope.flag = $scope.r.test($scope.page);
+        if (($scope.page && !$scope.flag) ||  !$scope.page) {
+            $location.path('/address');
+        }
+        if ($scope.page > $scope.total_page) {
+            $location.path('/address/page/' + $scope.total_page);
         }
         Accounts.get({
             pageNum: $scope.page
