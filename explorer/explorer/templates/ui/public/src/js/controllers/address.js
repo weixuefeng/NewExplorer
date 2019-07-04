@@ -44,6 +44,7 @@ angular.module('insight.address').controller('AddressController',
             $rootScope.flashMessage = 'Page number should be positive interger';
             return;
         }
+        $rootScope.flashMessage = '';
         Accounts.get({
           pageNum: $routeParams.pageNum
         },

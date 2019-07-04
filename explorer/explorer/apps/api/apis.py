@@ -754,7 +754,7 @@ def api_show_top_accounts(request, version):
                 res['account_list'] = account_list
                 res['current_page'] = page_id
                 res['total_addresses'] = cnt
-                res['total_transactions'] = provider_models.Transaction.objects.all().count()
+                res['total_transactions'] = provider_models.Statistics.objects.first().transactions_number
         client.close()
         return http.JsonResponse(res)
     except Exception, inst:
