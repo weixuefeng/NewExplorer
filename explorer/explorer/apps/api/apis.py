@@ -19,6 +19,7 @@ from provider import services as provider_services
 DECIMAL_SATOSHI = Decimal("1000000000000000000")
 from utils import newchain_tools
 import datetime
+from pymongo import MongoClient
 from mongoengine.queryset.visitor import Q
 
 addr_translation = newchain_tools.NewChainAddress()
@@ -689,6 +690,77 @@ def api_show_transaction(request, version, txid):
         print inst
         logger.exception("fail to show transaction:%s" % str(inst))
         return http.HttpResponseServerError()
+
+
+def api_show_top_accounts(request, version):
+    """ show the accounts ordered by balance descending
+
+    response
+    -------
+    {
+        "total_page": 1,
+        "current_page": 1,
+        "total_addresses": 210000,
+        "total_transactions": 32600,
+        "account_list": [
+            {
+                "rank": 1,
+                "address": "NEW17xJKkRcaXhG9G51b5iy8vs37AVsTw9XPgGw",
+                "balance": '1000000',
+                "txn_count": 273            # the number of transactions
+            },
+        ]
+    }
+    """
+    try:
+        page_id = int(request.GET.get('pageNum', 1))
+        res = {}
+        limit = int(request.GET.get('limit', settings.PAGE_SIZE))
+        if limit > settings.PAGE_SIZE:
+            limit = settings.PAGE_SIZE
+        if ":" in settings.MONGODB_HOST:                      # split MONGODB_HOST to host and port
+            mongo_list = settings.MONGODB_HOST.split(":")
+            client = MongoClient(mongo_list[0], int(mongo_list[1]))
+        else:
+            client = MongoClient(host=settings.MONGODB_HOST)
+        db = client[settings.BLOCK_CHAIN_DB_NAME]
+        collection = db['account']
+        objs = collection.find({}).collation({"locale": "en", "numericOrdering": True}).sort([("balance", -1), ("transactions_number", -1)])
+        if objs:
+            cnt = collection.count_documents({})
+            if cnt == 0:
+                total_page = 1
+            elif cnt >= settings.PAGE_SIZE * settings.ADDRESS_MAX_PAGE_NUM:
+                total_page = settings.ADDRESS_MAX_PAGE_NUM
+            else:
+                if cnt % settings.PAGE_SIZE != 0:
+                    total_page = (cnt / settings.PAGE_SIZE) + 1
+                else:
+                    total_page = (cnt / settings.PAGE_SIZE)
+            res['total_page'] = total_page
+            if page_id > total_page:
+                return http.JsonErrorResponse(error_message='large', data=res)
+            skip_num = (page_id - 1) * settings.PAGE_SIZE
+            obj = objs.skip(skip_num).limit(limit)
+            account_list = []
+            for index, ele in enumerate(obj):
+                account = {}
+                account['rank'] = skip_num + index + 1
+                account['address'] = addr_translation.address_encode(ele['_id'])
+                account['balance'] = Decimal(ele['balance']) / DECIMAL_SATOSHI
+                account['txn_count'] = ele['transactions_number']
+                account_list.append(account)
+            res['account_list'] = account_list
+            res['current_page'] = page_id
+            res['total_addresses'] = cnt
+            res['total_transactions'] = provider_models.Statistics.objects.first().transactions_number
+        client.close()
+        return http.JsonResponse(res)
+    except Exception, inst:
+        print inst
+        logger.exception("fail to show top accounts:%s" % str(inst))
+        return http.HttpResponseServerError()
+
 
 def api_show_addr_summary(request, version, addr):
     """ show the address summary for uri: /addr/<addr>

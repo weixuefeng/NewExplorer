@@ -113,7 +113,7 @@ CACHES = {
 }
 
 # Following is project settings
-MONGODB_HOST = 'localhost'
+MONGODB_HOST = 'hep.newtonproject.dev.diynova.com:27017'
 BLOCK_CHAIN_DB_NAME = 'blockchain'
 
 # full node list
@@ -128,7 +128,7 @@ DEFAULT_MONITOR_PORT = 8090
 
 CURRENT_NET = 'TestNet'
 
-CHAIN_ID = 1007
+CHAIN_ID = 1002
 
 import djcelery
 djcelery.setup_loader()
