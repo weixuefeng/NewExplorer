@@ -71,7 +71,7 @@
           <a data-ng-if="address.has_internal && address.is_internal" class="addr-transaction a-able" href="/address/{{ address.addrStr }}"><h2 translate>Transactions</h2></a>
           <a data-ng-if="address.has_internal && !address.is_internal" class="addr-transaction a-disable" href="/address/{{ address.addrStr }}"><h2 translate>Transactions</h2></a>
           <a data-ng-if="address.has_internal && address.is_internal" class="addr-internal a-disable" href="/address/{{ address.addrStr }}/internal/"><h2 translate>Internal Transactions</h2></a>
-          <a data-ng-if="address.has_internal && !address.is_internal"class="addr-internal a-able" href="/address/{{ address.addrStr }}/internal/"><h2 translate>Internal Transactions</h2></a>
+          <a data-ng-if="address.has_internal && !address.is_internal" class="addr-internal a-able" href="/address/{{ address.addrStr }}/internal/"><h2 translate>Internal Transactions</h2></a>
           <div style="clear: both"></div>
       </div>
       <div data-ng-if="!address.has_internal" data-ng-include src="'views/transaction/list.html'" when-scrolled="loadMore()"></div>

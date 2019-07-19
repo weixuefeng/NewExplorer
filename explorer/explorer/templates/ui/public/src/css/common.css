@@ -888,6 +888,9 @@ a.v_highlight_more {
   }
   .container {
   }
+  .loading-block {
+      width: 100%;
+  }
   .navbar-default .navbar-toggle {
     margin-top: 7px;
   }
@@ -1098,8 +1101,5 @@ a.v_highlight_more {
     color: #999;
 }
 .loading-block {
-    width: 96%;
-    margin-right: 2%;
-    margin-left: 2%;
-    padding: unset;
+   padding: unset;
 }
