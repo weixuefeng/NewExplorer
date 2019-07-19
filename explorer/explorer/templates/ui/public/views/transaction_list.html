@@ -1,0 +1,74 @@
+<div data-ng-include src="'views/includes/connection.html'"></div>
+<section data-ng-controller="transactionsController" data-ng-init="list()" class="blocks-body">
+    <div class="blocks-page-upper container">
+        <div class="blocks-page-header">
+            <h1 class="text-center">
+                <span class="blocks-title" translate>Transactions</span>
+                <!-- <small><span translate>by date.</span> {{detail}} {{before}}</small> -->
+            </h1>
+        </div>
+        <div class="row  block-calendar">
+            <div class="col-md-12">
+                <p class="lead text-center calendar-date">
+                    {{pagination.currentDate}}
+                    <!-- {{pagination.current}} -->
+                    <a href="#" class="btn btn-primary btn-xs calendar-style phone-hidden" datepicker-popup show-button-bar="false" data-ng-click="openCalendar($event)" data-ng-model="dt" is-open="opened" data-ng-required="true"><span class="glyphicon glyphicon-calendar"></span></a>
+                </p>
+                <!-- <p data-ng-if="is_today" class="lead text-center calendar-date">
+                    {{today_time}}
+                    <a href="#" class="btn btn-primary btn-xs calendar-style phone-hidden" datepicker-popup show-button-bar="false" data-ng-click="openCalendar($event)" data-ng-model="dt" is-open="opened" data-ng-required="true"><span class="glyphicon glyphicon-calendar"></span></a>
+                </p> -->
+                <div class="m20v text-center text-muted" data-ng-if="!pagination.current">
+                    <span translate>Loading Selected Date...</span>
+                </div>
+                <div data-ng-if="pagination.current">
+                    <p class="lead text-center m20v"  data-ng-show="loading">&nbsp;</p>
+                    <p class="text-center m20v"  data-ng-show="pagination.isToday && !loading" translate>Today</p>
+                    <p class="text-center m20v"  data-ng-show="!pagination.isToday && !loading">
+                        <p class="text-center m20v"  data-ng-show="loading">&nbsp;</p>
+                        <div class="calendar-btn text-center">
+                            <a class="btn btn-primary calendar-style" href="transactions-date/{{pagination.prevDate}}/{{timezone}}"><small>&larr; {{pagination.prevDate}}</small></a>
+                            <a class="btn btn-primary calendar-style" href="transactions-date/{{pagination.nextDate}}/{{timezone}}" data-ng-show="!pagination.isToday"><small>{{pagination.nextDate}} &rarr;</small></a>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="blocks-page-lower container">
+        <div class="panel panel-default blocks-table">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th class="table-title blocks-table-header text-left" translate>Transaction ID</th>
+                        <th class="table-title blocks-table-header text-center" translate>Timestamp</th>
+                        <th class="table-title blocks-table-header text-right" translate>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-ng-show="loading">
+                        <td colspan="5"><span translate>Waiting for transactions...</span> <span class="loader-gif"></span></td>
+                    </tr>
+                    <tr class="table-cell fader hidden-xs hidden-sm" data-ng-repeat='b in trans'>
+                        <td class="table-height ph-table table-del-border text-left"><a class="ellipsis" href="tx/{{b.txid}}">{{b.txid}}</a></td>
+                        <td class="table-del-border ph-table text-center">{{b.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td class="table-time text-right ph-table table-del-border">{{b.value}} NEW</td>
+                    </tr>
+                    <tr class="table-cell fader visible-xs visible-sm" data-ng-repeat='b in trans'>
+                        <td class="table-height ph-table table-del-border text-left" style="max-width: 100px"><a class="ellipsis" href="tx/{{b.txid}}">{{b.txid}}</a></td>
+                        <td class="table-del-border ph-table text-center" >{{b.time * 1000 | date:'HH:mm:ss'}}</td>
+                        <td class="table-time text-right ph-table table-del-border">{{b.value}} NEW</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="change-date-btn">
+            <div class="switching-blocks-btn">
+                <a data-ng-if="pagination.more" class="btn btn-primary order-blocks-btn calendar-style" href="transactions-date/{{pagination.current}}/{{timezone}}/{{pagination.moreTs}}" translate>Previous transactions from date</a>
+                <a class="btn btn-primary latest-blocks-btn calendar-style" href="transactions-date/{{pagination.current}}/{{timezone}}" data-ng-show="{{before}}" translate>Latest transactions from date</a>
+            </div>
+        </div>
+        <h2 class="text-center text-muted" data-ng-show="!trans.length && !loading" translate>No transactions yet.</h2>
+    </div>
+</section>
+
+

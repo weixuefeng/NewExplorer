@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('insight.address').controller('AddressController',
-  function($scope, $rootScope, $routeParams, $location, Global, Address, getSocket) {
+  function($scope, $rootScope, $routeParams, $location, Global, Address, Accounts, getSocket) {
     $scope.global = Global;
 
     //var socket = getSocket($scope);
@@ -32,17 +32,72 @@ angular.module('insight.address').controller('AddressController',
     });
     */
     $scope.params = $routeParams;
-
+    $scope.input_focus = function(e) {
+        e.target.placeholder = '';
+    };
+    $scope.input_blur = function(e) {
+        e.target.placeholder = $scope.current_page + '/' + $scope.total_page;
+    };
+    $scope.input_enter = function(e) {
+        if (e.which === 13) {
+            e.target.blur();
+            $scope.jump();
+        }
+    };
+    $scope.jump = function() {
+        $scope.jump_page = $scope.q;
+        $scope.r = /^[1-9]\d*$/;
+        $scope.flag = $scope.r.test($scope.jump_page);
+        if (($scope.jump_page && !$scope.flag) || !$scope.jump_page || (parseInt($scope.jump_page) === $scope.current_page)) {
+            $scope.q = '';
+            return;
+        }
+        $scope.q = '';
+        if ($scope.jump_page > $scope.total_page) {
+            $scope.page = $scope.total_page;
+        } else {
+            $scope.page = $scope.jump_page;
+        }
+        $location.path('/address/page/' + $scope.page);
+    };
+    $scope.findAccount = function() {
+        $scope.page = $routeParams.pageNum;
+        $scope.r = /^[1-9]\d*$/;
+        $scope.flag = $scope.r.test($scope.page);
+        if (($scope.page && !$scope.flag) ||  !$scope.page) {
+            $location.path('/address');
+        }
+        if ($scope.total_page && parseInt($scope.page) > $scope.total_page) {
+            $location.path('/address/page/' + $scope.total_page);
+        }
+        Accounts.get({
+            pageNum: $scope.page
+        },
+        function(res) {
+            if (res.error_message) {
+                $location.path('/address/page/' + res.result.total_page);
+            }
+            $scope.loading = false;
+            $scope.accounts = res.account_list;
+            $scope.total_page = res.total_page;
+            $scope.current_page = res.current_page;
+            $scope.total_addresses = res.total_addresses;
+            $scope.total_transactions = res.total_transactions;
+        }
+       );
+    };
     $scope.findOne = function() {
       $rootScope.currentAddr = $routeParams.addrStr;
       //_startSocket();
-
       Address.get({
-          addrStr: $routeParams.addrStr
+          addrStr: $routeParams.addrStr,
+          type: $routeParams.type
         },
         function(address) {
           $rootScope.titleDetail = address.addrStr.substring(0, 7) + '...';
           $rootScope.flashMessage = null;
+          $scope.is_internal = address.is_internal;
+          $scope.has_internal = address.has_internal;
           $scope.address = address;
           $scope.address.totalReceived = scientificToNumber($scope.address.totalReceived,$scope.address.totalReceivedSat)
           $scope.address.totalSent = scientificToNumber($scope.address.totalSent,$scope.address.totalSentSat)

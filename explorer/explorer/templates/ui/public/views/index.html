@@ -13,10 +13,12 @@
                 <div class="col-md-4 col-xs-4">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <div class="brief_title">
-                                <span class="brief_icon"></span>
-                                <span translate>Block Height</span>
-                            </div>
+                            <a href="/blocks">
+                                <div class="brief_title">
+                                    <span class="brief_icon"></span>
+                                    <span translate>Block Height</span>
+                                </div>
+                            </a>
                             <div class="brief_content">
                                 {{brief.blocks}}
                             </div>
@@ -28,10 +30,12 @@
                 <div class="col-md-4 col-xs-4">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <div class="brief_title">
-                                <span class="brief_icon"></span>
-                                <span translate>Transactions</span>
-                            </div>
+                            <a href="/transactions">
+                                <div class="brief_title">
+                                    <span class="brief_icon"></span>
+                                    <span translate>Transactions</span>
+                                </div>
+                            </a>
                             <div class="brief_content">
                                 {{brief.transactions}}
                             </div>
@@ -43,10 +47,12 @@
                 <div class="col-md-4 col-xs-4">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <div class="brief_title">
-                                <span class="brief_icon"></span>
-                                <span translate>Contracts</span>
-                            </div>
+                            <a href="/contracts">
+                                <div class="brief_title">
+                                    <span class="brief_icon"></span>
+                                    <span translate>Contracts</span>
+                                </div>
+                            </a>
                             <div class="brief_content">
                                 {{brief.contracts}}
                             </div>
@@ -110,16 +116,25 @@
                                 <thead>
                                     <tr>
                                         <th class="table-th" translate>Transaction ID</th>
+                                        <th class="table-th text-center" translate>Timestamp</th>
                                         <th class="table-th text-right" translate>Value</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr data-ng-show="!txs.length" class="text-center text-muted"><td class="table-th" colspan="3" translate>Waiting for transactions...</td></tr>
-                                    <tr class="fader" data-ng-repeat='tx in txs'>
-                                        <td class="table-th" style="max-width:180px">
+                                    <tr class="fader hidden-xs hidden-sm" data-ng-repeat='tx in txs'>
+                                        <td class="table-th">
+                                            <a href="tx/{{tx.txid}}">{{tx.txid}}</a>
+                                        </td>
+                                        <td class="table-th text-center">{{tx.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                        <td class="table-th text-right">{{tx.value}} NEW</td>
+                                    </tr>
+                                    <tr class="fader visible-xs visible-sm" data-ng-repeat='tx in txs'>
+                                        <td class="table-th" style="max-width: 100px">
                                             <a class="ellipsis" href="tx/{{tx.txid}}">{{tx.txid}}</a>
                                         </td>
-                                        <td class="table-th text-right"><span class="ellipsis">{{tx.value}} NEW</span></td>
+                                        <td class="table-th text-center">{{tx.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                                        <td class="table-th text-right">{{tx.value}} NEW</td>
                                     </tr>
                                 </tbody>
                             </table>

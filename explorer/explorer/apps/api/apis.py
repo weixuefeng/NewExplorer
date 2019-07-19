@@ -19,6 +19,7 @@ from provider import services as provider_services
 DECIMAL_SATOSHI = Decimal("1000000000000000000")
 from utils import newchain_tools
 import datetime
+from pymongo import MongoClient
 from mongoengine.queryset.visitor import Q
 
 addr_translation = newchain_tools.NewChainAddress()
@@ -302,6 +303,99 @@ def api_show_block_info(request, version, blockhash):
         logger.exception("fail to show block info by hash:%s" % str(inst))
         return http.HttpResponseServerError()
 
+
+def api_show_transaction_list(request, version):
+    """Show the transaction list for uri: /trasactions
+
+    response
+    -------------------
+    {
+        "trans":[
+            {
+                "txid": "0x9b2e24df970697c1bf7add69711d3114302673bf3e753b975c2bbafaf0b5b3e2"
+                "value": 1888
+                "time": 1508238076,
+            },],
+        "length":200,
+        "pagination":{
+            "next":"2017-10-18",
+            "prev":"2017-10-16",
+            "currentTs":1508284799,
+            "current":"2017-10-17",
+            "isToday":False,
+            "more":True,
+            "moreTs":1508284800}}
+    """
+    try:
+        # handle the query parameters
+        trans_date = request.GET.get('transDate')
+        start_ts = request.GET.get('startTimestamp')
+        timezone = int(request.GET.get('timezone', 0))
+        limit = int(request.GET.get('limit', settings.PAGE_SIZE))
+        if limit > settings.PAGE_SIZE:
+            limit = settings.PAGE_SIZE
+        if trans_date:
+            trans_date = datetime.datetime.strptime(trans_date, '%Y-%m-%d')
+        else:
+            today = datetime.datetime.today()
+            trans_date = datetime.datetime(today.year, today.month, today.day)
+        if start_ts:
+            start_ts = int(start_ts)
+        else:
+            start_ts = 0
+        is_today = False
+        if trans_date == datetime.datetime.today().date():
+            is_today = True
+        gmt_date = trans_date + datetime.timedelta(hours=timezone)
+        next_date = gmt_date + datetime.timedelta(days=1)
+        previous_date = gmt_date + datetime.timedelta(days=-1)
+        trans_ts = gmt_date.timetuple()
+        trans_ts = int(time.mktime(trans_ts))
+        next_date_ts = next_date.timetuple()
+        next_date_ts = int(time.mktime(next_date_ts))
+        # query db
+        if start_ts > 0:
+            rs = provider_models.Transaction.objects.filter(time__gte=trans_ts, time__lt=start_ts).order_by('-time')
+        else:
+            rs = provider_models.Transaction.objects.filter(time__gte=trans_ts, time__lt=next_date_ts).order_by('-time')
+        cnt = rs.count()
+        is_more = False
+        more_ts = trans_ts
+        if cnt > settings.PAGE_SIZE:
+            is_more = True
+        if cnt > 0:
+            rs = rs.limit(limit)
+        # output
+        trans = []
+        for items in rs:
+            item_dict = dict()
+            item_dict['txid'] = items.txid
+            item_dict['value'] = float(items.value) / 1000000000000000000
+            item_dict['time'] = items.time
+            trans.append(item_dict)
+        if trans:
+            # get the last timestamp
+            more_ts = trans[-1]['time']
+        result = {
+            'trans': trans,
+            'length': len(trans),
+            'pagination': {
+                "next": next_date.strftime('%Y-%m-%d'),
+                "prev": previous_date.strftime('%Y-%m-%d'),
+                "currentTs": trans_ts,
+                "current": trans_date.strftime('%Y-%m-%d'),
+                "isToday": is_today,
+                "more": is_more,
+                "moreTs": more_ts,
+            }
+        }
+        return http.JsonResponse(result)
+    except Exception, inst:
+        print inst
+        logger.exception("fail to show trasactions:%s" % str(inst))
+        return http.HttpResponseServerError()
+
+
 def api_show_transactions(request, version):
     """ show the transcations for uri: /txs
 
@@ -343,6 +437,8 @@ def api_show_transactions(request, version):
     }
     """
     try:
+        tx_type = request.GET.get('type', None)
+        has_internal = False
         blockhash = request.GET.get('block')
         addr = request.GET.get('addr')
         contract = request.GET.get('contract')
@@ -373,43 +469,82 @@ def api_show_transactions(request, version):
                     total_page = (cnt / settings.PAGE_SIZE)
             objs = objs.skip(page_id * settings.PAGE_SIZE).limit(limit)
         elif addr:
-            tx_objs = provider_models.Transaction.objects.filter(Q(from_address=addr) | Q(to_address=addr)).order_by('-time').max_time_ms(settings.MAX_SELERY_TIME)
-            account = provider_models.Account.objects.filter(address=addr).first()
-            cnt = account.missing_transactions_number + account.transactions_number
-            if cnt == 0:
-                total_page = 1
-            else:
-                if cnt % settings.PAGE_SIZE != 0:
-                    total_page = (cnt / settings.PAGE_SIZE) + 1
+            tx_objs = provider_models.InternalTransaction.objects.filter(to_address=addr).order_by('-time').max_time_ms(
+                settings.MAX_SELERY_TIME)
+            if tx_objs:
+                has_internal = True
+            if has_internal and tx_type == 'internal':
+                cnt = len(tx_objs)
+                if cnt == 0:
+                    total_page = 1
                 else:
-                    total_page = (cnt / settings.PAGE_SIZE)
-            objs = tx_objs.skip(page_id * settings.PAGE_SIZE).limit(limit)
+                    if cnt % settings.PAGE_SIZE != 0:
+                        total_page = (cnt / settings.PAGE_SIZE) + 1
+                    else:
+                        total_page = (cnt / settings.PAGE_SIZE)
+                objs = tx_objs.skip(page_id * settings.PAGE_SIZE).limit(limit)
+            else:
+                tx_objs = provider_models.Transaction.objects.filter(Q(from_address=addr) | Q(to_address=addr)).order_by('-time').max_time_ms(settings.MAX_SELERY_TIME)
+                account = provider_models.Account.objects.filter(address=addr).first()
+                cnt = account.missing_transactions_number + account.transactions_number
+                if cnt == 0:
+                    total_page = 1
+                else:
+                    if cnt % settings.PAGE_SIZE != 0:
+                        total_page = (cnt / settings.PAGE_SIZE) + 1
+                    else:
+                        total_page = (cnt / settings.PAGE_SIZE)
+                objs = tx_objs.skip(page_id * settings.PAGE_SIZE).limit(limit)
         else:
             raise Exception("invalid parameter")
         txs = []
         current_height = provider_services.get_current_height()
         for obj in objs:
-            item = __convert_transaction_to_json(obj)
-            item['confirmations'] = current_height - obj.blockheight
-            from_contract = False
-            to_contract = False
-            from_contract_obj = provider_models.Contract.objects.filter(contract_address=item['from_address'])
-            to_contract_obj = provider_models.Contract.objects.filter(contract_address=item['to_address'])
-            if from_contract_obj:
-                from_contract = True
-            if to_contract_obj:
-                to_contract = True
-            item['from_contract'] = from_contract
-            item['to_contract'] = to_contract
-            from_address = addr_translation.address_encode(item['from_address'])
-            to_address = addr_translation.address_encode(item['to_address'])
-            item['from_addr'] = from_address
-            item['to_addr'] = to_address
-            value_issac = item['value']
-            value = Decimal(value_issac) / 1000000000000000000
-            item['value'] = value
-            final_fees = item['fees'] * item['fees_price']
-            item['fees'] = final_fees
+            if has_internal and tx_type == 'internal':
+                item = {}
+                from_contract_obj = provider_models.Contract.objects.filter(contract_address=obj.contract_address)
+                to_contract_obj = provider_models.Contract.objects.filter(contract_address=obj.to_address)
+                if from_contract_obj:
+                    item['from_contract'] = True
+                else:
+                    item['from_contract'] = False
+                if to_contract_obj:
+                    item['to_contract'] = True
+                else:
+                    item['to_contract'] = False
+                item['contract_address'] = addr_translation.address_encode(obj.contract_address)
+                item['txid'] = obj.txid
+                item['to_address'] = addr_translation.address_encode(obj.to_address)
+                item['value'] = Decimal(obj.value) / DECIMAL_SATOSHI
+                item['time'] = obj.time
+            else:
+                item = __convert_transaction_to_json(obj)
+                item['confirmations'] = current_height - obj.blockheight
+                from_contract = False
+                to_contract = False
+                from_contract_obj = provider_models.Contract.objects.filter(contract_address=item['from_address'])
+                to_contract_obj = provider_models.Contract.objects.filter(contract_address=item['to_address'])
+                if from_contract_obj:
+                    from_contract = True
+                if to_contract_obj:
+                    to_contract = True
+                item['from_contract'] = from_contract
+                item['to_contract'] = to_contract
+                from_address = addr_translation.address_encode(item['from_address'])
+                to_address = addr_translation.address_encode(item['to_address'])
+                item['from_addr'] = from_address
+                item['to_addr'] = to_address
+                value_issac = item['value']
+                value = Decimal(value_issac) / 1000000000000000000
+                item['value'] = value
+                final_fees = item['fees'] * item['fees_price']
+                item['fees'] = final_fees
+                item['is_internal'] = False
+                res = get_internal_transaction_info(item['txid'])
+                if res['is_internal']:
+                    item['is_internal_list'] = True
+                else:
+                    item['is_internal_list'] = False
             txs.append(item)
         result = {
             "pagesTotal": total_page,
@@ -420,6 +555,64 @@ def api_show_transactions(request, version):
         print inst
         logger.exception("fail to show transactions:%s" % str(inst))
         return http.HttpResponseServerError()
+
+
+def get_internal_transaction_info(txid):
+    """ get the internal transaction info
+
+    response
+    -------
+    {
+        "is_internal": True,
+        "internal_info": [
+            {
+                "from_contract": True,
+                "to_contract": True,
+                "contract_address": "NEW17xJKkRcaXhG9G51b5iy8vs37AVsTw9XPgGw",
+                "txid": "0x98aea2855d2d37d8a6fb86279da791bd52a619d49eeb43e5d1e2d6141e6da427",
+                "to_address": "NEW17xVxeVgdvwZ3Xoc84urTHwKoBVTR3Ai2Fxu",
+                "value": Decimal(1),
+                "time": 1561466541,
+            },
+            {
+            ...
+            },
+        ]
+    }
+    """
+    try:
+        obj = provider_models.InternalTransaction.objects.filter(txid=txid).all()
+        res = {}
+        if obj:
+            res['is_internal'] = True
+            internal_info_list = []
+            for ele in obj:
+                internal_info = {}
+                from_contract_obj = provider_models.Contract.objects.filter(contract_address=ele.contract_address)
+                to_contract_obj = provider_models.Contract.objects.filter(contract_address=ele.to_address)
+                if from_contract_obj:
+                    internal_info['from_contract'] = True
+                else:
+                    internal_info['from_contract'] = False
+                if to_contract_obj:
+                    internal_info['to_contract'] = True
+                else:
+                    internal_info['to_contract'] = False
+                internal_info['contract_address'] = addr_translation.address_encode(ele.contract_address)
+                internal_info['txid'] = txid
+                internal_info['to_address'] = addr_translation.address_encode(ele.to_address)
+                internal_info['value'] = Decimal(ele.value) / DECIMAL_SATOSHI
+                internal_info['time'] = ele.time
+                internal_info_list.append(internal_info)
+            res['internal_info'] = internal_info_list
+        else:
+            res['is_internal'] = False
+        return res
+    except Exception, inst:
+        print inst
+        logger.exception("fail to show transactions:%s" % str(inst))
+        return http.HttpResponseServerError()
+
 
 def api_show_transaction(request, version, txid):
     """ show the transcation for uri: /tx
@@ -484,6 +677,12 @@ def api_show_transaction(request, version, txid):
             result['value'] = value
             final_fees = result['fees'] * result['fees_price']
             result['fees'] = final_fees
+            res = get_internal_transaction_info(txid)
+            if res['is_internal']:
+                result['is_internal'] = True
+                result['internal_info'] = res['internal_info']
+            else:
+                result['is_internal'] = False
             return http.JsonResponse(result)
         else:
             return http.HttpResponseNotFound()
@@ -491,6 +690,77 @@ def api_show_transaction(request, version, txid):
         print inst
         logger.exception("fail to show transaction:%s" % str(inst))
         return http.HttpResponseServerError()
+
+
+def api_show_top_accounts(request, version):
+    """ show the accounts ordered by balance descending
+
+    response
+    -------
+    {
+        "total_page": 1,
+        "current_page": 1,
+        "total_addresses": 210000,
+        "total_transactions": 32600,
+        "account_list": [
+            {
+                "rank": 1,
+                "address": "NEW17xJKkRcaXhG9G51b5iy8vs37AVsTw9XPgGw",
+                "balance": '1000000',
+                "txn_count": 273            # the number of transactions
+            },
+        ]
+    }
+    """
+    try:
+        page_id = int(request.GET.get('pageNum', 1))
+        res = {}
+        limit = int(request.GET.get('limit', settings.PAGE_SIZE))
+        if limit > settings.PAGE_SIZE:
+            limit = settings.PAGE_SIZE
+        if ":" in settings.MONGODB_HOST:                      # split MONGODB_HOST to host and port
+            mongo_list = settings.MONGODB_HOST.split(":")
+            client = MongoClient(mongo_list[0], int(mongo_list[1]))
+        else:
+            client = MongoClient(host=settings.MONGODB_HOST)
+        db = client[settings.BLOCK_CHAIN_DB_NAME]
+        collection = db['account']
+        objs = collection.find({}).collation({"locale": "en", "numericOrdering": True}).sort([("balance", -1), ("transactions_number", -1)])
+        if objs:
+            cnt = collection.count_documents({})
+            if cnt == 0:
+                total_page = 1
+            elif cnt >= settings.PAGE_SIZE * settings.ADDRESS_MAX_PAGE_NUM:
+                total_page = settings.ADDRESS_MAX_PAGE_NUM
+            else:
+                if cnt % settings.PAGE_SIZE != 0:
+                    total_page = (cnt / settings.PAGE_SIZE) + 1
+                else:
+                    total_page = (cnt / settings.PAGE_SIZE)
+            res['total_page'] = total_page
+            if page_id > total_page:
+                return http.JsonErrorResponse(error_message='large', data=res)
+            skip_num = (page_id - 1) * settings.PAGE_SIZE
+            obj = objs.skip(skip_num).limit(limit)
+            account_list = []
+            for index, ele in enumerate(obj):
+                account = {}
+                account['rank'] = skip_num + index + 1
+                account['address'] = addr_translation.address_encode(ele['_id'])
+                account['balance'] = Decimal(ele['balance']) / DECIMAL_SATOSHI
+                account['txn_count'] = ele['transactions_number']
+                account_list.append(account)
+            res['account_list'] = account_list
+            res['current_page'] = page_id
+            res['total_addresses'] = cnt
+            res['total_transactions'] = provider_models.Statistics.objects.first().transactions_number
+        client.close()
+        return http.JsonResponse(res)
+    except Exception, inst:
+        print inst
+        logger.exception("fail to show top accounts:%s" % str(inst))
+        return http.HttpResponseServerError()
+
 
 def api_show_addr_summary(request, version, addr):
     """ show the address summary for uri: /addr/<addr>
@@ -512,7 +782,17 @@ def api_show_addr_summary(request, version, addr):
     }
     """
     try:
+        tx_type = request.GET.get('type', None)
+        if tx_type:
+            is_internal = True
+        else:
+            is_internal = False
         eth_addr = addr_translation.b58check_decode(addr)
+        internal_list = provider_models.InternalTransaction.objects.filter(to_address=eth_addr)
+        if internal_list:
+            has_internal = True
+        else:
+            has_internal = False
         account = provider_models.Account.objects.filter(address=eth_addr).first()
         if account:
             # caculate the txlength
@@ -525,7 +805,9 @@ def api_show_addr_summary(request, version, addr):
                 "unconfirmedBalance": 0,
                 "unconfirmedBalanceSat": 0,
                 "unconfirmedTxApperances": 0,
-                "txApperances": txlength
+                "txApperances": txlength,
+                "is_internal": is_internal,
+                "has_internal": has_internal
             }
             return http.JsonResponse(result)
         else:

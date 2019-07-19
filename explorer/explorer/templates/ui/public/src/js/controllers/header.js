@@ -16,6 +16,12 @@ angular.module('insight.system').controller('HeaderController',
       'title': 'Blocks',
       'link': 'blocks'
     },{
+      'title': 'Transactions',
+      'link': 'transactions'
+    },{
+      'title': 'Address',
+      'link': 'address'
+    },{
       'title': 'Contracts',
       'link': 'contracts'
     },{

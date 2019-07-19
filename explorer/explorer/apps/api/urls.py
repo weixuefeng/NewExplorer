@@ -11,12 +11,14 @@ urlpatterns = patterns('api.apis',
                         url(r'^block-index/(?P<height>[0-9]+)', 'api_show_block_info_by_height'),
                         url(r'^block/(?P<blockhash>[0-9a-z]+)', 'api_show_block_info'),
                         # transaction
+                        url(r'^txs/all$', 'api_show_transaction_list'),
                         url(r'^txs',                             'api_show_transactions'),
                         url(r'^tx/send',          'api_send_transcation'),
                         url(r'^tx/(?P<txid>[0-9a-z]+)',          'api_show_transaction'),
                         # address
+                        url(r'^accounts', 'api_show_top_accounts'),
                         url(r'^addr/(?P<addr>[0-9a-zA-Z]+)',          'api_show_addr_summary'),
-                        
+
                         url(r'^addrs/txs',          'api_show_transactions_by_addresses'),
                         url(r'^addrs/(?P<addrs>[0-9a-zA-Z,]+)/txs',          'api_show_transactions_by_addresses'),
                         # new tx, block

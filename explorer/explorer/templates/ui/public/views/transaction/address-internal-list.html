@@ -1,6 +1,6 @@
-<div class="alert alert-warning container" data-ng-show="!txs[0].txid && !loading" translate>There are no transactions.</div>
+<div class="alert alert-warning container" data-ng-show="!txs[0].txid && !loading" translate>There are no internal transactions.</div>
 <div class="block-tx" data-ng-show="txs && txs[0].txid" data-ng-repeat="tx in txs">
-  <div data-ng-include src="'views/transaction/tx.html'"></div>
+  <div data-ng-include src="'views/transaction/address-internal-transaction.html'"></div>
 </div>
 <div class="progress progress-striped active container loading-block" data-ng-show="loading">
   <div class="progress-bar progress-bar-info" style="width: 100%">

@@ -94,5 +94,11 @@
             <div data-ng-include src="'views/transaction/tx.html'"></div>
         </div>
     </div>
+    <div data-ng-if="tx.is_internal" id="internal-transaction-detail">
+        <div class="container mobile-lower-title" style="padding:unset;"><h2 translate>Internal Transaction Detail</h2></div>
+        <div class="block-tx" data-ng-if="tx.txid">
+            <div data-ng-include src="'views/transaction/internal-list.html'"></div>
+        </div>
+    </div>
   </div>
 </section>
