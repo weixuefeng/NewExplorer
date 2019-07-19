@@ -333,7 +333,7 @@ margin-left: 0;
     .block-tx {
         -moz-border-radius: 2px;
         -webkit-border-radius: 2px;
-        margin: unset;
+        margin: 20px 0 10px;
         overflow: hidden;
         padding: 10px 0 0 0;
     }
