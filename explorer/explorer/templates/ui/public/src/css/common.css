@@ -1097,3 +1097,9 @@ a.v_highlight_more {
     margin-bottom: 20px;
     color: #999;
 }
+.loading-block {
+    width: 96%;
+    margin-right: 2%;
+    margin-left: 2%;
+    padding: unset;
+}
